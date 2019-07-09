@@ -1,0 +1,34 @@
+[  
+   {  
+      "verb":"GET",
+      "path":"/pets",
+      "responses":[  
+         "200",
+         "500"
+      ]
+   },
+   {  
+      "verb":"POST",
+      "path":"/pets",
+      "responses":[  
+         "200",
+         "500"
+      ]
+   },
+   {  
+      "verb":"GET",
+      "path":"/pets/{id}",
+      "responses":[  
+         "200",
+         "500"
+      ]
+   },
+   {  
+      "verb":"DELETE",
+      "path":"/pets/{id}",
+      "responses":[  
+         "204",
+         "500"
+      ]
+   }
+]

@@ -1,0 +1,26 @@
+{  
+   "name":"/pets-200",
+   "status":"200",
+   "response":[  
+
+   ],
+   "request":{  
+      "method":"GET",
+      "header":[  
+
+      ],
+      "body":{  
+         "mode":"raw",
+         "raw":""
+      },
+      "url":{  
+         "raw":"{{server}}/pets",
+         "host":[  
+            "{{server}}"
+         ],
+         "path":[  
+            "/pets"
+         ]
+      }
+   }
+}
