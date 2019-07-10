@@ -1,7 +1,11 @@
 [  
    {  
       "name":"/pets-200",
-      "status":"200",
+      "aux":{
+         "body": false,
+         "consumes": false,
+         "status":"200"
+      },
       "response":[  
 
       ],
@@ -27,7 +31,11 @@
    },
    {  
       "name":"/pets-500",
-      "status":"500",
+      "aux":{
+         "body": false,
+         "consumes": false,
+         "status":"500"
+      },
       "response":[  
 
       ],
@@ -53,7 +61,11 @@
    },
    {  
       "name":"/pets-200",
-      "status":"200",
+      "aux":{
+         "body": false,
+         "consumes": false,
+         "status":"200"
+      },
       "response":[  
 
       ],
@@ -79,7 +91,11 @@
    },
    {  
       "name":"/pets-500",
-      "status":"500",
+      "aux":{
+         "body": false,
+         "consumes": false,
+         "status":"500"
+      },
       "response":[  
 
       ],
@@ -105,7 +121,11 @@
    },
    {  
       "name":"/pets/{id}-200",
-      "status":"200",
+      "aux":{
+         "body": false,
+         "consumes": false,
+         "status":"200"
+      },
       "response":[  
 
       ],
@@ -131,7 +151,11 @@
    },
    {  
       "name":"/pets/{id}-500",
-      "status":"500",
+      "aux":{
+         "body": false,
+         "consumes": false,
+         "status":"500"
+      },
       "response":[  
 
       ],
@@ -157,7 +181,11 @@
    },
    {  
       "name":"/pets/{id}-204",
-      "status":"204",
+      "aux":{
+         "body": false,
+         "consumes": false,
+         "status":"204"
+      },
       "response":[  
 
       ],
@@ -183,7 +211,11 @@
    },
    {  
       "name":"/pets/{id}-500",
-      "status":"500",
+      "aux":{
+         "body": false,
+         "consumes": false,
+         "status":"500"
+      },
       "response":[  
 
       ],

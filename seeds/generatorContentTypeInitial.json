@@ -1,0 +1,57 @@
+{  
+   "name":"/pets-500",
+   "aux":{  
+      "status":"500",
+      "body":{  
+         "type":"object",
+         "required":[  
+            "name"
+         ],
+         "properties":{  
+            "name":{  
+               "type":"string"
+            },
+            "tag":{  
+               "type":"string"
+            }
+         }
+      },
+      "consumes":"application/json"
+   },
+   "response":[  
+
+   ],
+   "request":{  
+      "method":"POST",
+      "header":[  
+
+      ],
+      "body":{  
+         "mode":"raw",
+         "raw":"{\"name\":\"anyString\",\"tag\":\"anyString\"}"
+      },
+      "url":{  
+         "raw":"{{server}}/pets",
+         "host":[  
+            "{{server}}"
+         ],
+         "path":[  
+            "/pets"
+         ]
+      }
+   },
+   "event":[  
+      {  
+         "listen":"test",
+         "script":{  
+            "id":"63142ff5-28a4-40b2-8314-dcbeeaa89325",
+            "type":"text/javascript",
+            "exec":[  
+               "pm.test(\"Status code is 500\", function () {",
+               "    pm.response.to.have.status(500);",
+               "});"
+            ]
+         }
+      }
+   ]
+}

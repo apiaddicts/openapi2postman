@@ -7,10 +7,14 @@ module.exports = function() {
   return function get(endpoints){
 	const items = [];
 	_.forEach(endpoints, function(endpoint){
-		_.forEach(endpoint.responses,function(response){
+		_.forEach(endpoint.status,function(response){
 			items.push({
 	  			name: endpoint.path+'-'+response,
-	  			status: response,	
+	  			aux: {
+	  				status:response,
+	  				body:endpoint.body ? endpoint.body : false,
+	  				consumes: endpoint.consumes ? endpoint.consumes : false
+	  			},	
 	  			response: [], 	
 	  			request: {
 	  				method: endpoint.verb,

@@ -1,6 +1,8 @@
 {  
    "name":"/pets-200",
-   "status":"200",
+   "aux":{
+      "status":"200"
+   },
    "response":[  
 
    ],

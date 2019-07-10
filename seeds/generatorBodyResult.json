@@ -1,19 +1,33 @@
 {  
    "name":"/pets-200",
-   "aux":{
-      "status":"200"
+   "aux":{  
+      "status":"200",
+      "body":{  
+         "type":"object",
+         "required":[  
+            "name"
+         ],
+         "properties":{  
+            "name":{  
+               "type":"string"
+            },
+            "tag":{  
+               "type":"string"
+            }
+         }
+      }
    },
    "response":[  
 
    ],
    "request":{  
-      "method":"GET",
+      "method":"POST",
       "header":[  
 
       ],
       "body":{  
          "mode":"raw",
-         "raw":""
+         "raw":"{\"name\":\"anyString\",\"tag\":\"anyString\"}"
       },
       "url":{  
          "raw":"{{server}}/pets",
