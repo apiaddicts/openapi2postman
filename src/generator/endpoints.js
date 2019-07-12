@@ -7,6 +7,10 @@ module.exports = function() {
   return function get(endpoints){
 	const items = [];
 	_.forEach(endpoints, function(endpoint){
+		let path = endpoint.path;
+		_.forEach(endpoint.pathParameters,function(pathParameter){
+			path = _.replace(path, '{'+pathParameter+'}', '{{'+pathParameter+'}}');
+		});
 		_.forEach(endpoint.status,function(response){
 			items.push({
 	  			name: endpoint.path+'-'+response,
@@ -24,12 +28,12 @@ module.exports = function() {
 						raw: ""
 					},
 					url: {
-						raw: "{{server}}"+endpoint.path,
+						raw: "{{server}}"+path,
 						host: [
 							"{{server}}"
 						],
 						path: [
-							endpoint.path
+							path
 						]
 					}
 	  			}

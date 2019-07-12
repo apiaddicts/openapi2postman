@@ -11,6 +11,7 @@ _.forEach(endpointsParsed, function(endpointParsed,i) {
 		endpointsParsed[i].body = require('./src/parser/body.js')(definition,endpointParsed.verb,endpointParsed.path);
 		endpointsParsed[i].consumes = require('./src/parser/consumes.js')(definition,endpointParsed.verb,endpointParsed.path);
 	}
+	endpointsParsed[i].pathParameters = require('./src/parser/pathParameters.js')(definition,endpointParsed.verb,endpointParsed.path);
 });
 
 
@@ -21,3 +22,4 @@ _.forEach(endpointsPostman, function(endpointPostman,i) {
 	endpointsPostman[i] = require('./src/generator/contentType.js')(endpointsPostman[i]);
 });
 require('./src/generator/collection.js')(title,endpointsPostman);
+require('./src/generator/environment.js')(title,endpointsParsed);
