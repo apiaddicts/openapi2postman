@@ -30,6 +30,17 @@ module.exports = function() {
 		});
 	});
 
+	_.forEach(global.parameters,function(globalParameter){
+		items.push({
+      		"description": {
+        		"content": "",
+        		"type": "text/plain"
+      		},
+      		"value": "",
+      		"key": globalParameter,
+      		"enabled": true
+    	});
+	});
 
 	const output = {
   		"id": "10a413ae-b106-43fe-9cc5-8481250a4bfe",

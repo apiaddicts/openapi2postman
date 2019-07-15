@@ -27,7 +27,7 @@
       ],
       "body":{  
          "mode":"raw",
-         "raw":"{\"name\":\"anyString\",\"tag\":\"anyString\"}"
+         "raw":"{\"name\":\"{{name}}\",\"tag\":\"{{tag}}\"}"
       },
       "url":{  
          "raw":"{{server}}/pets",

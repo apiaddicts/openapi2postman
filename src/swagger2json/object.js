@@ -10,7 +10,7 @@ module.exports = function() {
     }
     const object = {};
     _.forEach(swagger.properties,function(property,name){
-    	object[name] = require('./index.js')(property);
+    	object[name] = require('./index.js')(property,name);
     })
     return object;
   };
