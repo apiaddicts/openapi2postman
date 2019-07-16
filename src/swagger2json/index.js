@@ -10,6 +10,7 @@ module.exports = function() {
         return require('./object.js')(swagger);
         break;
       case 'string':
+      case 'number':
         addVariable(name);
         return '{{'+name+'}}'
         break;

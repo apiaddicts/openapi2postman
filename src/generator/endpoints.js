@@ -17,7 +17,8 @@ module.exports = function() {
 	  			aux: {
 	  				status:response,
 	  				body:endpoint.body ? endpoint.body : false,
-	  				consumes: endpoint.consumes ? endpoint.consumes : false
+	  				consumes: endpoint.consumes ? endpoint.consumes : false,
+	  				bodyResponse: endpoint.bodyResponse ? endpoint.bodyResponse : false
 	  			},	
 	  			response: [], 	
 	  			request: {

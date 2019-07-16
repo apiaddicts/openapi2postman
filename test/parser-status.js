@@ -4,9 +4,9 @@ describe('parser-status', () => {
   
   it('good', () => {
 
-    const definition = require('../seeds/parserInitialGood.json');
+    global.definition = require('../seeds/parserInitialGood.json');
 
-    const status = require('../src/parser/status.js')(definition,'DELETE','/pets/{id}');
+    const status = require('../src/parser/status.js')('DELETE','/pets/{id}');
     assert.deepStrictEqual(status, [ '204', '500' ]);
   });
 

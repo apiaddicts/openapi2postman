@@ -4,17 +4,17 @@ describe('parser-consumes', () => {
   
   it('specifies', () => {
 
-    const definition = require('../seeds/parserConsumesInitial.json');
+    global.definition = require('../seeds/parserConsumesInitial.json');
 
-    const consumes = require('../src/parser/consumes.js')(definition,'POST','/pets');
+    const consumes = require('../src/parser/consumes.js')('POST','/pets');
     assert.equal(consumes, 'application/xml');
   });
 
   it('general', () => {
 
-    const definition = require('../seeds/parserConsumesInitial.json');
+    global.definition = require('../seeds/parserConsumesInitial.json');
 
-    const consumes = require('../src/parser/consumes.js')(definition,'POST','/pets/{id}');
+    const consumes = require('../src/parser/consumes.js')('POST','/pets/{id}');
     assert.equal(consumes, 'application/json');
   });
 

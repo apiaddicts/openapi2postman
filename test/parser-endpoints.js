@@ -13,9 +13,9 @@ describe('parser-endpoints', () => {
 
   it('bad', () => {
 
-    const badDefinition = require('../seeds/parserEndpointsInitialBad.json');
+    global.definition = require('../seeds/parserEndpointsInitialBad.json');
 
-    require('../src/parser/endpoints.js')(badDefinition);
+    require('../src/parser/endpoints.js')();
 
     sinon.assert.called(process.exit);
     sinon.assert.calledWith(process.exit, 1);
@@ -23,9 +23,9 @@ describe('parser-endpoints', () => {
 
   it('good', () => {
 
-    const definition = require('../seeds/parserEndpointsInitialGood.json');
+    global.definition = require('../seeds/parserEndpointsInitialGood.json');
 
-    const endpoints = require('../src/parser/endpoints.js')(definition);
+    const endpoints = require('../src/parser/endpoints.js')();
     assert.deepEqual(endpoints, [ 
         { verb: 'GET', path: '/pets' },
         { verb: 'POST', path: '/pets' },

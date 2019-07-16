@@ -13,9 +13,9 @@ describe('parser-title', () => {
 
   it('bad', () => {
 
-    const badDefinition = require('../seeds/parserTitleInitialBad.json');
+    global.definition = require('../seeds/parserTitleInitialBad.json');
 
-    require('../src/parser/title.js')(badDefinition);
+    require('../src/parser/title.js')();
 
     sinon.assert.called(process.exit);
     sinon.assert.calledWith(process.exit, 1);
@@ -23,9 +23,9 @@ describe('parser-title', () => {
 
   it('good', () => {
 
-    const definition = require('../seeds/parserTitleInitialGood.json');
+    global.definition = require('../seeds/parserTitleInitialGood.json');
 
-    const title = require('../src/parser/title.js')(definition);
+    const title = require('../src/parser/title.js')();
     assert.equal(title, "Swagger Petstore");
   });
 });
