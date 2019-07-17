@@ -4,13 +4,31 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(swagger,name){
+  return function get(swagger,name,parent){
+
+    let wrongParam = false;
+    if (parent && global.wrongParamsCatch && _.indexOf(global.wrongParams, parent) === -1 && parent !== 'with') {
+      global.wrongParams.push(parent);
+      global.wrongParamsCatch = false;
+      wrongParam = true;
+    }
+
     switch (swagger.type) {
       case 'object':
-        return require('./object.js')(swagger);
+
+        if (wrongParam) {
+          return 'not-object';
+        }
+      
+        return require('./object.js')(swagger,parent);
         break;
       case 'string':
       case 'number':
+        
+        if (wrongParam) {
+          return ['not-'+swagger.type];
+        }
+
         addVariable(name);
         return '{{'+name+'}}'
         break;

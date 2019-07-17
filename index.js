@@ -15,13 +15,33 @@ _.forEach(endpointsParsed, function(endpointParsed,i) {
 	endpointsParsed[i].bodyResponse = require('./src/parser/body.js')(endpointParsed.verb,endpointParsed.path,true);
 });
 
-
-const endpointsPostman = require('./src/generator/endpoints.js')(endpointsParsed);
-_.forEach(endpointsPostman, function(endpointPostman,i) {	
-	endpointsPostman[i] = require('./src/generator/testStatus.js')(endpointPostman);
-	endpointsPostman[i] = require('./src/generator/testBody.js')(endpointPostman);
-	endpointsPostman[i] = require('./src/generator/body.js')(endpointsPostman[i]);
-	endpointsPostman[i] = require('./src/generator/contentType.js')(endpointsPostman[i]);
+const endpointsPostman = [];
+const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
+_.forEach(endpoints, function(endpoint,i) {	
+	endpoint = require('./src/generator/testStatus.js')(endpoint);
+	endpoint = require('./src/generator/testBody.js')(endpoint);
+	endpoint = require('./src/generator/contentType.js')(endpoint);
+	let status = _.toInteger(endpoint.aux.status);
+	if (status === 400){
+		addBadRequestEndpoints (endpointsPostman,endpoint,'requiredParams','',true,false);
+		addBadRequestEndpoints (endpointsPostman,endpoint,'wrongParams','.wrong',false,true);
+	} else if (status >= 200 && status < 300){
+		endpoint = require('./src/generator/body.js')(endpoint);
+		endpointsPostman.push(endpoint);
+	}
 });
 require('./src/generator/collection.js')(title,endpointsPostman);
 require('./src/generator/environment.js')(title,endpointsParsed);
+
+
+function addBadRequestEndpoints (endpointsPostman,endpointBase,memoryAlreadyAdded,suffix,withoutRequired,withWrongParam) {
+	global[memoryAlreadyAdded] = [];
+	do {
+		var initialCount = global[memoryAlreadyAdded].length;
+		let endpointPostman = require('./src/generator/body.js')(endpointBase,withoutRequired,withWrongParam);
+		if (global[memoryAlreadyAdded].length > initialCount || !initialCount){
+			endpointPostman.name += '-'+_.last(global[memoryAlreadyAdded])+suffix ;
+			endpointsPostman.push(endpointPostman);
+		}
+	} while (global[memoryAlreadyAdded].length > initialCount)	
+}
