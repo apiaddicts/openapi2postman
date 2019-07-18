@@ -77,4 +77,22 @@ describe('generator-body', () => {
     assert.equal(global.wrongParams.length, 6);
   });
 
+  it('array', () => {
+
+    const endpoint = require('../seeds/generatorBodyInitialArray.json');
+    const definitionResult = require('../seeds/generatorBodyResultArray.json');
+
+    const definition = require('../src/generator/body.js')(endpoint);
+    assert.deepStrictEqual(definition, definitionResult);
+  });
+
+  it('objectWithoutType', () => {
+
+    const endpoint = require('../seeds/generatorBodyInitialObjectWithoutType.json');
+    const definitionResult = require('../seeds/generatorBodyResultObjectWithoutType.json');
+
+    const definition = require('../src/generator/body.js')(endpoint);
+    assert.deepStrictEqual(definition, definitionResult);
+  });
+
 });

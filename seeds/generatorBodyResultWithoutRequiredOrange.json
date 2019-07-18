@@ -163,9 +163,9 @@
          "raw":"{\"red\":\"{{red}}\",\"water\":{\"paramAiden\":\"{{paramAiden}}\",\"paramBiden\":\"{{paramBiden}}\",\"paramCiden\":\"{{paramCiden}}\"}}"
       },
       "url":{  
-         "raw":"{{server}}/apple",
+         "raw":"{{schema-host-basePath}}/apple",
          "host":[  
-            "{{server}}"
+            "{{schema-host-basePath}}"
          ],
          "path":[  
             "/apple"

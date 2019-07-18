@@ -42,4 +42,12 @@ describe('parser-body', () => {
     assert.deepStrictEqual(body, {"required":["red","orange"],"properties":{"red":{"type":"string","maxLength":50},"orange":{"type":"number","maxLength":9},"water":{"required":["paramAiden"],"properties":{"paramAiden":{"type":"string"},"paramBiden":{"type":"string"},"paramCiden":{"type":"string"}},"type":"object"}},"type":"object"});
   });
 
+  it('allof string', () => {
+
+    global.definition = require('../seeds/parserBodyAllofString.json');
+
+    const body = require('../src/parser/body.js')('POST','/apple');
+    assert.deepStrictEqual(body, {"type":"object","properties":{"red":{"type":"string","maxLength":50}}});
+  });
+
 });

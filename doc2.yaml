@@ -11,7 +11,24 @@ consumes:
 - application/json
 produces:
 - application/json
-
+securityDefinitions:
+  BasicAuth:
+    type: basic
+  ApiKeyAuth:
+    type: apiKey
+    in: header
+    name: X-API-Key
+  OAuth2:
+    type: oauth2
+    flow: accessCode
+    authorizationUrl: https://example.com/oauth/authorize
+    tokenUrl: https://example.com/oauth/token
+    scopes:
+      read: Grants read access
+      write: Grants write access
+      admin: Grants read and write access to administrative information
+security:
+  - BasicAuth: []
 paths:
   /apple:
     post:
@@ -19,7 +36,7 @@ paths:
       - in: body
         name: apple_parameters
         schema:
-          $ref: '#/definitions/apple_parameters'
+          $ref: '#/definitions/sun'
       responses:
         201:
           description: test
@@ -28,7 +45,7 @@ paths:
         400:
           description: test
           schema:
-            $ref: '#/definitions/response_definition'
+            $ref: '#/definitions/errors'
         401:
           description: Unauthorized
           schema:
@@ -44,6 +61,11 @@ paths:
 
 definitions:
 
+  errors:
+    type: array
+    items:
+      $ref: '#/definitions/response_definition'
+
   response_definition:
     properties:
       result:
@@ -54,6 +76,16 @@ definitions:
           http_code:
             type: integer
             example: 200
+          chains:
+            type: array
+            items:
+              type: string
+              description: asdsdfsdfsdf
+              maxLength: 9
+            example: ["asd","asdasd","asdasdasd"]
+            minItems: 1
+            maxItems: 500
+            uniqueItems: true
         required:
         - status
 
@@ -79,13 +111,9 @@ definitions:
       - paramAiden
 
   red:
-    type: object
-    properties:
-      red:
-        type: string
-        maxLength: 50
-    required:
-      - red 
+    type: string
+    maxLength: 50
+
 
   orange:
     type: object
@@ -97,9 +125,10 @@ definitions:
       - orange
 
   sun:
-    allOf: 
-      - $ref: '#/definitions/red'
-      - $ref: '#/definitions/orange'
+    properties:
+      red:
+        allOf:
+          - $ref: '#/definitions/red'
 
   apple_parameters:
     allOf:

@@ -163,9 +163,9 @@
          "raw":""
       },
       "url":{  
-         "raw":"{{server}}/apple",
+         "raw":"{{schema-host-basePath}}/apple",
          "host":[  
-            "{{server}}"
+            "{{schema-host-basePath}}"
          ],
          "path":[  
             "/apple"

@@ -6,6 +6,10 @@ module.exports = function() {
   
   return function get(swagger,name,parent){
 
+    if (!swagger.type && swagger.properties){
+      swagger.type = 'object';
+    }
+
     let wrongParam = false;
     if (parent && global.wrongParamsCatch && _.indexOf(global.wrongParams, parent) === -1 && parent !== 'with') {
       global.wrongParams.push(parent);
@@ -22,28 +26,29 @@ module.exports = function() {
       
         return require('./object.js')(swagger,parent);
         break;
+      case 'array':
+
+        if (wrongParam) {
+          return 'not-array';
+        }
+      
+        return require('./array.js')(swagger,name,parent);
+        break;
       case 'string':
       case 'number':
+      case 'integer':
+      case 'boolean':
         
         if (wrongParam) {
           return ['not-'+swagger.type];
         }
 
-        addVariable(name);
+        require('../utils/addVariable.js')(name);
         return '{{'+name+'}}'
         break;
       default:
         require('../utils/error.js')('The type '+swagger.type+' is not implemented');
     }
   };
-
-  function addVariable(name){
-    if (!_.has(global, 'parameters')){
-      global.parameters = [];
-    }
-    if (_.indexOf(global.parameters, name) === -1){
-      global.parameters.push(name);
-    }
-  }
 
 }()

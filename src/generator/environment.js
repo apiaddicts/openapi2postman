@@ -6,12 +6,23 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function post(title,endpoints){
+  return function post(title,schemaHostBasePath,endpoints){
 	if (! argv['target-env'] ){
 		require('../utils/error.js')('target-env is required');
 	}
 
 	const items = [];
+
+	items.push({
+  		"description": {
+    		"content": "",
+    		"type": "text/plain"
+  		},
+  		"value": schemaHostBasePath,
+  		"key": 'schema-host-basePath',
+  		"enabled": true
+	});
+
 	_.forEach(endpoints, function(endpoint){
 		let path = endpoint.path;
 		_.forEach(endpoint.pathParameters,function(pathParameter){

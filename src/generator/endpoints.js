@@ -18,7 +18,8 @@ module.exports = function() {
 	  				status:response,
 	  				body:endpoint.body ? endpoint.body : false,
 	  				consumes: endpoint.consumes ? endpoint.consumes : false,
-	  				bodyResponse: endpoint.bodyResponse ? endpoint.bodyResponse : false
+	  				bodyResponse: endpoint.bodyResponse ? endpoint.bodyResponse : false,
+	  				authorization: endpoint.authorization ? endpoint.authorization : false
 	  			},	
 	  			response: [], 	
 	  			request: {
@@ -29,9 +30,9 @@ module.exports = function() {
 						raw: ""
 					},
 					url: {
-						raw: "{{server}}"+path,
+						raw: "{{schema-host-basePath}}"+path,
 						host: [
-							"{{server}}"
+							"{{schema-host-basePath}}"
 						],
 						path: [
 							path

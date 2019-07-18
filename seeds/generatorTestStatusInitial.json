@@ -16,9 +16,9 @@
          "raw":""
       },
       "url":{  
-         "raw":"{{server}}/pets",
+         "raw":"{{schema-host-basePath}}/pets",
          "host":[  
-            "{{server}}"
+            "{{schema-host-basePath}}"
          ],
          "path":[  
             "/pets"

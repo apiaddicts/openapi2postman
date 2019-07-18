@@ -2,6 +2,7 @@
    {  
       "name":"/pets-200",
       "aux":{
+         "authorization": false,
          "body": false,
          "bodyResponse": false,
          "consumes": false,
@@ -20,9 +21,9 @@
             "raw":""
          },
          "url":{  
-            "raw":"{{server}}/pets",
+            "raw":"{{schema-host-basePath}}/pets",
             "host":[  
-               "{{server}}"
+               "{{schema-host-basePath}}"
             ],
             "path":[  
                "/pets"
@@ -33,6 +34,7 @@
    {  
       "name":"/pets-500",
       "aux":{
+         "authorization": false,
          "body": false,
          "bodyResponse": false,
          "consumes": false,
@@ -51,9 +53,9 @@
             "raw":""
          },
          "url":{  
-            "raw":"{{server}}/pets",
+            "raw":"{{schema-host-basePath}}/pets",
             "host":[  
-               "{{server}}"
+               "{{schema-host-basePath}}"
             ],
             "path":[  
                "/pets"
@@ -64,6 +66,7 @@
    {  
       "name":"/pets-200",
       "aux":{
+         "authorization": false,
          "body": false,
          "bodyResponse": false,
          "consumes": false,
@@ -82,9 +85,9 @@
             "raw":""
          },
          "url":{  
-            "raw":"{{server}}/pets",
+            "raw":"{{schema-host-basePath}}/pets",
             "host":[  
-               "{{server}}"
+               "{{schema-host-basePath}}"
             ],
             "path":[  
                "/pets"
@@ -95,6 +98,7 @@
    {  
       "name":"/pets-500",
       "aux":{
+         "authorization": false,
          "body": false,
          "bodyResponse": false,
          "consumes": false,
@@ -113,9 +117,9 @@
             "raw":""
          },
          "url":{  
-            "raw":"{{server}}/pets",
+            "raw":"{{schema-host-basePath}}/pets",
             "host":[  
-               "{{server}}"
+               "{{schema-host-basePath}}"
             ],
             "path":[  
                "/pets"
@@ -126,6 +130,7 @@
    {  
       "name":"/pets/{id}-200",
       "aux":{
+         "authorization": false,
          "body": false,
          "bodyResponse": false,
          "consumes": false,
@@ -144,9 +149,9 @@
             "raw":""
          },
          "url":{  
-            "raw":"{{server}}/pets/{id}",
+            "raw":"{{schema-host-basePath}}/pets/{id}",
             "host":[  
-               "{{server}}"
+               "{{schema-host-basePath}}"
             ],
             "path":[  
                "/pets/{id}"
@@ -157,6 +162,7 @@
    {  
       "name":"/pets/{id}-500",
       "aux":{
+         "authorization": false,
          "body": false,
          "bodyResponse": false,
          "consumes": false,
@@ -175,9 +181,9 @@
             "raw":""
          },
          "url":{  
-            "raw":"{{server}}/pets/{id}",
+            "raw":"{{schema-host-basePath}}/pets/{id}",
             "host":[  
-               "{{server}}"
+               "{{schema-host-basePath}}"
             ],
             "path":[  
                "/pets/{id}"
@@ -188,6 +194,7 @@
    {  
       "name":"/pets/{id}-204",
       "aux":{
+         "authorization": false,
          "body": false,
          "bodyResponse": false,
          "consumes": false,
@@ -206,9 +213,9 @@
             "raw":""
          },
          "url":{  
-            "raw":"{{server}}/pets/{id}",
+            "raw":"{{schema-host-basePath}}/pets/{id}",
             "host":[  
-               "{{server}}"
+               "{{schema-host-basePath}}"
             ],
             "path":[  
                "/pets/{id}"
@@ -219,6 +226,7 @@
    {  
       "name":"/pets/{id}-500",
       "aux":{
+         "authorization": false,
          "body": false,
          "bodyResponse": false,
          "consumes": false,
@@ -237,9 +245,9 @@
             "raw":""
          },
          "url":{  
-            "raw":"{{server}}/pets/{id}",
+            "raw":"{{schema-host-basePath}}/pets/{id}",
             "host":[  
-               "{{server}}"
+               "{{schema-host-basePath}}"
             ],
             "path":[  
                "/pets/{id}"

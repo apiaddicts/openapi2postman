@@ -41,6 +41,9 @@ module.exports = function() {
 			result = _.merge(result, entity);
   		} else if ( _.isArray(schema[i]) && i !== 'required'){
   			const arrayResult = [];
+        if (i === 'example'){
+          continue;
+        }
   			for (let k in schema[i]) {
   				arrayResult.push(replaceRefs(schema[i][k],global.definition));
   			}
@@ -56,31 +59,41 @@ module.exports = function() {
 
   function replaceAllOfs(schema){
   	let result = {};
-  	for (let i in schema) {
+    for (let i in schema) {
   		if (i === 'allOf' && _.isArray(schema[i])){
-  			const merged = {'required':[],'properties':{},'type':'object'};
+  			let merged = {'required':[],'properties':{},'type':'object'};
   			for (let t in schema[i]) {
-  			for (let k in schema[i][t]) {
-  				if (k === 'type'){
-  					merged['type'] = schema[i][t][k];
-  				} else if (k === 'required'){
-  					merged['required'] = _.concat(merged['required'],schema[i][t]['required']);
-  				} else if (k === 'properties'){
-  					for (let z in schema[i][t]['properties']){
-  						merged['properties'][z] = replaceAllOfs(schema[i][t]['properties'][z]);
-  					}
-  				} else if (k === 'allOf'){
-            let downSchema = replaceAllOfs(schema[k]);
-            if (downSchema['0']) {
-              downSchema = downSchema['0'];
+
+        if (schema[i][t]['type'] === 'string') {
+          merged = schema[i][t];
+        } else {
+          
+          for (let k in schema[i][t]) {
+            if (k === 'type'){
+              merged['type'] = schema[i][t][k];
+            } else if (k === 'required'){
+              merged['required'] = _.concat(merged['required'],schema[i][t]['required']);
+            } else if (k === 'properties'){
+              for (let z in schema[i][t]['properties']){
+                merged['properties'][z] = replaceAllOfs(schema[i][t]['properties'][z]);
+              }
+            } else if (k === 'allOf'){
+              let downSchema = replaceAllOfs(schema[k]);
+              if (downSchema['0']) {
+                downSchema = downSchema['0'];
+              }
+              merged['required'] = _.concat(merged['required'],downSchema['required']);
+              merged['properties'] = _.merge(merged['properties'],downSchema['properties']);
+              continue;
+            } else if (k === 'description'){
+              continue;
+            } else {
+              require('../utils/error.js')('the property '+k+' of allOf is not implemented');
             }
-            merged['required'] = _.concat(merged['required'],downSchema['required']);
-            merged['properties'] = _.merge(merged['properties'],downSchema['properties']);
-            continue;
-          } else {
-  					require('../utils/error.js')('the property '+k+' of allOf is not implemented');
-  				}
-  			}
+          }
+
+        }
+
   			}
   			result = _.merge(result, merged);
   		} else if ( _.isArray(schema[i]) && i !== 'required') {

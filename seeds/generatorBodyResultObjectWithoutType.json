@@ -1,37 +1,12 @@
 {  
-   "name":"/apple-400",
+   "name":"/apple-201",
    "aux":{  
-      "status":"400",
+      "status":"201",
       "body":{  
-         "required":[  
-            "red",
-            "orange"
-         ],
          "properties":{  
             "red":{  
                "type":"string",
                "maxLength":50
-            },
-            "orange":{  
-               "type":"number",
-               "maxLength":9
-            },
-            "water":{  
-               "required":[  
-                  "paramAiden"
-               ],
-               "properties":{  
-                  "paramAiden":{  
-                     "type":"string"
-                  },
-                  "paramBiden":{  
-                     "type":"string"
-                  },
-                  "paramCiden":{  
-                     "type":"string"
-                  }
-               },
-               "type":"object"
             }
          },
          "type":"object"
@@ -57,6 +32,17 @@
                      "http_code":{  
                         "type":"integer",
                         "example":200
+                     },
+                     "chains":{  
+                        "type":"array",
+                        "items":{  
+                           "type":"string",
+                           "description":"asdsdfsdfsdf",
+                           "maxLength":9
+                        },
+                        "minItems":1,
+                        "maxItems":500,
+                        "uniqueItems":true
                      }
                   },
                   "required":[  
@@ -70,21 +56,35 @@
             "type":"object"
          },
          "400":{  
-            "properties":{  
-               "result":{  
-                  "type":"object",
-                  "properties":{  
-                     "status":{  
-                        "type":"boolean"
+            "type":"array",
+            "items":{  
+               "properties":{  
+                  "result":{  
+                     "type":"object",
+                     "properties":{  
+                        "status":{  
+                           "type":"boolean"
+                        },
+                        "http_code":{  
+                           "type":"integer",
+                           "example":200
+                        },
+                        "chains":{  
+                           "type":"array",
+                           "items":{  
+                              "type":"string",
+                              "description":"asdsdfsdfsdf",
+                              "maxLength":9
+                           },
+                           "minItems":1,
+                           "maxItems":500,
+                           "uniqueItems":true
+                        }
                      },
-                     "http_code":{  
-                        "type":"integer",
-                        "example":200
-                     }
-                  },
-                  "required":[  
-                     "status"
-                  ]
+                     "required":[  
+                        "status"
+                     ]
+                  }
                }
             }
          },
@@ -99,6 +99,17 @@
                      "http_code":{  
                         "type":"integer",
                         "example":200
+                     },
+                     "chains":{  
+                        "type":"array",
+                        "items":{  
+                           "type":"string",
+                           "description":"asdsdfsdfsdf",
+                           "maxLength":9
+                        },
+                        "minItems":1,
+                        "maxItems":500,
+                        "uniqueItems":true
                      }
                   },
                   "required":[  
@@ -118,6 +129,17 @@
                      "http_code":{  
                         "type":"integer",
                         "example":200
+                     },
+                     "chains":{  
+                        "type":"array",
+                        "items":{  
+                           "type":"string",
+                           "description":"asdsdfsdfsdf",
+                           "maxLength":9
+                        },
+                        "minItems":1,
+                        "maxItems":500,
+                        "uniqueItems":true
                      }
                   },
                   "required":[  
@@ -137,6 +159,17 @@
                      "http_code":{  
                         "type":"integer",
                         "example":200
+                     },
+                     "chains":{  
+                        "type":"array",
+                        "items":{  
+                           "type":"string",
+                           "description":"asdsdfsdfsdf",
+                           "maxLength":9
+                        },
+                        "minItems":1,
+                        "maxItems":500,
+                        "uniqueItems":true
                      }
                   },
                   "required":[  
@@ -145,7 +178,8 @@
                }
             }
          }
-      }
+      },
+      "authorization":"BasicAuth"
    },
    "response":[  
 
@@ -156,11 +190,15 @@
          {  
             "key":"Content-Type",
             "value":"application/json"
+         },
+         {  
+            "key":"Authorization",
+            "value":"{{BasicAuth}}"
          }
       ],
       "body":{  
          "mode":"raw",
-         "raw":"{\"red\":\"{{red}}\",\"orange\":\"{{orange}}\",\"water\":{\"paramAiden\":\"{{paramAiden}}\",\"paramBiden\":[\"not-string\"],\"paramCiden\":\"{{paramCiden}}\"}}"
+         "raw":"{\"red\":\"{{red}}\"}"
       },
       "url":{  
          "raw":"{{schema-host-basePath}}/apple",
@@ -179,13 +217,13 @@
             "id":"63142ff5-28a4-40b2-8314-dcbeeaa89325",
             "type":"text/javascript",
             "exec":[  
-               "pm.test(\"Status code is 400\", function () {",
-               "    pm.response.to.have.status(400);",
+               "pm.test(\"Status code is 201\", function () {",
+               "    pm.response.to.have.status(201);",
                "});",
                "",
                "var json = JSON.parse(responseBody);",
                "",
-               "var schema = {\"properties\":{\"result\":{\"type\":\"object\",\"properties\":{\"status\":{\"type\":\"boolean\"},\"http_code\":{\"type\":\"integer\",\"example\":200}},\"required\":[\"status\"]}}};",
+               "var schema = {\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"id_peticion\":{\"type\":\"integer\"}}},\"result\":{\"type\":\"object\",\"properties\":{\"status\":{\"type\":\"boolean\"},\"http_code\":{\"type\":\"integer\",\"example\":200},\"chains\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"description\":\"asdsdfsdfsdf\",\"maxLength\":9},\"minItems\":1,\"maxItems\":500,\"uniqueItems\":true}},\"required\":[\"status\"]}},\"required\":[],\"type\":\"object\"};",
                "",
                "pm.test('Schema is valid', function() {",
                "  pm.expect(tv4.validate(json, schema)).to.be.true;",
