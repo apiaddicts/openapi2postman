@@ -11,4 +11,13 @@ describe('generator-endpoints', () => {
     assert.deepStrictEqual(definition, definitionResult);
   });
 
+  it('good with queryParams', () => {
+
+    const definitionInitial = require('../seeds/generatorEndpointsQueryParamsInitial.json');
+    const definitionResult = require('../seeds/generatorEndpointsQueryParamsResult.json');
+
+    const definition = require('../src/generator/endpoints.js')(definitionInitial);
+    assert.deepStrictEqual(definition, definitionResult);
+  });
+
 });

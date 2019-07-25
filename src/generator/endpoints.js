@@ -12,6 +12,15 @@ module.exports = function() {
 			path = _.replace(path, '{'+pathParameter+'}', '{{'+pathParameter+'}}');
 		});
 		_.forEach(endpoint.status,function(response){
+			let queryParams = '';
+			_.forEach(endpoint.queryParams,function(queryParam){
+				if (queryParams.length === 0){
+					queryParams += '?'+queryParam+'={{' + queryParam + '}}';
+				} else {
+					queryParams += '&'+queryParam+'={{' + queryParam + '}}';
+				}
+				require('../utils/addVariable.js')(queryParam);
+			});
 			items.push({
 	  			name: endpoint.path+'-'+response,
 	  			aux: {
@@ -35,7 +44,7 @@ module.exports = function() {
 							"{{schema-host-basePath}}"
 						],
 						path: [
-							path
+							path + queryParams
 						]
 					}
 	  			}

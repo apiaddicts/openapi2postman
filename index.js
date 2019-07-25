@@ -16,6 +16,7 @@ _.forEach(endpointsParsed, function(endpointParsed,i) {
 	endpointsParsed[i].pathParameters = require('./src/parser/pathParameters.js')(endpointParsed.verb,endpointParsed.path);
 	endpointsParsed[i].bodyResponse = require('./src/parser/body.js')(endpointParsed.verb,endpointParsed.path,true);
 	endpointsParsed[i].authorization = require('./src/parser/authorization.js')(endpointParsed.verb,endpointParsed.path,authorizationTokens);
+	endpointsParsed[i].queryParams = require('./src/parser/queryParams.js')(endpointParsed.verb,endpointParsed.path);
 });
 
 const endpointsPostman = [];
@@ -42,7 +43,8 @@ _.forEach(endpoints, function(endpoint,i) {
 		endpointsPostman.push(endpoint);
 	}
 });
-require('./src/generator/collection.js')(title,endpointsPostman);
+const endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman);
+require('./src/generator/collection.js')(title,endpointsPostmanWithFolders);
 require('./src/generator/environment.js')(title,schemaHostBasePath,endpointsParsed);
 
 
