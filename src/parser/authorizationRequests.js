@@ -7,7 +7,10 @@ const path = require('path')
 
 module.exports = function() {
   
-  return function get(){
+  return function get(authorizationTokens){
+	if (!authorizationTokens || authorizationTokens.length === 0){
+		return {};
+	}
 	let definition;
 	try {
 		definition = JSON.parse(fs.readFileSync(argv.authorization, 'utf8'));

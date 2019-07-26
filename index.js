@@ -21,7 +21,7 @@ _.forEach(endpointsParsed, function(endpointParsed,i) {
 
 const endpointsPostman = [];
 
-const authorizationRequests = require('./src/parser/authorizationRequests.js')();
+const authorizationRequests = require('./src/parser/authorizationRequests.js')(authorizationTokens);
 _.forEach(authorizationTokens, function(authorizationToken) {
 	endpointsPostman.push(require('./src/parser/authorizationRequest.js')(authorizationToken,authorizationRequests));
 });
@@ -38,7 +38,7 @@ _.forEach(endpoints, function(endpoint,i) {
 	if (status === 400){
 		addBadRequestEndpoints (endpointsPostman,endpoint,'requiredParams','',true,false);
 		addBadRequestEndpoints (endpointsPostman,endpoint,'wrongParams','.wrong',false,true);
-	} else if ( (status >= 200 && status < 300) || status === 401){
+	} else if ( (status >= 200 && status < 300) || (status === 401 && endpoint.aux.authorization)){
 		endpoint = require('./src/generator/body.js')(endpoint);
 		endpointsPostman.push(endpoint);
 	}
