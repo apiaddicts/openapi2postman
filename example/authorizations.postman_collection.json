@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "2e397e19-7819-4425-bbb8-e2b7283336a4",
+		"name": "authorizations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OAuth2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e78bc50-5882-47e1-9920-754befbbbfc5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var json = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"OAuth2\", \"Bearer \"+json.data.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "asdfg",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "asdfg",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{schema-host-basePath}}security/token",
+					"host": [
+						"{{schema-host-basePath}}security"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
