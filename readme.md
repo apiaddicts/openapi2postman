@@ -40,6 +40,8 @@ if you use the securityDefinition of type oauth2 you will need to pass as an arg
 
 You can check check swagger2postman using our example yaml and example authorization collection:
 
+ `npm install`
+
  `node index.js --file example/example.yaml --target example/result --target-env example/result --authorization example/authorizations.postman_collection.json `
 
 After executing that command, example/result.postman_collection.json file with the collection and example/result.postman_environment.json file with the environment will be generated.
