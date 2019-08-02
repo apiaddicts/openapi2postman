@@ -51,8 +51,14 @@
       },
       "authorization":false,
       "queryParams":[  
-         "tags",
-         "limit"
+         {
+            "name": "tags",
+            "type": "array"
+         },
+         {
+            "name": "limit",
+            "type": "integer"
+         }
       ]
    },
    {  
@@ -130,7 +136,10 @@
          "500"
       ],
       "pathParameters":[  
-         "id"
+         {
+            "name":"id",
+            "type":"integer"
+         }
       ],
       "bodyResponse":{  
          "200":{  
@@ -182,7 +191,10 @@
          "500"
       ],
       "pathParameters":[  
-         "id"
+         {
+            "name":"id",
+            "type":"integer"
+         }
       ],
       "bodyResponse":{  
          "500":{  

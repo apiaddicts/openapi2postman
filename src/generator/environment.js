@@ -23,32 +23,30 @@ module.exports = function() {
   		"enabled": true
 	});
 
-	_.forEach(endpoints, function(endpoint){
-		let path = endpoint.path;
-		_.forEach(endpoint.pathParameters,function(pathParameter){
-			if( _.find(items, ['key', pathParameter]) ){
-				return;
-			}
-			items.push({
-	      		"description": {
-	        		"content": "",
-	        		"type": "text/plain"
-	      		},
-	      		"value": "",
-	      		"key": pathParameter,
-	      		"enabled": true
-	    	});
-		});
-	});
-
 	_.forEach(global.parameters,function(globalParameter){
+		let value = '';
+		if (argv['environment-values'] ){
+		    switch (globalParameter.type) {
+		      case 'string':
+		     	value = 'swagger2postman';
+		        break;
+		      case 'number':
+		      case 'integer':
+		     	value = 1;
+		        break;
+		      case 'boolean':
+		     	value = true;
+		        break;
+		    }
+		}
+
 		items.push({
       		"description": {
         		"content": "",
         		"type": "text/plain"
       		},
-      		"value": "",
-      		"key": globalParameter,
+      		"value": value,
+      		"key": globalParameter.name,
       		"enabled": true
     	});
 	});

@@ -43,7 +43,7 @@ module.exports = function() {
           return ['not-'+swagger.type];
         }
 
-        require('../utils/addVariable.js')(name);
+        require('../utils/addVariable.js')(name,swagger.type);
         return '{{'+name+'}}'
         break;
       default:

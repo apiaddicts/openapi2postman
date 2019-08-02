@@ -35,7 +35,7 @@ module.exports = function() {
   		}
   	}
 
-  	require('../utils/addVariable.js')(securityName);
+  	require('../utils/addVariable.js')(securityName,'string');
 	return securityName;
   };
 

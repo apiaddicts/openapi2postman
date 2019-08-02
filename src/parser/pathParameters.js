@@ -13,7 +13,7 @@ module.exports = function() {
 	const parametersPath = _.filter(parameters, ['in', 'path']);
 	const result = [];
 	_.forEach(parametersPath, function(parameterPath) {	
-		result.push(parameterPath.name);
+		result.push( { name : parameterPath.name , type: parameterPath.type} );
 	});
 
 	return result;
