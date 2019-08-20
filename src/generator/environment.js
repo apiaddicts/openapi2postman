@@ -7,8 +7,8 @@ const _ = require('lodash');
 module.exports = function() {
   
   return function post(title,schemaHostBasePath,endpoints){
-	if (! argv['target-env'] ){
-		require('../utils/error.js')('target-env is required');
+	if (! argv.target ){
+		require('../utils/error.js')('target is required');
 	}
 
 	const items = [];
@@ -59,7 +59,7 @@ module.exports = function() {
 }
 
 	try {
-	  	fs.writeFileSync(argv['target-env']+'.postman_environment.json', JSON.stringify(output));
+	  	fs.writeFileSync(argv.target+'/'+title+'.postman_environment.json', JSON.stringify(output));
 	} catch(err) {
 		require('../utils/error.js')('Error writing the environment output');
 	}

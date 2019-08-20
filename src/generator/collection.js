@@ -20,7 +20,7 @@ module.exports = function() {
 	}
 
 	try {
-	  	fs.writeFileSync(argv.target+'.postman_collection.json', JSON.stringify(output));
+	  	fs.writeFileSync(argv.target+'/'+title+'.postman_collection.json', JSON.stringify(output));
 	} catch(err) {
 		require('../utils/error.js')('Error writing the output');
 	}

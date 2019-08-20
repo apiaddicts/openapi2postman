@@ -9,6 +9,7 @@ module.exports = function() {
   	if (!request) {
   		require('../utils/error.js')(authorizationToken+' not found in collection');
   	}
+  	request.authType = true;
   	return request;
   };
 

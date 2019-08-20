@@ -42,6 +42,13 @@ You can check check swagger2postman using our example yaml and example authoriza
 
  `npm install`
 
- `node index.js --file example/example.yaml --target example/result --target-env example/result --authorization example/authorizations.postman_collection.json `
+ `node index.js --file example/example.yaml --target example --name title_custom --authorization example/authorizations.postman_collection.json `
 
-After executing that command, example/result.postman_collection.json file with the collection and example/result.postman_environment.json file with the environment will be generated.
+After executing that command, the following files will be generated:
+
+ - example/01_test_suite_title_custom_pre_backend.postman_collection.json: collection without auth requests for development.
+ - example/02_test_suite_title_custom_pre_apim.postman_collection.json: collection with all requests.
+ - example/03_test_suite_title_custom_pro_apim.postman_collection.json: collection excluding writing requests (POST, PUT, etc.) for production.
+ - example/title_custom.postman_environment.json: file with the environment will be generated.
+
+The param name is optional.

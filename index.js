@@ -43,8 +43,16 @@ _.forEach(endpoints, function(endpoint,i) {
 		endpointsPostman.push(endpoint);
 	}
 });
-const endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman);
-require('./src/generator/collection.js')(title,endpointsPostmanWithFolders);
+
+let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman,{});
+require('./src/generator/collection.js')('02_test_suite_'+title+'_pre_apim',endpointsPostmanWithFolders);
+
+endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman,{write:true});
+require('./src/generator/collection.js')('03_test_suite_'+title+'_pro_apim',endpointsPostmanWithFolders);
+
+endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman,{auth:true});
+require('./src/generator/collection.js')('01_test_suite_'+title+'_pre_backend',endpointsPostmanWithFolders);
+
 require('./src/generator/environment.js')(title,schemaHostBasePath,endpointsParsed);
 
 
