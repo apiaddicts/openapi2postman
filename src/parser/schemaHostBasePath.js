@@ -12,7 +12,10 @@ module.exports = function() {
 		require('../utils/error.js')('basePath is required');
 	}
 	const schema = global.definition.schemes && _.isArray(global.definition.schemes) && global.definition.schemes.length > 0 ? global.definition.schemes[0] : 'http'; 
-	return schema+'://'+global.definition.host+global.definition.basePath;
+	return {
+		host: schema+'://'+global.definition.host,
+		basePath: global.definition.basePath
+	};
   };
 
 }()

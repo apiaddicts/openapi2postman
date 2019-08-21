@@ -7,6 +7,6 @@ describe('parser-schemaHostBasePath', () => {
     global.definition = require('../seeds/parserSchemaHostBasePathInitialGood.json');
 
     const schemaHostBasePath = require('../src/parser/schemaHostBasePath.js')();
-    assert.equal(schemaHostBasePath, 'https://myserver.com/first/second');
+    assert.deepStrictEqual(schemaHostBasePath, { host: 'https://myserver.com', basePath: '/first/second' });
   });
 });

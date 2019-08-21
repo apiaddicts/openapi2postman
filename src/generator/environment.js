@@ -18,8 +18,28 @@ module.exports = function() {
     		"content": "",
     		"type": "text/plain"
   		},
-  		"value": schemaHostBasePath,
-  		"key": 'schema-host-basePath',
+  		"value": schemaHostBasePath.host,
+  		"key": 'host',
+  		"enabled": true
+	});
+
+	items.push({
+  		"description": {
+    		"content": "",
+    		"type": "text/plain"
+  		},
+  		"value": '',
+  		"key": 'port',
+  		"enabled": true
+	});
+
+	items.push({
+  		"description": {
+    		"content": "",
+    		"type": "text/plain"
+  		},
+  		"value": schemaHostBasePath.basePath,
+  		"key": 'basePath',
   		"enabled": true
 	});
 

@@ -30,9 +30,9 @@
          "raw":"{\"name\":\"{{name}}\",\"tag\":\"{{tag}}\"}"
       },
       "url":{  
-         "raw":"{{schema-host-basePath}}/pets",
+         "raw":"{{host}}{{port}}{{basePath}}/pets",
          "host":[  
-            "{{schema-host-basePath}}"
+            "{{host}}{{port}}{{basePath}}"
          ],
          "path":[  
             "/pets"

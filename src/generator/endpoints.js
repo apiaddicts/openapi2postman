@@ -40,9 +40,9 @@ module.exports = function() {
 						raw: ""
 					},
 					url: {
-						raw: "{{schema-host-basePath}}"+path,
+						raw: "{{host}}{{port}}{{basePath}}"+path,
 						host: [
-							"{{schema-host-basePath}}"
+							"{{host}}{{port}}{{basePath}}"
 						],
 						path: [
 							path + queryParams

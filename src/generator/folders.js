@@ -12,7 +12,7 @@ module.exports = function() {
       } else if (endpointPostman.authType && exclude.auth){
         return;
       }
-      let pathName = _.replace(endpointPostman.request.url.raw,'{{schema-host-basePath}}/','');
+      let pathName = _.replace(endpointPostman.request.url.raw,'{{host}}{{port}}{{basePath}}/','');
   		const folderName = pathName.split('/')[0];
   		pathName = endpointPostman.request.method + '-' + pathName;
   		let folderRoot = _.find(result, ['name', folderName]);

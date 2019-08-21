@@ -436,9 +436,9 @@
          "raw":"[{\"result\":{\"status\":\"{{status}}\",\"http_code\":\"{{http_code}}\",\"chains\":[\"{{chains}}\"]}}]"
       },
       "url":{  
-         "raw":"{{schema-host-basePath}}/apple",
+         "raw":"{{host}}{{port}}{{basePath}}/apple",
          "host":[  
-            "{{schema-host-basePath}}"
+            "{{host}}{{port}}{{basePath}}"
          ],
          "path":[  
             "/apple"
