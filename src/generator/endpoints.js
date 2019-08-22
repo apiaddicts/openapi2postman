@@ -29,7 +29,8 @@ module.exports = function() {
 	  				body:endpoint.body ? endpoint.body : false,
 	  				consumes: endpoint.consumes ? endpoint.consumes : false,
 	  				bodyResponse: endpoint.bodyResponse ? endpoint.bodyResponse : false,
-	  				authorization: endpoint.authorization ? endpoint.authorization : false
+	  				authorization: endpoint.authorization ? endpoint.authorization : false,
+	  				summary: endpoint.summary ? endpoint.summary : false
 	  			},	
 	  			response: [], 	
 	  			request: {

@@ -21,7 +21,8 @@ module.exports = function() {
       case 'object':
 
         if (wrongParam) {
-          return 'not-object';
+          require('../utils/addVariable.js')(name+'_wrong',swagger.type);
+          return '{{'+name+'_wrong}}';
         }
       
         return require('./object.js')(swagger,parent);
@@ -29,7 +30,8 @@ module.exports = function() {
       case 'array':
 
         if (wrongParam) {
-          return 'not-array';
+          require('../utils/addVariable.js')(name+'_wrong',swagger.type);
+          return '{{'+name+'_wrong}}';
         }
       
         return require('./array.js')(swagger,name,parent);
@@ -40,7 +42,8 @@ module.exports = function() {
       case 'boolean':
         
         if (wrongParam) {
-          return ['not-'+swagger.type];
+          require('../utils/addVariable.js')(name+'_wrong',swagger.type);
+          return '{{'+name+'_wrong}}';
         }
 
         require('../utils/addVariable.js')(name,swagger.type);

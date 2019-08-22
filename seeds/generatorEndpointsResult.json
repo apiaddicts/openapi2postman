@@ -6,7 +6,8 @@
          "body": false,
          "bodyResponse": false,
          "consumes": false,
-         "status":"200"
+         "status":"200",
+         "summary": false
       },
       "response":[  
 
@@ -38,7 +39,8 @@
          "body": false,
          "bodyResponse": false,
          "consumes": false,
-         "status":"500"
+         "status":"500",
+         "summary": false
       },
       "response":[  
 
@@ -70,7 +72,8 @@
          "body": false,
          "bodyResponse": false,
          "consumes": false,
-         "status":"200"
+         "status":"200",
+         "summary": false
       },
       "response":[  
 
@@ -102,7 +105,8 @@
          "body": false,
          "bodyResponse": false,
          "consumes": false,
-         "status":"500"
+         "status":"500",
+         "summary": false
       },
       "response":[  
 
@@ -134,7 +138,8 @@
          "body": false,
          "bodyResponse": false,
          "consumes": false,
-         "status":"200"
+         "status":"200",
+         "summary": false
       },
       "response":[  
 
@@ -166,7 +171,8 @@
          "body": false,
          "bodyResponse": false,
          "consumes": false,
-         "status":"500"
+         "status":"500",
+         "summary": false
       },
       "response":[  
 
@@ -198,7 +204,8 @@
          "body": false,
          "bodyResponse": false,
          "consumes": false,
-         "status":"204"
+         "status":"204",
+         "summary": false
       },
       "response":[  
 
@@ -230,7 +237,8 @@
          "body": false,
          "bodyResponse": false,
          "consumes": false,
-         "status":"500"
+         "status":"500",
+         "summary": false
       },
       "response":[  
 

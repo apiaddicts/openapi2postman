@@ -17,6 +17,7 @@ _.forEach(endpointsParsed, function(endpointParsed,i) {
 	endpointsParsed[i].bodyResponse = require('./src/parser/body.js')(endpointParsed.verb,endpointParsed.path,true);
 	endpointsParsed[i].authorization = require('./src/parser/authorization.js')(endpointParsed.verb,endpointParsed.path,authorizationTokens);
 	endpointsParsed[i].queryParams = require('./src/parser/queryParams.js')(endpointParsed.verb,endpointParsed.path);
+	endpointsParsed[i].summary = require('./src/parser/summary.js')(endpointParsed.verb,endpointParsed.path);
 });
 
 const endpointsPostman = [];
@@ -63,6 +64,7 @@ function addBadRequestEndpoints (endpointsPostman,endpointBase,memoryAlreadyAdde
 		let endpointPostman = require('./src/generator/body.js')(endpointBase,withoutRequired,withWrongParam);
 		if (global[memoryAlreadyAdded].length > initialCount){
 			endpointPostman.name += '-'+_.last(global[memoryAlreadyAdded])+suffix ;
+			endpointPostman.aux.suffix = _.last(global[memoryAlreadyAdded])+suffix ;
 			endpointsPostman.push(endpointPostman);
 		}
 	} while (global[memoryAlreadyAdded].length > initialCount)	
