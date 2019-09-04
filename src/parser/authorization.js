@@ -10,8 +10,12 @@ module.exports = function() {
   	if (_.has(endpoint, 'x-auth-type') && endpoint['x-auth-type'] !== 'None'){
   		securityName = _.has(endpoint, 'x-scope') ? endpoint['x-auth-type']+'-'+endpoint['x-scope'] : endpoint['x-auth-type'];
   		if (securityName && _.indexOf(authorizationTokens, securityName) === -1) {
-			authorizationTokens.push(securityName);
-		}
+			 authorizationTokens.push({
+        name : securityName,
+        'x-auth-type' : endpoint['x-auth-type'],
+        'x-scope' : endpoint['x-scope']
+       });
+		  }
   	} else if (_.has(global.definition, 'securityDefinitions')){
   		const definitions = {};
   		_.forEach(global.definition.securityDefinitions,function(definition,i){
@@ -29,7 +33,9 @@ module.exports = function() {
   			if (keys.length > 0 && _.has(definitions, keys[0])) {
   				securityName = keys[0];
   				if (definitions[securityName] && _.indexOf(authorizationTokens, securityName) === -1) {
-  					authorizationTokens.push(securityName);
+  					authorizationTokens.push({
+              name: securityName
+            });
   				}
   			}
   		}

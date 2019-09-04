@@ -8,7 +8,7 @@ module.exports = function() {
   
   return function post(title,schemaHostBasePath,endpoints){
 	if (! argv.target ){
-		require('../utils/error.js')('target is required');
+		argv.target = process.cwd()+'/'
 	}
 
 	const items = [];

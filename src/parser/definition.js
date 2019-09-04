@@ -9,8 +9,8 @@ module.exports = function() {
   
   return function get(){
 
-	if (path.extname(argv.file) !== '.yaml'){
-		require('../utils/error.js')('Only yaml is supported');
+	if (path.extname(argv.file) !== '.yaml' && path.extname(argv.file) !== '.yml'){
+		require('../utils/error.js')('Only yaml and yml is supported');
 	}
 
 	let definition;

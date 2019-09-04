@@ -9,10 +9,7 @@ module.exports = function() {
 	if (argv.name ){
 		return argv.name;
 	}
-	if (!_.isObject(global.definition.info) || !global.definition.info.title){
-		require('../utils/error.js')('info.tittle is required');
-	}
-	return global.definition.info.title;
+	require('../utils/error.js')('--name is required');
   };
 
 }()

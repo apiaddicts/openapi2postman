@@ -12,6 +12,17 @@ module.exports = function() {
         return;
       } else if (endpointPostman.authType && exclude.auth){
         return;
+      } else if (endpointPostman.authType){
+        let folderRoot = _.find(result, ['name', 'authorizations']);
+        if (!folderRoot) {
+          folderRoot = {
+            name : 'authorizations',
+            item: []
+          };
+          result.push(folderRoot);
+        }
+        folderRoot.item.push(endpointPostman);
+        return;
       }
       let pathName = _.replace(endpointPostman.request.url.raw,'{{host}}{{port}}{{basePath}}/','');
   		const folderName = pathName.split('/')[0];

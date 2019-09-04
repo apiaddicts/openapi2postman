@@ -15,7 +15,7 @@ module.exports = function() {
 	try {
 		definition = JSON.parse(fs.readFileSync(argv.authorization, 'utf8'));
 	} catch (e) {
-	  	require('../utils/error.js')('Error reading authorization file');
+	  	definition = false;
 	}
 	return definition;
   };

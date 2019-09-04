@@ -23,8 +23,13 @@ _.forEach(endpointsParsed, function(endpointParsed,i) {
 const endpointsPostman = [];
 
 const authorizationRequests = require('./src/parser/authorizationRequests.js')(authorizationTokens);
+const calculated = []
 _.forEach(authorizationTokens, function(authorizationToken) {
+	if(_.indexOf(calculated, authorizationToken.name) !== -1){
+		return
+	}
 	endpointsPostman.push(require('./src/parser/authorizationRequest.js')(authorizationToken,authorizationRequests));
+	calculated.push(authorizationToken.name)
 });
 
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);

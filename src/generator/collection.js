@@ -7,7 +7,7 @@ module.exports = function() {
   
   return function post(title,endpointsPostman){
 	if (! argv.target ){
-		require('../utils/error.js')('target is required');
+		argv.target = process.cwd()+'/'
 	}
 
 	const output = {
