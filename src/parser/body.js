@@ -33,6 +33,11 @@ module.exports = function() {
   	for (let i in schema) {
   		if (i === '$ref'){
 			const ref = _.replace(schema[i], '#/definitions/', '');
+      if (checkCircularReferences(ref,3,2) || checkCircularReferences(ref,3,3) || checkCircularReferences(ref,3,4)){
+        return { type: 'string',
+                description: 'Circular REF solved swagger2postman' 
+              }
+      }
 			let entity = global.definition.definitions[ref];
 			if (!entity){
 				require('../utils/error.js')('ref '+ref+' is not defined');
@@ -109,6 +114,40 @@ module.exports = function() {
   		}
   	}
   	return result;
+  }
+
+  
+  function checkCircularReferences(reference,depthLevel,patternNumber){
+    if (!global.circularTail){
+      global.circularTail = []
+    }
+    if (! global.circularTail[patternNumber] ){
+      global.circularTail[patternNumber] = [reference]
+      return false
+    }
+    if (global.circularTail[patternNumber].length < (depthLevel * patternNumber) ){
+      global.circularTail[patternNumber].push(reference)
+      return false
+    }
+
+    const groups = _.chunk(global.circularTail[patternNumber], patternNumber)
+    global.circularTail[patternNumber].shift()
+    global.circularTail[patternNumber].push(reference)
+
+    let areEquals = true
+    let lastArray = groups[0]
+    comparation:
+    for (let i = 1; i < groups.length; i++) {
+      for (let k in groups[i]){
+        if (groups[i][k] !== groups[i - 1][k]){
+          areEquals = false
+          break comparation
+        }
+      }
+    }
+
+    return areEquals
+
   }
 
 }()
