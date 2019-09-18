@@ -42,6 +42,8 @@ You can check check swagger2postman using our example yaml and example authoriza
 
  `npm install`
 
+ `node index.js --file example/swagger_provincias.yml  --name provincias`
+
  `node index.js --file example/example.yaml --target example --name title_custom --authorization example/authorizations.postman_collection.json `
 
 After executing that command, the following files will be generated:

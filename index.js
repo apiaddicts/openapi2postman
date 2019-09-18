@@ -39,7 +39,9 @@ _.forEach(endpoints, function(endpoint,i) {
 	endpoint = require('./src/generator/contentType.js')(endpoint);
 	let status = _.toInteger(endpoint.aux.status);
 	if (status !== 401){
-		endpoint = require('./src/generator/authorization.js')(endpoint);
+		endpoint = require('./src/generator/authorization.js')(endpoint,true);
+	} else {
+		endpoint = require('./src/generator/authorization.js')(endpoint,false);
 	}
 	if (status === 400){
 		addBadRequestEndpoints (endpointsPostman,endpoint,'requiredParams','',true,false);
@@ -59,7 +61,9 @@ require('./src/generator/collection.js')('03_test_suite_'+title+'_pro_apim',endp
 endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman,{auth:true});
 require('./src/generator/collection.js')('01_test_suite_'+title+'_pre_backend',endpointsPostmanWithFolders);
 
-require('./src/generator/environment.js')(title,schemaHostBasePath,endpointsParsed);
+require('./src/generator/environment.js')('01_test_suite_'+title+'_pre_backend',schemaHostBasePath,endpointsParsed);
+require('./src/generator/environment.js')('02_test_suite_'+title+'_pre_apim',schemaHostBasePath,endpointsParsed);
+require('./src/generator/environment.js')('03_test_suite_'+title+'_pro_apim',schemaHostBasePath,endpointsParsed);
 
 
 function addBadRequestEndpoints (endpointsPostman,endpointBase,memoryAlreadyAdded,suffix,withoutRequired,withWrongParam) {
