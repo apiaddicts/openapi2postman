@@ -8,6 +8,13 @@ const path = require('path')
 module.exports = function() {
   
   return function get(authorizationTokens){
+	if (argv.immovableAuthorizations){
+		try {
+			return JSON.parse(fs.readFileSync(argv.immovableAuthorizations, 'utf8'));
+		} catch (e) {
+		  	require('../utils/error.js')('error reading '+argv.immovableAuthorizations);
+		}
+	}
 	if (!authorizationTokens || authorizationTokens.length === 0){
 		return {};
 	}

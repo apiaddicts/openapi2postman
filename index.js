@@ -1,6 +1,7 @@
 'use strict'
 
 const _ = require('lodash');
+const argv = require('yargs').argv
 
 global.definition = require('./src/parser/definition.js')();
 const title = require('./src/parser/title.js')();
@@ -24,13 +25,25 @@ const endpointsPostman = [];
 
 const authorizationRequests = require('./src/parser/authorizationRequests.js')(authorizationTokens);
 const calculated = []
-_.forEach(authorizationTokens, function(authorizationToken) {
-	if(_.indexOf(calculated, authorizationToken.name) !== -1){
-		return
-	}
-	endpointsPostman.push(require('./src/parser/authorizationRequest.js')(authorizationToken,authorizationRequests));
-	calculated.push(authorizationToken.name)
-});
+if (argv.immovableAuthorizations){
+	_.forEach(authorizationRequests.item, function(authorizationRequest) {
+		authorizationRequest.authType = true
+		endpointsPostman.push(authorizationRequest)
+	})
+	require('./src/utils/addVariable.js')("client_secret",'string'); 
+	require('./src/utils/addVariable.js')("client_id",'string');
+	require('./src/utils/addVariable.js')("username_token",'string');
+	require('./src/utils/addVariable.js')("password_token",'string');
+	require('./src/utils/addVariable.js')("autologin_ticket_token",'string');
+} else {
+	_.forEach(authorizationTokens, function(authorizationToken) {
+		if(_.indexOf(calculated, authorizationToken.name) !== -1){
+			return
+		}
+		endpointsPostman.push(require('./src/parser/authorizationRequest.js')(authorizationToken,authorizationRequests));
+		calculated.push(authorizationToken.name)
+	});
+}
 
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
 _.forEach(endpoints, function(endpoint,i) {	

@@ -1,14 +1,29 @@
 'use strict'
 
 const _ = require('lodash');
+const argv = require('yargs').argv
 
 module.exports = function() {
   
   return function get(verb,path,authorizationTokens){
   	const endpoint = global.definition.paths[path][_.toLower(verb)];
   	let securityName = false;
-  	if (_.has(endpoint, 'x-auth-type') && endpoint['x-auth-type'] !== 'None'){
-  		securityName = _.has(endpoint, 'x-scope') ? endpoint['x-auth-type']+'-'+endpoint['x-scope'] : endpoint['x-auth-type'];
+  	if (_.has(endpoint, 'x-auth-type') && _.lowerCase(endpoint['x-auth-type']) !== 'none'){
+  		if (argv.immovableAuthorizations){
+        const xAuthType = _.lowerCase(endpoint['x-auth-type'])
+        const xScope = _.lowerCase(endpoint['x-scope'])
+        if (xAuthType === 'application' || xAuthType === 'application application user'){
+          securityName = 'application_token'
+        } else if (xAuthType === 'application user' && xScope === 'autologin'){
+          securityName = 'autologin_token'
+        } else if (xAuthType === 'application user'){
+          securityName = 'user_token'
+        } else {
+          require('../utils/error.js')(xAuthType+' not implemented');
+        }
+      } else {
+        securityName = _.has(endpoint, 'x-scope') ? endpoint['x-auth-type']+'-'+endpoint['x-scope'] : endpoint['x-auth-type'];
+      }
   		if (securityName && _.indexOf(authorizationTokens, securityName) === -1) {
 			 authorizationTokens.push({
         name : securityName,
