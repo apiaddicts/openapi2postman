@@ -1,263 +1,271 @@
-[  
-   {  
+[ 
+   { 
       "name":"/pets-200",
-      "aux":{
-         "authorization": false,
-         "body": false,
-         "bodyResponse": false,
-         "consumes": false,
+      "aux":{ 
          "status":"200",
-         "summary": false
+         "body":false,
+         "consumes":false,
+         "bodyResponse":false,
+         "authorization":false,
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"GET",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets-500",
-      "aux":{
-         "authorization": false,
-         "body": false,
-         "bodyResponse": false,
-         "consumes": false,
+      "aux":{ 
          "status":"500",
-         "summary": false
+         "body":false,
+         "consumes":false,
+         "bodyResponse":false,
+         "authorization":false,
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"GET",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets-200",
-      "aux":{
-         "authorization": false,
-         "body": false,
-         "bodyResponse": false,
-         "consumes": false,
+      "aux":{ 
          "status":"200",
-         "summary": false
+         "body":false,
+         "consumes":false,
+         "bodyResponse":false,
+         "authorization":false,
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"POST",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets-500",
-      "aux":{
-         "authorization": false,
-         "body": false,
-         "bodyResponse": false,
-         "consumes": false,
+      "aux":{ 
          "status":"500",
-         "summary": false
+         "body":false,
+         "consumes":false,
+         "bodyResponse":false,
+         "authorization":false,
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"POST",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets/{id}-200",
-      "aux":{
-         "authorization": false,
-         "body": false,
-         "bodyResponse": false,
-         "consumes": false,
+      "aux":{ 
          "status":"200",
-         "summary": false
+         "body":false,
+         "consumes":false,
+         "bodyResponse":false,
+         "authorization":false,
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"GET",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets/{id}",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets/{id}"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets/{id}-500",
-      "aux":{
-         "authorization": false,
-         "body": false,
-         "bodyResponse": false,
-         "consumes": false,
+      "aux":{ 
          "status":"500",
-         "summary": false
+         "body":false,
+         "consumes":false,
+         "bodyResponse":false,
+         "authorization":false,
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"GET",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets/{id}",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets/{id}"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets/{id}-204",
-      "aux":{
-         "authorization": false,
-         "body": false,
-         "bodyResponse": false,
-         "consumes": false,
+      "aux":{ 
          "status":"204",
-         "summary": false
+         "body":false,
+         "consumes":false,
+         "bodyResponse":false,
+         "authorization":false,
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"DELETE",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets/{id}",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets/{id}"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets/{id}-500",
-      "aux":{
-         "authorization": false,
-         "body": false,
-         "bodyResponse": false,
-         "consumes": false,
+      "aux":{ 
          "status":"500",
-         "summary": false
+         "body":false,
+         "consumes":false,
+         "bodyResponse":false,
+         "authorization":false,
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"DELETE",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets/{id}",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets/{id}"
             ]
          }

@@ -8,7 +8,9 @@ module.exports = function() {
 	const items = [];
 	_.forEach(endpoints, function(endpoint){
 		let path = endpoint.path;
+		let pathParameterSaved = false
 		_.forEach(endpoint.pathParameters,function(pathParameter){
+			pathParameterSaved = pathParameter.name
 			path = _.replace(path, '{'+pathParameter.name+'}', '{{'+pathParameter.name+'}}');
 			require('../utils/addVariable.js')(pathParameter.name,pathParameter.type);
 		});
@@ -30,7 +32,8 @@ module.exports = function() {
 	  				consumes: endpoint.consumes ? endpoint.consumes : false,
 	  				bodyResponse: endpoint.bodyResponse ? endpoint.bodyResponse : false,
 	  				authorization: endpoint.authorization ? endpoint.authorization : false,
-	  				summary: endpoint.summary ? endpoint.summary : false
+	  				summary: endpoint.summary ? endpoint.summary : false,
+	  				pathParameter: pathParameterSaved
 	  			},	
 	  			response: [], 	
 	  			request: {

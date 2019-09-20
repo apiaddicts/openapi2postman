@@ -56,7 +56,13 @@ _.forEach(endpoints, function(endpoint,i) {
 	} else {
 		endpoint = require('./src/generator/authorization.js')(endpoint,false);
 	}
-	if (status === 400){
+	if (status === 404 && endpoint.aux.pathParameter){
+		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{'+endpoint.aux.pathParameter+'}}', '{{'+endpoint.aux.pathParameter+'_not_found}}')
+		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{'+endpoint.aux.pathParameter+'}}', '{{'+endpoint.aux.pathParameter+'_not_found}}')
+		endpoint = require('./src/generator/body.js')(endpoint);
+		endpointsPostman.push(endpoint);
+		require('./src/utils/addVariable.js')(endpoint.aux.pathParameter+'_not_found','string'); 
+	} else if (status === 400){
 		addBadRequestEndpoints (endpointsPostman,endpoint,'requiredParams','',true,false);
 		addBadRequestEndpoints (endpointsPostman,endpoint,'wrongParams','.wrong',false,true);
 	} else if ( (status >= 200 && status < 300) || (status === 401 && endpoint.aux.authorization)){

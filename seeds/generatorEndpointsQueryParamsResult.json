@@ -1,26 +1,26 @@
-[  
-   {  
+[ 
+   { 
       "name":"/pets-200",
-      "aux":{  
+      "aux":{ 
          "status":"200",
          "body":false,
          "consumes":false,
-         "bodyResponse":{  
-            "200":{  
+         "bodyResponse":{ 
+            "200":{ 
                "type":"array",
-               "items":{  
-                  "required":[  
+               "items":{ 
+                  "required":[ 
                      "name",
                      "id"
                   ],
-                  "properties":{  
-                     "name":{  
+                  "properties":{ 
+                     "name":{ 
                         "type":"string"
                      },
-                     "tag":{  
+                     "tag":{ 
                         "type":"string"
                      },
-                     "id":{  
+                     "id":{ 
                         "type":"integer",
                         "format":"int64"
                      }
@@ -28,71 +28,72 @@
                   "type":"object"
                }
             },
-            "500":{  
+            "500":{ 
                "type":"object",
-               "required":[  
+               "required":[ 
                   "code",
                   "message"
                ],
-               "properties":{  
-                  "code":{  
+               "properties":{ 
+                  "code":{ 
                      "type":"integer",
                      "format":"int32"
                   },
-                  "message":{  
+                  "message":{ 
                      "type":"string"
                   }
                }
             }
          },
          "authorization":false,
-         "summary": false
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"GET",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets?tags={{tags}}&limit={{limit}}"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets-500",
-      "aux":{  
+      "aux":{ 
          "status":"500",
          "body":false,
          "consumes":false,
-         "bodyResponse":{  
-            "200":{  
+         "bodyResponse":{ 
+            "200":{ 
                "type":"array",
-               "items":{  
-                  "required":[  
+               "items":{ 
+                  "required":[ 
                      "name",
                      "id"
                   ],
-                  "properties":{  
-                     "name":{  
+                  "properties":{ 
+                     "name":{ 
                         "type":"string"
                      },
-                     "tag":{  
+                     "tag":{ 
                         "type":"string"
                      },
-                     "id":{  
+                     "id":{ 
                         "type":"integer",
                         "format":"int64"
                      }
@@ -100,446 +101,453 @@
                   "type":"object"
                }
             },
-            "500":{  
+            "500":{ 
                "type":"object",
-               "required":[  
+               "required":[ 
                   "code",
                   "message"
                ],
-               "properties":{  
-                  "code":{  
+               "properties":{ 
+                  "code":{ 
                      "type":"integer",
                      "format":"int32"
                   },
-                  "message":{  
+                  "message":{ 
                      "type":"string"
                   }
                }
             }
          },
          "authorization":false,
-         "summary": false
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"GET",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets?tags={{tags}}&limit={{limit}}"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets-200",
-      "aux":{  
+      "aux":{ 
          "status":"200",
-         "body":{  
+         "body":{ 
             "type":"object",
-            "required":[  
+            "required":[ 
                "name"
             ],
-            "properties":{  
-               "name":{  
+            "properties":{ 
+               "name":{ 
                   "type":"string"
                },
-               "tag":{  
+               "tag":{ 
                   "type":"string"
                }
             }
          },
          "consumes":"application/json",
-         "bodyResponse":{  
-            "200":{  
-               "required":[  
+         "bodyResponse":{ 
+            "200":{ 
+               "required":[ 
                   "name",
                   "id"
                ],
-               "properties":{  
-                  "name":{  
+               "properties":{ 
+                  "name":{ 
                      "type":"string"
                   },
-                  "tag":{  
+                  "tag":{ 
                      "type":"string"
                   },
-                  "id":{  
+                  "id":{ 
                      "type":"integer",
                      "format":"int64"
                   }
                },
                "type":"object"
             },
-            "500":{  
+            "500":{ 
                "type":"object",
-               "required":[  
+               "required":[ 
                   "code",
                   "message"
                ],
-               "properties":{  
-                  "code":{  
+               "properties":{ 
+                  "code":{ 
                      "type":"integer",
                      "format":"int32"
                   },
-                  "message":{  
+                  "message":{ 
                      "type":"string"
                   }
                }
             }
          },
          "authorization":false,
-         "summary": false
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"POST",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets-500",
-      "aux":{  
+      "aux":{ 
          "status":"500",
-         "body":{  
+         "body":{ 
             "type":"object",
-            "required":[  
+            "required":[ 
                "name"
             ],
-            "properties":{  
-               "name":{  
+            "properties":{ 
+               "name":{ 
                   "type":"string"
                },
-               "tag":{  
+               "tag":{ 
                   "type":"string"
                }
             }
          },
          "consumes":"application/json",
-         "bodyResponse":{  
-            "200":{  
-               "required":[  
+         "bodyResponse":{ 
+            "200":{ 
+               "required":[ 
                   "name",
                   "id"
                ],
-               "properties":{  
-                  "name":{  
+               "properties":{ 
+                  "name":{ 
                      "type":"string"
                   },
-                  "tag":{  
+                  "tag":{ 
                      "type":"string"
                   },
-                  "id":{  
+                  "id":{ 
                      "type":"integer",
                      "format":"int64"
                   }
                },
                "type":"object"
             },
-            "500":{  
+            "500":{ 
                "type":"object",
-               "required":[  
+               "required":[ 
                   "code",
                   "message"
                ],
-               "properties":{  
-                  "code":{  
+               "properties":{ 
+                  "code":{ 
                      "type":"integer",
                      "format":"int32"
                   },
-                  "message":{  
+                  "message":{ 
                      "type":"string"
                   }
                }
             }
          },
          "authorization":false,
-         "summary": false
+         "summary":false,
+         "pathParameter":false
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"POST",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets/{id}-200",
-      "aux":{  
+      "aux":{ 
          "status":"200",
          "body":false,
          "consumes":false,
-         "bodyResponse":{  
-            "200":{  
-               "required":[  
+         "bodyResponse":{ 
+            "200":{ 
+               "required":[ 
                   "name",
                   "id"
                ],
-               "properties":{  
-                  "name":{  
+               "properties":{ 
+                  "name":{ 
                      "type":"string"
                   },
-                  "tag":{  
+                  "tag":{ 
                      "type":"string"
                   },
-                  "id":{  
+                  "id":{ 
                      "type":"integer",
                      "format":"int64"
                   }
                },
                "type":"object"
             },
-            "500":{  
+            "500":{ 
                "type":"object",
-               "required":[  
+               "required":[ 
                   "code",
                   "message"
                ],
-               "properties":{  
-                  "code":{  
+               "properties":{ 
+                  "code":{ 
                      "type":"integer",
                      "format":"int32"
                   },
-                  "message":{  
+                  "message":{ 
                      "type":"string"
                   }
                }
             }
          },
          "authorization":false,
-         "summary": false
+         "summary":false,
+         "pathParameter":"id"
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"GET",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets/{{id}}",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets/{{id}}"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets/{id}-500",
-      "aux":{  
+      "aux":{ 
          "status":"500",
          "body":false,
          "consumes":false,
-         "bodyResponse":{  
-            "200":{  
-               "required":[  
+         "bodyResponse":{ 
+            "200":{ 
+               "required":[ 
                   "name",
                   "id"
                ],
-               "properties":{  
-                  "name":{  
+               "properties":{ 
+                  "name":{ 
                      "type":"string"
                   },
-                  "tag":{  
+                  "tag":{ 
                      "type":"string"
                   },
-                  "id":{  
+                  "id":{ 
                      "type":"integer",
                      "format":"int64"
                   }
                },
                "type":"object"
             },
-            "500":{  
+            "500":{ 
                "type":"object",
-               "required":[  
+               "required":[ 
                   "code",
                   "message"
                ],
-               "properties":{  
-                  "code":{  
+               "properties":{ 
+                  "code":{ 
                      "type":"integer",
                      "format":"int32"
                   },
-                  "message":{  
+                  "message":{ 
                      "type":"string"
                   }
                }
             }
          },
          "authorization":false,
-         "summary": false
+         "summary":false,
+         "pathParameter":"id"
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"GET",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets/{{id}}",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets/{{id}}"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets/{id}-204",
-      "aux":{  
+      "aux":{ 
          "status":"204",
          "body":false,
          "consumes":false,
-         "bodyResponse":{  
-            "500":{  
+         "bodyResponse":{ 
+            "500":{ 
                "type":"object",
-               "required":[  
+               "required":[ 
                   "code",
                   "message"
                ],
-               "properties":{  
-                  "code":{  
+               "properties":{ 
+                  "code":{ 
                      "type":"integer",
                      "format":"int32"
                   },
-                  "message":{  
+                  "message":{ 
                      "type":"string"
                   }
                }
             }
          },
          "authorization":false,
-         "summary": false
+         "summary":false,
+         "pathParameter":"id"
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"DELETE",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets/{{id}}",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets/{{id}}"
             ]
          }
       }
    },
-   {  
+   { 
       "name":"/pets/{id}-500",
-      "aux":{  
+      "aux":{ 
          "status":"500",
          "body":false,
          "consumes":false,
-         "bodyResponse":{  
-            "500":{  
+         "bodyResponse":{ 
+            "500":{ 
                "type":"object",
-               "required":[  
+               "required":[ 
                   "code",
                   "message"
                ],
-               "properties":{  
-                  "code":{  
+               "properties":{ 
+                  "code":{ 
                      "type":"integer",
                      "format":"int32"
                   },
-                  "message":{  
+                  "message":{ 
                      "type":"string"
                   }
                }
             }
          },
          "authorization":false,
-         "summary": false
+         "summary":false,
+         "pathParameter":"id"
       },
-      "response":[  
+      "response":[ 
 
       ],
-      "request":{  
+      "request":{ 
          "method":"DELETE",
-         "header":[  
+         "header":[ 
 
          ],
-         "body":{  
+         "body":{ 
             "mode":"raw",
             "raw":""
          },
-         "url":{  
+         "url":{ 
             "raw":"{{host}}{{port}}{{basePath}}/pets/{{id}}",
-            "host":[  
+            "host":[ 
                "{{host}}{{port}}{{basePath}}"
             ],
-            "path":[  
+            "path":[ 
                "/pets/{{id}}"
             ]
          }
