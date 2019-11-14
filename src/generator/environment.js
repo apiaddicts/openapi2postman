@@ -79,7 +79,8 @@ module.exports = function() {
 }
 
 	try {
-	  	fs.writeFileSync(argv.target+'/'+title+'.postman_environment.json', JSON.stringify(output));
+		  fs.writeFileSync(argv.target+'/'+title+'.postman_environment.json', JSON.stringify(output));
+		  console.log(`Environment ${argv.target+'/'+title+'.postman_environment.json'} was succesfully created`, {"host": schemaHostBasePath.host, "basePath" : schemaHostBasePath.basePath});
 	} catch(err) {
 		require('../utils/error.js')('Error writing the environment output');
 	}

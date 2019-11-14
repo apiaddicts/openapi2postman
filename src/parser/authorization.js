@@ -9,7 +9,7 @@ module.exports = function() {
   	const endpoint = global.definition.paths[path][_.toLower(verb)];
   	let securityName = false;
   	if (_.has(endpoint, 'x-auth-type') && _.lowerCase(endpoint['x-auth-type']) !== 'none'){
-  		if (argv.immovableAuthorizations){
+  		if (argv.customAuthorizations){
         const xAuthType = _.lowerCase(endpoint['x-auth-type'])
         const xScope = _.lowerCase(endpoint['x-scope'])
         if (xAuthType === 'application' || xAuthType === 'application application user'){
