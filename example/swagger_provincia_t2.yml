@@ -1,0 +1,2163 @@
+swagger: '2.0'
+info:
+  version: v1
+  title: API geo (municipios y provincias)
+  description: Breve API de ejemplo para realizar las pruebas de la herramienta visual de mapeos.
+  termsOfService: ""
+  contact:
+    name: Marco Antonio Sanz
+    url: https://cloudappi.net
+    email: marco.sanz@cloudappi.net
+host: api.madrid.org
+basePath: /governance/geo
+schemes:
+- https
+- http
+consumes:
+- application/json
+produces:
+- application/json
+
+paths:
+  /provincias:
+    get:
+      summary: Obtención de una colección de provincias
+      description: Permite obtener el listado de provincias.
+      tags:
+      - provincias
+      parameters:
+      - in: query
+        name: $init
+        type: string
+        description: | 
+          Registro inicial deseado.
+        default: 0
+      - in: query
+        name: $limit
+        type: string
+        description: | 
+          Número máximo de registros a mostrar por página.
+        default: 25
+      - in: query
+        name: $select
+        type: string
+        description: | 
+          Permite seleccionar los atributos de la provincia que se desean obtener en la consulta.
+          Puede especificarse como un array de atributos.
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $exclude
+        type: string
+        description: |
+          Permite excluir determinados atributos de la provincia.
+          Puede especificarse como un array de atributos. 
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $expand
+        type: string
+        description: |  
+          Indica una lista de subatributos que se desean expandir.
+          Puede especificarse como un array de atributos. Ver estándar de definición de APIs.
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      - in: query
+        name: required_query_param_test
+        type: string
+        description: parámetro de prueba
+        required: true
+      responses:
+        206:
+          description: Partial Content
+          schema:
+            $ref: '#/definitions/standard_response_provincias'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                trace_id: 12345abcde
+              metadata:
+                paging:
+                  init: 2
+                  num_pages: 7
+                  limit: 5
+                  total: 35
+                  start: 0
+                  end: 34
+                  links:
+                    self:
+                      href: '/provincias?$init=2&amp;$limit=5'
+                    previous:
+                      href: '/provincias?$init=1&amp;$limit=5'
+                    next:
+                      href: '/provincias?$init=3&amp;$limit=5'
+                    first:
+                      href: '/provincias?$init=1&amp;$limit=5'
+                    last:
+                      href: '/provincias?$init=7&amp;$limit=5'
+              data:
+                provincias:
+                  - id_provincia: 111122223333444
+                    cd_provincia: 03
+                    nombre: Albacete
+                  - id_provincia: 111122223333445
+                    cd_provincia: 04
+                    nombre: Alicante
+                  - id_provincia: 111122223333446
+                    cd_provincia: 05
+                    nombre: Almería
+                  - id_provincia: 111122223333447
+                    cd_provincia: 06
+                    nombre: Asturias
+                  - id_provincia: 111122223333448
+                    cd_provincia: 07
+                    nombre: Ávila
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+    post:
+      summary: Creación de una provincia.
+      description: Permite crear una provincia aportando los datos necesarios para su creación.
+      tags:
+      - provincias
+      parameters:
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      - in: body
+        name: post_provincia_body_parameter
+        schema:
+          $ref: '#/definitions/post_provincia_body_parameter'
+        required: true
+      responses:
+        201:
+          description: created
+          schema:
+            $ref: '#/definitions/standard_response_create_provincia'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 201
+                info: 'Provincia creada correctamente'
+                trace_id: 12345abcde
+              data:
+                id_provincia: 111122223333494
+                cd_provincia: 53
+                nombre: Pinillos de la Garrapiña
+                
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 400
+                info: 'Parámetros incorrectos.'
+                trace_id: 123456abcde
+                errors:
+                - code: 1001
+                  message: El body de la petición es obligatorio.
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+  /provincias/get:
+    post:
+      summary: Consulta compleja de provincias
+      description: | 
+        Permite obtener una colección de recursos conforme a unos criterios. 
+        Se usa para definir consultas complejas, en las cuales el parámetro $filter vendrá definido en el *body*. 
+        Adicionalmente puede admitir *query parameters* y cabeceras.
+      tags:
+      - provincias
+      parameters:
+      - in: query
+        name: $init
+        type: string
+        description: | 
+          Registro inicial deseado.
+        default: 0
+      - in: query
+        name: $limit
+        type: string
+        description: | 
+          Número máximo de registros a mostrar por página.
+        default: 25
+      - in: query
+        name: $select
+        type: string
+        description: | 
+          Permite seleccionar los atributos de la provincia que se desean obtener en la consulta.
+          Puede especificarse como un array de atributos.
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $exclude
+        type: string
+        description: |
+          Permite excluir determinados atributos de la provincia.
+          Puede especificarse como un array de atributos. 
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $expand
+        type: string
+        description: |  
+          Indica una lista de subatributos que se desean expandir.
+          Puede especificarse como un array de atributos. Ver estándar de definición de APIs.
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      - in: body
+        name: body_parameter
+        schema:
+          $ref: '#/definitions/post_provincias_get_body_parameter'
+        required: true
+      responses:
+        206:
+          description: Partial Content
+          schema:
+            $ref: '#/definitions/standard_response_provincias'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                trace_id: 12345abcde
+              metadata:
+                paging:
+                  init: 2
+                  num_pages: 7
+                  limit: 5
+                  total: 35
+                  start: 0
+                  end: 34
+                  links:
+                    self:
+                      href: '/provincias?$init=2&amp;$limit=5'
+                    previous:
+                      href: '/provincias?$init=1&amp;$limit=5'
+                    next:
+                      href: '/provincias?$init=3&amp;$limit=5'
+                    first:
+                      href: '/provincias?$init=1&amp;$limit=5'
+                    last:
+                      href: '/provincias?$init=7&amp;$limit=5'
+              data:
+                provincias:
+                  - id_provincia: 111122223333444
+                    cd_provincia: 03
+                    nombre: Albacete
+                  - id_provincia: 111122223333445
+                    cd_provincia: 04
+                    nombre: Alicante
+                  - id_provincia: 111122223333446
+                    cd_provincia: 05
+                    nombre: Almería
+                  - id_provincia: 111122223333447
+                    cd_provincia: 06
+                    nombre: Asturias
+                  - id_provincia: 111122223333448
+                    cd_provincia: 07
+                    nombre: Ávila
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+  /provincias/{id}:
+    get:
+      summary: Obtención de una provincia dada su id.
+      description: | 
+        Permite obtener una provincia mediante su identificador único. 
+        Dicho identificador es un parámetro obligatorio en la URL.
+      tags:
+      - provincias
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: Identificador de la provincia a obtener.
+        required: true
+      - in: query
+        name: $select
+        type: string
+        description: | 
+          Permite seleccionar los atributos del recurso que se desean obtener en la consulta.
+          Puede especificarse como un array de atributos. 
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $exclude
+        type: string
+        description: |
+          Permite excluir determinados atributos del recurso. 
+          Puede especificarse como un array de atributos. 
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $expand
+        type: string
+        description: |  
+          Indica una lista de subatributos que se desea expandir.
+          Puede especificarse como un array de atributos. Ver estándar de definición de APIs.
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/standard_response_provincias_id'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                trace_id: 12345abcde
+              data:
+                id_provincia: 111122223333447
+                cd_provincia: 06
+                nombre: Asturias 
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 400
+                info: 'Parámetros incorrectos.'
+                trace_id: 123456abcde
+                errors:
+                - code: 1005
+                  message: Mensaje de error en parámetro id
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 404
+                info: 'Recurso no encontrado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1006
+                  message: No se ha encontrado la provincia solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+
+    put:
+      summary: Modificación de una provincia.
+      description: Permite modificar una provincia aportando los datos necesarios.
+      tags:
+      - provincias
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: Identificador de la provincia a actualizar.
+        required: true
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      - in: body
+        name: put_provincia_body_parameter
+        schema:
+          $ref: '#/definitions/put_provincia_body_parameter'
+        required: true
+      responses:
+        200:
+          description: updated
+          schema:
+            $ref: '#/definitions/standard_response_update_provincia'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                info: 'Provincia actualizada correctamente'
+                trace_id: 12345abcde
+              data:
+                id_provincia: 111122223333494
+                cd_provincia: 54
+                nombre: Pinillos de la Garrapiña
+                
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 400
+                info: 'Parámetros incorrectos.'
+                trace_id: 123456abcde
+                errors:
+                - code: 1001
+                  message: El body de la petición es obligatorio.
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 404
+                info: 'Recurso no encontrado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1006
+                  message: No se ha encontrado la provincia solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+
+    delete:
+      summary: Eliminación de una provincia dado su identificador.
+      description: Permite eliminar un recurso mediante su identificador único. Dicho identificador es un parámetro obligatorio en la URL. Adicionalmente puede admitir *query parameters* y cabeceras.
+      tags:
+      - provincias
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      responses:
+        200:
+          description: Deleted
+          schema:
+            $ref: '#/definitions/standard_response_delete_provincia'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                info: Provincia eliminada correctamente
+                trace_id: 12345abcde
+                num_elements: 1
+              data:
+                id: 1234
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 400
+                info: 'Parámetros incorrectos.'
+                trace_id: 123456abcde
+                errors:
+                - code: 1001
+                  message: El body de la petición es obligatorio.
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 404
+                info: 'Recurso no encontrado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1006
+                  message: No se ha encontrado la provincia solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+
+  /municipios:
+    get:
+      summary: Obtención de una colección de municipios
+      description: Permite obtener el listado de municipios.
+      tags:
+      - municipios
+      parameters:
+      - in: query
+        name: $init
+        type: string
+        description: | 
+          Registro inicial deseado.
+        default: 0
+      - in: query
+        name: $limit
+        type: string
+        description: | 
+          Número máximo de registros a mostrar por página.
+        default: 25
+      - in: query
+        name: $select
+        type: string
+        description: | 
+          Permite seleccionar los atributos del municipio que se desean obtener en la consulta.
+          Puede especificarse como un array de atributos.
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $exclude
+        type: string
+        description: |
+          Permite excluir determinados atributos del municipio.
+          Puede especificarse como un array de atributos. 
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $expand
+        type: string
+        description: |  
+          Indica una lista de subatributos que se desean expandir.
+          Puede especificarse como un array de atributos. Ver estándar de definición de APIs.
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      responses:
+        206:
+          description: Partial Content
+          schema:
+            $ref: '#/definitions/standard_response_municipios'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                trace_id: 12345abcde
+              metadata:
+                paging:
+                  init: 2
+                  num_pages: 7
+                  limit: 5
+                  total: 35
+                  start: 0
+                  end: 34
+                  links:
+                    self:
+                      href: '/municipios?$init=2&amp;$limit=5'
+                    previous:
+                      href: '/municipios?$init=1&amp;$limit=5'
+                    next:
+                      href: '/municipios?$init=3&amp;$limit=5'
+                    first:
+                      href: '/municipios?$init=1&amp;$limit=5'
+                    last:
+                      href: '/municipios?$init=7&amp;$limit=5'
+              data:
+                municipios:
+                  - id_municipio: 111122223333444
+                    cd_municipio: 03273
+                    nombre: Alcalá del Júcar
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+                  - id_municipio: 111122223333445
+                    cd_municipio: 03274
+                    nombre: Almansa
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+                  - id_municipio: 111122223333446
+                    cd_municipio: 03275
+                    nombre: Balazote
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+                  - id_municipio: 111122223333447
+                    cd_municipio: 03276
+                    nombre: Barrax
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+                  - id_municipio: 111122223333448
+                    cd_municipio: 03277
+                    nombre: Fuensanta
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+    post:
+      summary: Creación de un municipio.
+      description: Permite crear un municipio aportando los datos necesarios para su creación.
+      tags:
+      - municipios
+      parameters:
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      - in: body
+        name: post_municipio_body_parameter
+        schema:
+          $ref: '#/definitions/post_municipio_body_parameter'
+        required: true
+      responses:
+        201:
+          description: created
+          schema:
+            $ref: '#/definitions/standard_response_create_municipio'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 201
+                info: 'Municipio creado correctamente'
+                trace_id: 12345abcde
+              data:
+                id_municipio: 111122223333494
+                cd_municipio: 03388
+                nombre: Pinillos de la Garrapiña
+                provincia:
+                  id_provincia: 111122223333444
+                  cd_provincia: 53
+                  nombre: Truchera
+                
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 400
+                info: 'Parámetros incorrectos.'
+                trace_id: 123456abcde
+                errors:
+                - code: 1001
+                  message: El body de la petición es obligatorio.
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+  /municipios/get:
+    post:
+      summary: Consulta compleja de municipios
+      description: | 
+        Permite obtener una colección de recursos conforme a unos criterios. 
+        Se usa para definir consultas complejas, en las cuales el parámetro $filter vendrá definido en el *body*. 
+        Adicionalmente puede admitir *query parameters* y cabeceras.
+      tags:
+      - municipios
+      parameters:
+      - in: query
+        name: $init
+        type: string
+        description: | 
+          Registro inicial deseado.
+        default: 0
+      - in: query
+        name: $limit
+        type: string
+        description: | 
+          Número máximo de registros a mostrar por página.
+        default: 25
+      - in: query
+        name: $select
+        type: string
+        description: | 
+          Permite seleccionar los atributos del municipio que se desean obtener en la consulta.
+          Puede especificarse como un array de atributos.
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $exclude
+        type: string
+        description: |
+          Permite excluir determinados atributos del municipio.
+          Puede especificarse como un array de atributos. 
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $expand
+        type: string
+        description: |  
+          Indica una lista de subatributos que se desean expandir.
+          Puede especificarse como un array de atributos. Ver estándar de definición de APIs.
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      - in: body
+        name: body_parameter
+        schema:
+          $ref: '#/definitions/post_municipios_get_body_parameter'
+        required: true
+      responses:
+        206:
+          description: Partial Content
+          schema:
+            $ref: '#/definitions/standard_response_municipios'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                trace_id: 12345abcde
+              metadata:
+                paging:
+                  init: 2
+                  num_pages: 7
+                  limit: 5
+                  total: 35
+                  start: 0
+                  end: 34
+                  links:
+                    self:
+                      href: '/municipios?$init=2&amp;$limit=5'
+                    previous:
+                      href: '/municipios?$init=1&amp;$limit=5'
+                    next:
+                      href: '/municipios?$init=3&amp;$limit=5'
+                    first:
+                      href: '/municipios?$init=1&amp;$limit=5'
+                    last:
+                      href: '/municipios?$init=7&amp;$limit=5'
+              data:
+                municipios:
+                  - id_municipio: 111122223333444
+                    cd_municipio: 03273
+                    nombre: Alcalá del Júcar
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+                  - id_municipio: 111122223333445
+                    cd_municipio: 03274
+                    nombre: Almansa
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+                  - id_municipio: 111122223333446
+                    cd_municipio: 03275
+                    nombre: Balazote
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+                  - id_municipio: 111122223333447
+                    cd_municipio: 03276
+                    nombre: Barrax
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+                  - id_municipio: 111122223333448
+                    cd_municipio: 03277
+                    nombre: Fuensanta
+                    provincia:
+                      id_provincia: 111122223333444
+                      cd_provincia: 03
+                      nombre: Albacete
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+  /municipios/{id}:
+    get:
+      summary: Obtención de un municipio dada su id.
+      description: | 
+        Permite obtener un municipio mediante su identificador único. 
+        Dicho identificador es un parámetro obligatorio en la URL.
+      tags:
+      - municipios
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: Identificador de la municipio a obtener.
+        required: true
+      - in: query
+        name: $select
+        type: string
+        description: | 
+          Permite seleccionar los atributos del recurso que se desean obtener en la consulta.
+          Puede especificarse como un array de atributos. 
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $exclude
+        type: string
+        description: |
+          Permite excluir determinados atributos del recurso. 
+          Puede especificarse como un array de atributos. 
+          Ver estándar de definición de APIs.
+      - in: query
+        name: $expand
+        type: string
+        description: |  
+          Indica una lista de subatributos que se desea expandir.
+          Puede especificarse como un array de atributos. Ver estándar de definición de APIs.
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/standard_response_municipios_id'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                trace_id: 12345abcde
+              data:
+                - id_municipio: 111122223333446
+                  cd_municipio: 03275
+                  nombre: Balazote
+                  provincia:
+                    id_provincia: 111122223333444
+                    cd_provincia: 03
+                    nombre: Albacete 
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 400
+                info: 'Parámetros incorrectos.'
+                trace_id: 123456abcde
+                errors:
+                - code: 1005
+                  message: Mensaje de error en parámetro id
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 404
+                info: 'Recurso no encontrado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1006
+                  message: No se ha encontrado el municipio solicitado
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+
+    put:
+      summary: Modificación de un municipio.
+      description: Permite modificar un municipio aportando los datos necesarios.
+      tags:
+      - municipios
+      parameters:
+      - in: path
+        name: id
+        type: string
+        description: Identificador de la municipio a actualizar.
+        required: true
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      - in: body
+        name: put_municipio_body_parameter
+        schema:
+          $ref: '#/definitions/put_municipio_body_parameter'
+        required: true
+      responses:
+        200:
+          description: updated
+          schema:
+            $ref: '#/definitions/standard_response_update_municipio'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                info: 'municipio actualizada correctamente'
+                trace_id: 12345abcde
+              data:
+                id_municipio: 111122223333494
+                cd_municipio: 03388
+                nombre: Pinillos de la Garrapiña
+                provincia:
+                  id_provincia: 111122223333444
+                  cd_provincia: 53
+                  nombre: Truchera
+                
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 400
+                info: 'Parámetros incorrectos.'
+                trace_id: 123456abcde
+                errors:
+                - code: 1001
+                  message: El body de la petición es obligatorio.
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 404
+                info: 'Recurso no encontrado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1006
+                  message: No se ha encontrado la municipio solicitada
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+
+    delete:
+      summary: Eliminación de un municipio dado su identificador.
+      description: Permite eliminar un recurso mediante su identificador único. Dicho identificador es un parámetro obligatorio en la URL. Adicionalmente puede admitir *query parameters* y cabeceras.
+      tags:
+      - municipios
+      parameters:
+      - in: path
+        name: id
+        type: string
+        required: true
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      responses:
+        200:
+          description: Deleted
+          schema:
+            $ref: '#/definitions/standard_response_delete_municipio'
+          examples:
+            application/json:
+              result:
+                status: true
+                http_code: 200
+                info: municipio eliminada correctamente
+                trace_id: 12345abcde
+                num_elements: 1
+              data:
+                id: 1234
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 400
+                info: 'Parámetros incorrectos.'
+                trace_id: 123456abcde
+                errors:
+                - code: 1001
+                  message: El body de la petición es obligatorio.
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 404
+                info: 'Recurso no encontrado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1006
+                  message: No se ha encontrado el municipio solicitado
+        429:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
+
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+
+  /status:
+    get:
+      summary: Endpoint de monitorización de la API.
+      description: | 
+        Propuesta de definición de la respuesta que debería ofrecer el endpoint de monitorización previsto en el estándar.
+        Se subdivide en comprobación de infraestructura y comprobación funcional. En la de infraestructura se especifican Los
+        sistemas probados y el estado de los mismos. En la funcional se deben hacer algunas llamadas a métodos GET de la API y 
+        especificar el código de estado HTTP que devuelven. Idealmente deben responder con códigos 2xx o 4xx. Los códigos 5xx
+        deben setear el campo status del objeto result a _false_
+      tags:
+      - monitorización
+      parameters:
+      - in: header
+        name: x-trace-id
+        type: string
+        description: |
+          Cabecera indicando la id de traceo de la petición. 
+          Debe ser una cadena aleatoria basada en timestamp.
+        required: true
+      responses:
+        200:
+          description: OK
+          schema: 
+            $ref: '#/definitions/standard_status_endpoint_response'
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 401
+                info: 'No autorizado'
+                trace_id: 123456abcde
+                errors:
+                - code: 1003
+                  message: 'Usuario no autorizado o credenciales inválidas'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 403
+                info: 'Recurso prohibido'
+                trace_id: 123456abcde
+                errors:
+                - code: 1004
+                  message: El usuario no tiene permisos para realizar la acción solicitada
+        default:
+          description: Default error response
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 500
+                info: 'Error desconocido'
+                trace_id: 123456abcde
+                errors:
+                - code: 0
+                  message: Mensaje de error
+                  
+definitions:
+
+  # Respuestas
+  standard_response_result:
+    properties:
+      result:
+        type: object
+        properties:
+          status:
+            type: boolean
+            description: Resultado de éxito o error de la operación
+          http_code:
+            type: integer
+            description: Código http de la respuesta.
+            example: 200
+          errors:
+            type: array
+            description: Array de errores. Opcional. Se usará cuando se haya producido al menos un error, pudiéndose especificar tódos los que se hayan producido.
+            items:
+              $ref: '#/definitions/standard_error'
+          info:
+            type: string
+            description: Breve mensaje indicando si la operación fue exitosa o no.
+            example: Solicitud realizada con éxito.
+          stack_trace:
+            type: string
+            description: Traza de error en caso de que lo haya para facilitar la depuración. Solo se incluirá en el entorno de desarrollo.
+            example: Java.Lang.NullPointerException at ...
+          trace_id:
+            type: string
+            description: Identificador de la petición en el sistema de logging para facilitar la depuración de errores. Contenido de la cabecera x-trace-id.
+            example:
+          num_elements:
+            type: integer
+            description: Número de elementos borrados o modificados cuando se reciben llamadas con métodos PUT o DELETE sobre varios recursos. Obligatorio para borrados lógicos.
+            example: 0
+        required:
+        - status
+        - http_code
+        - trace_id
+
+  standard_response_metadata:
+    properties:
+      metadata:
+        type: object
+        properties:
+          paging:
+            $ref: '#/definitions/standard_paging'
+
+  standard_response:
+    allOf:
+    - $ref: '#/definitions/standard_response_result'
+    - $ref: '#/definitions/standard_response_metadata'
+
+  standard_response_provincias:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+      - $ref: '#/definitions/standard_response_metadata'
+    properties:
+      data:
+        type: object
+        properties:
+          provincias:
+            type: array
+            items:
+              $ref: '#/definitions/provincia'
+  
+  standard_response_municipios:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+      - $ref: '#/definitions/standard_response_metadata'
+    properties:
+      data:
+        type: object
+        properties:
+          municipios:
+            type: array
+            items:
+              $ref: '#/definitions/municipio'
+
+  standard_response_provincias_id:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        $ref: '#/definitions/provincia'
+  
+  standard_response_municipios_id:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        $ref: '#/definitions/municipio'
+
+  standard_response_create_provincia:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        $ref: '#/definitions/provincia'
+  
+  standard_response_create_municipio:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        $ref: '#/definitions/municipio'
+
+  standard_response_update_provincia:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        $ref: '#/definitions/provincia'
+  
+  standard_response_delete_provincia:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: id de la provincia eliminada
+            example: 1234
+    
+  standard_response_update_municipio:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        $ref: '#/definitions/municipio'
+
+  standard_response_delete_municipio:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        type: object
+        properties:
+          id:
+            type: integer
+            description: id del municipio eliminado
+            example: 1234
+
+  standard_status_endpoint_response:
+    allOf:
+      - $ref: '#/definitions/standard_response_result'
+    properties:
+      data:
+        type: object
+        description: Comprobaciones realizadas cuando se recibe la llamada al endpoint de status
+        properties:
+          systems:
+            type: array
+            description: Array de sistemas comprobados y resultados.
+            items:
+              $ref: '#/definitions/standard_status_endpoint_system_object'
+          requests:
+            type: array
+            description: Array de enpoints llamados y resultados.
+            items:
+              $ref: '#/definitions/standard_status_endpoint_request_object'
+
+  # Definiciones de objetos y modelos
+  standard_error:
+    type: object
+    properties:
+      code:
+        type: integer
+        description: Codigo de error devuelto por la API. Se especificarán códigos de errores controlados. En el caso de errores no controlados se especificará si es posible. De lo contrario se deberá indicar un código 500.
+      message:
+        type: string
+        description: Descripción textual del error devuelto
+  standard_paging:
+    type: object
+    description: Objeto a devolver en caso de que se devuelva una respuesta paginada. Los datos irán en el campo 'data', la información sobre paginación se incluirá en este objeto.
+    properties:
+      init:
+        type: integer
+        description: Página actual o registro inicial de la página.
+        example: 2
+      num_pages:
+        type: integer
+        description: Número total de páginas.
+        example: 7
+      limit:
+        type: integer
+        description: Tamaño de página.
+        example: 5
+      total:
+        type: integer
+        description: Número total de registros.
+        example: 35
+      start:
+        type: integer
+        description: Índice del primer registro.
+        example: 0
+      end:
+        type: integer
+        description: Índice del último registro.
+        example: 34
+      links:
+        type: object
+        properties:
+          self:
+            description: Enlace a la propia página devuelta.
+            allOf:
+            - $ref: '#/definitions/standard_paging_link'
+          first:
+            description: Enlace a la primera página.
+            allOf:
+            - $ref: '#/definitions/standard_paging_link'
+          previous:
+            description: Enlace a la página previa
+            allOf:
+            - $ref: '#/definitions/standard_paging_link'
+          next:
+            description: Enlace a la página siguiente.
+            allOf:
+            - $ref: '#/definitions/standard_paging_link'
+          last:
+            description: Enlace a la última página.
+            allOf:
+            - $ref: '#/definitions/standard_paging_link'
+    required:
+    - init
+    - limit
+    - start
+    - end
+    - links
+
+  standard_paging_link:
+    type: object
+    properties:
+      href:
+        type: string
+        description: Enlace codificado en html.
+
+  standard_status_endpoint_system_object:
+    type: object
+    properties:
+      system:
+        type: string
+        description: Nombre del sistema probado
+        example: Database
+      status:
+        type: boolean
+        description: Estado del sistema probado
+        example: true
+
+  standard_status_endpoint_request_object:
+    type: object
+    properties:
+      request:
+        type: string
+        description: Recurso de la API al que se ha hecho la llamada
+        example: /users
+      response:
+        type: integer
+        description: código http de la respuesta obtenida
+        example: 200
+
+  provincia:
+    type: object
+    properties:
+      id_provincia:
+        type: integer
+        format: int64
+        description: Identificador único de la provincia en BBDD
+        example: 
+      cd_provincia:
+        type: string
+        description: Código de la provincia según el sistema identificativo español.
+        example: 01
+      nombre:
+        type: string
+        description: nombre de la provincia
+        example: A Coruña
+  
+  municipio:
+    type: object
+    properties:
+      id_municipio:
+        type: integer
+        format: int64
+        description: Identificador único del municipio en BBDD
+        example: 1234567890
+      cd_municipio:
+        type: string
+        description: Código del municipio.
+        example: 01327
+      nombre:
+        type: string
+        description: nombre del municipio
+        example: O Grove
+      provincia:
+        allOf:
+        - $ref: '#/definitions/provincia'
+
+  # Definición de cuerpo de peticiones
+  # IMPORTANTE: La nomenclatura del cuerpo de peticiones POST y PUT será método http + recurso completo + body_parameters. 
+  # Se debe separar cada nivel de la URL por guiones bajos, así como el prefijo y el sufijo.
+  # Ejemplo: para el endpoint POST /usuarios/{id}/aplicaciones el cuerpo de la petición se definirá como
+  # post_usuarios_id_aplicaciones_body_parameters
+  # En caso de ser POST /get o POST /delete también se incluirá el verbo final:
+  # POST /usuarios/{id}/aplicaciones/delete => post_usuarios_id_aplicaciones_delete_body_parameters
+  put_provincia_body_parameter:
+    type: object
+    properties:
+      cd_provincia:
+        type: string
+        description: Código de la provincia
+        example: "53"
+      nombre: 
+        type: string
+        description: Nombre de la nueva provincia
+        example: Truchera
+
+  # post_provincia_body_parameter:
+  #   allOf:
+  #     - $ref: '#/definitions/put_provincia_body_parameter'
+  #   required:
+  #     - cd_provincia
+  #     - nombre
+
+  post_provincia_body_parameter:
+    type: object
+    properties:
+      cd_provincia:
+        type: string
+        description: Código de la provincia
+        example: "53"
+      nombre: 
+        type: string
+        description: Nombre de la nueva provincia
+        example: Truchera
+    required:
+      - cd_provincia
+      - nombre
+
+  put_municipio_body_parameter:
+    type: object
+    properties:
+      cd_municipio:
+        type: string
+        description: Código del municipio
+        example: "03388"
+      nombre: 
+        type: string
+        description: Nombre del nuevo municipio
+        example: Pinillos de la Garrapiña
+      provincia:
+        allOf:
+        - $ref: '#/definitions/post_provincia_body_parameter'
+
+  post_municipio_body_parameter:
+    allOf:
+      - $ref: '#/definitions/put_municipio_body_parameter'
+    required:
+      - cd_municipio
+      - nombre
+
+  post_provincias_get_body_parameter:
+    type: object
+    properties:
+      $filter:
+        $ref: '#/definitions/filter_object' 
+
+  post_municipios_get_body_parameter:
+    type: object
+    properties:
+      $filter:
+        $ref: '#/definitions/filter_object'      
+      
+  filter_value:
+    type: object
+    description: Par clave-valor que indica un criterio para realizar el filtrado.
+    properties:
+      property: 
+        type: string
+        description: Nombre de la propiedad (colmuna de BBDD)
+        example: property_1 
+      value:
+        type: string
+        description: Valor de la propiedad.
+        example: value_1
+      prop_values:
+        type: array
+        items:
+          type: string
+        description: Array de valores a usar como rango
+      filter:
+        $ref: '#/definitions/filter_object'
+  
+  filter_object:
+    type: object
+    description: |
+      Parámetro que indica los criterios para una consulta compleja.
+      Permite realizar operaciones AND, OR, mayor o igual, substring, like, etc
+    properties:
+      operation:
+        type: string
+        description: Operación a realizar
+        enum:
+          - AND
+          - OR
+          - GT
+          - LT
+          - EQ
+          - NEQ
+          - IN
+          - BETWEEN
+          - SUBSTRING
+          - LIKE
+          - NLIKE
+          - REGEXP 
+      values:
+        type: array
+        items:
+          $ref: '#/definitions/filter_value'
