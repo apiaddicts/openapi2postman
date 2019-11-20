@@ -5,14 +5,15 @@ const fs   = require('fs');
 const argv = require('yargs').argv
 const path = require('path')
 
+
 module.exports = function() {
   
   return function get(authorizationTokens){
-	if (argv.immovableAuthorizations){
+	if (argv.configuration){
 		try {
-			return JSON.parse(fs.readFileSync(argv.immovableAuthorizations, 'utf8'));
+			return JSON.parse(fs.readFileSync("example/authorizations.postman_collection.json", 'utf8')); 
 		} catch (e) {
-		  	require('../utils/error.js')('error reading '+argv.immovableAuthorizations);
+		  	require('../utils/error.js')('error reading auth file ');
 		}
 	}
 	if (!authorizationTokens || authorizationTokens.length === 0){

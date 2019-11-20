@@ -1,0 +1,31 @@
+{
+    "environments":[
+        {
+            "name" : "DEV",
+            "postman_collection_name": "Provincias_API_TestSuite_DEV",
+            "postman_environment_name": "Provincias_API_TestSuiteEnv_DEV",
+            "host": "https://icmsvlds052",
+            "port": ":8243",
+            "target_folder": "results"
+        },
+        {
+            "name" : "VAL",
+            "postman_collection_name": "Provincias_API_TestSuite_VAL",
+            "postman_environment_name": "Provincias_API_TestSuiteEnv_VAL",
+            "host": "https://apis.val.comunidad.madrid",
+            "port": "",
+            "target_folder": "results",
+            "custom_authorizations_file": "authorizations.postman_collection.json"
+        },
+        {
+            "name" : "PROD",
+            "postman_collection_name": "Provincias_API_TestSuite_PROD",
+            "postman_environment_name": "Provincias_API_TestSuiteEnv_PROD",
+            "host": "https://apis.comunidad.madrid",
+            "port": "",
+            "read_only": true,
+            "target_folder": "results",
+            "custom_authorizations_file": "authorizations.postman_collection.json"
+        }
+    ]
+}
