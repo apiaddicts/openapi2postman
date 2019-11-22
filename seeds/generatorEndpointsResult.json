@@ -8,6 +8,7 @@
          "bodyResponse":false,
          "authorization":false,
          "summary":false,
+         "queryParams":false,
          "pathParameter":false
       },
       "response":[ 
@@ -42,6 +43,7 @@
          "bodyResponse":false,
          "authorization":false,
          "summary":false,
+         "queryParams":false,
          "pathParameter":false
       },
       "response":[ 
@@ -76,6 +78,7 @@
          "bodyResponse":false,
          "authorization":false,
          "summary":false,
+         "queryParams":false,
          "pathParameter":false
       },
       "response":[ 
@@ -110,6 +113,7 @@
          "bodyResponse":false,
          "authorization":false,
          "summary":false,
+         "queryParams":false,
          "pathParameter":false
       },
       "response":[ 
@@ -144,6 +148,7 @@
          "bodyResponse":false,
          "authorization":false,
          "summary":false,
+         "queryParams":false,
          "pathParameter":false
       },
       "response":[ 
@@ -178,6 +183,7 @@
          "bodyResponse":false,
          "authorization":false,
          "summary":false,
+         "queryParams":false,
          "pathParameter":false
       },
       "response":[ 
@@ -212,6 +218,7 @@
          "bodyResponse":false,
          "authorization":false,
          "summary":false,
+         "queryParams":false,
          "pathParameter":false
       },
       "response":[ 
@@ -246,6 +253,7 @@
          "bodyResponse":false,
          "authorization":false,
          "summary":false,
+         "queryParams":false,
          "pathParameter":false
       },
       "response":[ 

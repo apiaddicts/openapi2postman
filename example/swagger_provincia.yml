@@ -32,11 +32,13 @@ paths:
         description: | 
           Registro inicial deseado.
         default: 0
+        required: true
       - in: query
         name: $limit
         type: string
         description: | 
           Número máximo de registros a mostrar por página.
+        required: true
         default: 25
       - in: query
         name: $select
@@ -154,6 +156,20 @@ paths:
                 errors:
                 - code: 1009
                   message: Se ha superado el número máximo de peticiones.
+        400:
+          description: Too many requests
+          schema:
+            $ref: '#/definitions/standard_response_result'
+          examples:
+            application/json:
+              result:
+                status: false
+                http_code: 429
+                info: 'Cuota de peticiones excedida'
+                trace_id: 123456abcde
+                errors:
+                - code: 1009
+                  message: Se ha superado el número máximo de peticiones.
         default:
           description: Default error response
           schema:
@@ -174,6 +190,13 @@ paths:
       tags:
       - provincias
       parameters:
+      - in: query
+        name: potato
+        type: string
+        description: | 
+          POTATO
+        default: 0
+        required: true
       - in: header
         name: x-trace-id
         type: string

@@ -44,13 +44,26 @@ _.forEach(endpoints, function (endpoint, i) {
 		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + endpoint.aux.pathParameter + '}}', '{{' + endpoint.aux.pathParameter + '_not_found}}')
 		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' + endpoint.aux.pathParameter + '}}', '{{' + endpoint.aux.pathParameter + '_not_found}}')
 		endpoint = require('./src/generator/body.js')(endpoint);
+		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint);
 		endpointsPostman.push(endpoint);
 		require('./src/utils/addVariable.js')(endpoint.aux.pathParameter + '_not_found', 'string');
 	} else if (status === 400) {
+		global.queryParamsRequiredAdded = []
+		let endpointPostman
+		do{
+			endpointPostman = require('./src/generator/queryParamsRequired.js')(endpoint,true)
+			if (endpointPostman){
+				endpointPostman = require('./src/generator/body.js')(endpointPostman)
+				endpointPostman.name += '.without.' + _.last(global.queryParamsRequiredAdded) ;
+				endpointPostman.aux.suffix = '.without.' +_.last(global.queryParamsRequiredAdded) ;
+				endpointsPostman.push(endpointPostman);
+			}
+		} while(endpointPostman)
 		addBadRequestEndpoints(endpointsPostman, endpoint, 'requiredParams', '', true, false);
 		addBadRequestEndpoints(endpointsPostman, endpoint, 'wrongParams', '.wrong', false, true);
 	} else if ((status >= 200 && status < 300) || (status === 401 && endpoint.aux.authorization)) {
 		endpoint = require('./src/generator/body.js')(endpoint);
+		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint);
 		endpointsPostman.push(endpoint);
 	}
 });
@@ -109,6 +122,7 @@ function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdd
 	do {
 		var initialCount = global[memoryAlreadyAdded].length;
 		let endpointPostman = require('./src/generator/body.js')(endpointBase, withoutRequired, withWrongParam);
+		endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointBase);
 		if (global[memoryAlreadyAdded].length > initialCount) {
 			endpointPostman.name += '-' + _.last(global[memoryAlreadyAdded]) + suffix;
 			endpointPostman.aux.suffix = _.last(global[memoryAlreadyAdded]) + suffix;
