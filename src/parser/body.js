@@ -147,7 +147,7 @@ module.exports = function() {
     }
 
     if (areEquals){
-      global.circularTail[patternNumber] = []
+      global.circularTail = []
     }
 
     return areEquals

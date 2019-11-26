@@ -76,7 +76,7 @@ if (argv.configuration) {
 			if (element.custom_authorizations_file) {
 				_.forEach(authorizationRequests.item, function (authorizationRequest) {
 					authorizationRequest.authType = true
-					endpointsPostman.push(authorizationRequest)
+					endpointsPostman.unshift(authorizationRequest)
 				})
 				require('./src/utils/addVariable.js')("client_secret", 'string');
 				require('./src/utils/addVariable.js')("client_id", 'string');
@@ -88,7 +88,7 @@ if (argv.configuration) {
 					if (_.indexOf(calculated, authorizationToken.name) !== -1) {
 						return
 					}
-					endpointsPostman.push(require('./src/parser/authorizationRequest.js')(authorizationToken, authorizationRequests));
+					endpointsPostman.unshift(require('./src/parser/authorizationRequest.js')(authorizationToken, authorizationRequests));
 					calculated.push(authorizationToken.name)
 				});
 
@@ -121,8 +121,8 @@ function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdd
 	global[memoryAlreadyAdded] = [];
 	do {
 		var initialCount = global[memoryAlreadyAdded].length;
-		let endpointPostman = require('./src/generator/body.js')(endpointBase, withoutRequired, withWrongParam);
-		endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointBase);
+		let endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointBase);
+		endpointPostman = require('./src/generator/body.js')(endpointPostman, withoutRequired, withWrongParam);
 		if (global[memoryAlreadyAdded].length > initialCount) {
 			endpointPostman.name += '-' + _.last(global[memoryAlreadyAdded]) + suffix;
 			endpointPostman.aux.suffix = _.last(global[memoryAlreadyAdded]) + suffix;
