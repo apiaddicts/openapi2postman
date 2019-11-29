@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "f9612e0f-96fd-4f26-8aa5-1d45a15e6a57",
+		"_postman_id": "f60b9368-2303-43b7-baba-fa2cfdf19813",
 		"name": "authorizations",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "application_token",
+			"name": "Token de aplicación",
 			"event": [
 				{
 					"listen": "test",
@@ -66,7 +66,72 @@
 			"response": []
 		},
 		{
-			"name": "user_token",
+			"name": "Token de aplicación con scopes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "709a51c0-5c91-46ae-a1da-daa22d948b92",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"application_token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{client_secret}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{client_id}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "{{scope1}} {{scope2}} {{scope_n}} ",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}{{port}}/token",
+					"host": [
+						"{{host}}{{port}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token de usuario",
 			"event": [
 				{
 					"listen": "test",
@@ -136,7 +201,82 @@
 			"response": []
 		},
 		{
-			"name": "autologin_token",
+			"name": "Token de usuario con scopes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "709a51c0-5c91-46ae-a1da-daa22d948b92",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"user_token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{client_secret}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{client_id}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "{{username_token}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password_token}}",
+							"type": "text"
+						},
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "{{scope1}} {{scope2}} {{scope_n}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{host}}{{port}}/token",
+					"host": [
+						"{{host}}{{port}}"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Token con ticket de autologin",
 			"event": [
 				{
 					"listen": "test",
@@ -177,18 +317,13 @@
 					"mode": "urlencoded",
 					"urlencoded": [
 						{
-							"key": "ticket",
-							"value": "{{autologin_ticket_token}}",
-							"type": "text"
-						},
-						{
-							"key": "scope",
-							"value": "autologin",
+							"key": "autologin-ticket",
+							"value": "{{autologin_ticket}}",
 							"type": "text"
 						},
 						{
 							"key": "grant_type",
-							"value": "password",
+							"value": "autologin",
 							"type": "text"
 						}
 					]
@@ -227,5 +362,6 @@
 				]
 			}
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
