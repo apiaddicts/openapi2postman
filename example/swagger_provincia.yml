@@ -21,6 +21,9 @@ produces:
 paths:
   /provincias:
     get:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: lectura
       summary: Obtención de una colección de provincias
       description: Permite obtener el listado de provincias.
       tags:
@@ -185,6 +188,9 @@ paths:
                 - code: 0
                   message: Mensaje de error
     post:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: escritura
       summary: Creación de una provincia.
       description: Permite crear una provincia aportando los datos necesarios para su creación.
       tags:
@@ -299,6 +305,9 @@ paths:
                   message: Mensaje de error
   /provincias/get:
     post:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: lectura
       summary: Consulta compleja de provincias
       description: | 
         Permite obtener una colección de recursos conforme a unos criterios. 
@@ -456,6 +465,9 @@ paths:
                   message: Mensaje de error
   /provincias/{id}:
     get:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: lectura
       summary: Obtención de una provincia dada su id.
       description: | 
         Permite obtener una provincia mediante su identificador único. 
@@ -597,6 +609,9 @@ paths:
                   message: Mensaje de error
 
     put:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: escritura
       summary: Modificación de una provincia.
       description: Permite modificar una provincia aportando los datos necesarios.
       tags:
@@ -723,6 +738,9 @@ paths:
                   message: Mensaje de error
 
     delete:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: escritura
       summary: Eliminación de una provincia dado su identificador.
       description: Permite eliminar un recurso mediante su identificador único. Dicho identificador es un parámetro obligatorio en la URL. Adicionalmente puede admitir *query parameters* y cabeceras.
       tags:
@@ -842,6 +860,9 @@ paths:
 
   /municipios:
     get:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: lectura
       summary: Obtención de una colección de municipios
       description: Permite obtener el listado de municipios.
       tags:
@@ -1010,6 +1031,9 @@ paths:
                 - code: 0
                   message: Mensaje de error
     post:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: escritura
       summary: Creación de un municipio.
       description: Permite crear un municipio aportando los datos necesarios para su creación.
       tags:
@@ -1121,6 +1145,9 @@ paths:
                   message: Mensaje de error
   /municipios/get:
     post:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: lectura
       summary: Consulta compleja de municipios
       description: | 
         Permite obtener una colección de recursos conforme a unos criterios. 
@@ -1298,6 +1325,9 @@ paths:
                   message: Mensaje de error
   /municipios/{id}:
     get:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: lectura
       summary: Obtención de un municipio dada su id.
       description: | 
         Permite obtener un municipio mediante su identificador único. 
@@ -1443,6 +1473,9 @@ paths:
                   message: Mensaje de error
 
     put:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: escritura
       summary: Modificación de un municipio.
       description: Permite modificar un municipio aportando los datos necesarios.
       tags:
@@ -1573,6 +1606,9 @@ paths:
                   message: Mensaje de error
 
     delete:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: escritura
       summary: Eliminación de un municipio dado su identificador.
       description: Permite eliminar un recurso mediante su identificador único. Dicho identificador es un parámetro obligatorio en la URL. Adicionalmente puede admitir *query parameters* y cabeceras.
       tags:
@@ -1692,6 +1728,9 @@ paths:
 
   /status:
     get:
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Bronze
+      x-scope: verificacion
       summary: Endpoint de monitorización de la API.
       description: | 
         Propuesta de definición de la respuesta que debería ofrecer el endpoint de monitorización previsto en el estándar.
@@ -2164,3 +2203,16 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/filter_value'
+
+# definición de los scopes y roles asociados para el esquema de seguridad
+x-wso2-security:
+  apim:
+    x-wso2-scopes:
+      - name: lectura
+        description: "Scope de lectura para endpoints de consulta, incluyendo POST/get"
+        key: lectura
+        roles: "ROLE_1,ROLE_2"
+      - name: escritura
+        description: "Scope de escritura para endpoints de creación, modificación y borrado"
+        key: escritura
+        roles: ROLE_1
