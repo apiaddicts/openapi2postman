@@ -5,7 +5,6 @@ const argv = require('yargs').argv
 const fs   = require('fs');
 
 global.definition = require('./src/parser/definition.js')();
-//const title = require('./src/parser/title.js')();
 const schemaHostBasePath = require('./src/parser/schemaHostBasePath.js')();
 const endpointsParsed = require('./src/parser/endpoints.js')();
 const authorizationTokens = [];
@@ -23,23 +22,13 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 });
 
 const endpointsPostman = [];
-
-const authorizationRequests = require('./src/parser/authorizationRequests.js')(authorizationTokens);
-const calculated = []
-let configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"));
-
-
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
 _.forEach(endpoints, function (endpoint, i) {
 	endpoint = require('./src/generator/testStatus.js')(endpoint);
 	endpoint = require('./src/generator/testBody.js')(endpoint);
 	endpoint = require('./src/generator/contentType.js')(endpoint);
-	let status = _.toInteger(endpoint.aux.status);
-	if (status !== 401) {
-		endpoint = require('./src/generator/authorization.js')(endpoint, true);
-	} else {
-		endpoint = require('./src/generator/authorization.js')(endpoint, false);
-	}
+	let status = _.toInteger(endpoint.aux.status)
+	endpoint = require('./src/generator/authorization.js')(endpoint, status)
 	if (status === 404 && endpoint.aux.pathParameter) {
 		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + endpoint.aux.pathParameter + '}}', '{{' + endpoint.aux.pathParameter + '_not_found}}')
 		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' + endpoint.aux.pathParameter + '}}', '{{' + endpoint.aux.pathParameter + '_not_found}}')
@@ -61,61 +50,30 @@ _.forEach(endpoints, function (endpoint, i) {
 		} while(endpointPostman)
 		addBadRequestEndpoints(endpointsPostman, endpoint, 'requiredParams', '', true, false);
 		addBadRequestEndpoints(endpointsPostman, endpoint, 'wrongParams', '.wrong', false, true);
-	} else if ((status >= 200 && status < 300) || (status === 401 && endpoint.aux.authorization)) {
+	} else if ((status >= 200 && status < 300) || ((status === 401 || status === 403) && endpoint.aux.authorization)) {
 		endpoint = require('./src/generator/body.js')(endpoint);
 		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint);
 		endpointsPostman.push(endpoint);
 	}
-});
+})
 
-let endpointsPostmanWithFolders = null;
-
-if (argv.configuration) {
-	_.forEach(configurationFile, function (environment) {
-		_.forEach(environment, function (element) {
-			if (element.custom_authorizations_file) {
-				_.forEach(authorizationRequests.item, function (authorizationRequest) {
-					authorizationRequest.authType = true
-					endpointsPostman.unshift(authorizationRequest)
-				})
-				require('./src/utils/addVariable.js')("client_secret", 'string');
-				require('./src/utils/addVariable.js')("client_id", 'string');
-				require('./src/utils/addVariable.js')("username_token", 'string');
-				require('./src/utils/addVariable.js')("password_token", 'string');
-				require('./src/utils/addVariable.js')("autologin_ticket_token", 'string');
-			} else {
-				_.forEach(authorizationTokens, function (authorizationToken) {
-					if (_.indexOf(calculated, authorizationToken.name) !== -1) {
-						return
-					}
-					endpointsPostman.unshift(require('./src/parser/authorizationRequest.js')(authorizationToken, authorizationRequests));
-					calculated.push(authorizationToken.name)
-				});
-
-			}
-			if (element.name === "DEV") {
-				endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman, {});
-				require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders);
-				require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host, schemaHostBasePath, endpointsParsed);
-
-			} else if (element.name === "VAL") {
-				endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman, {
-					write: true
-				});
-				require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders);
-				require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host, schemaHostBasePath, endpointsParsed);
-			} else if (element.name === "PROD") {
-				endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsPostman, {
-					aux: true
-				});
-				require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders);
-				require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host, schemaHostBasePath, endpointsParsed);
-			}
-		});
-	});
-}
-
-
+let configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
+configurationFile = configurationFile.environments
+_.forEach(configurationFile, function (element) {
+	const endpointsStage = _.cloneDeep(endpointsPostman)
+	let exclude = {}
+	if (element.read_only){
+		exclude.write = true
+	}
+	if (element.custom_authorizations_file){
+		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
+	} else {
+		exclude.auth = true
+	}
+	let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsStage, exclude)
+	require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders)
+	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host, schemaHostBasePath, endpointsParsed)
+})
 
 function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdded, suffix, withoutRequired, withWrongParam) {
 	global[memoryAlreadyAdded] = [];

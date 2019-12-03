@@ -4,15 +4,22 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(postmanRequest,authorizationOK){
+  return function get(postmanRequest,status){
   	if (!postmanRequest.aux.authorization){
   		return postmanRequest;
   	}
-    if (!authorizationOK){
-      require('../utils/addVariable.js')('bad_token','string');
+    if (status === 401){
+      require('../utils/addVariable.js')('not_authorized_token','string');
       postmanRequest.request.header.push({
         "key": "Authorization",
-        "value": "{{bad_token}}"
+        "value": "{{not_authorized_token}}"
+      });
+      return postmanRequest;
+    } else if (status === 403){
+      require('../utils/addVariable.js')('forbidden_token','string');
+      postmanRequest.request.header.push({
+        "key": "Authorization",
+        "value": "{{forbidden_token}}"
       });
       return postmanRequest;
     }

@@ -9,9 +9,9 @@ module.exports = function() {
     let count = 1;
   	_.forEach(endpointsPostman,function(endpointPostman){
   		if (!endpointPostman.authType && exclude.write && (endpointPostman.request.method !== 'GET' && endpointPostman.request.method !== 'OPTIONS')){
-        return;
-      } else if (endpointPostman.authType && exclude.auth){
-        return;
+        return
+      } else if ((endpointPostman.authType || endpointPostman.aux.status == 401  || endpointPostman.aux.status == 403) && exclude.auth){
+        return
       } else if (endpointPostman.authType){
         let folderRoot = _.find(result, ['name', 'authorizations']);
         if (!folderRoot) {
@@ -51,9 +51,20 @@ module.exports = function() {
       let status = _.has(endpointPostman,'aux') && _.has(endpointPostman.aux, 'status') ? endpointPostman.aux.status : 'x';
       let suffix = _.has(endpointPostman,'aux') && _.has(endpointPostman.aux,'suffix') ? ' ' + endpointPostman.aux.suffix : ' ' ;
       endpointPostman.name = 'TC.'+_.padStart(count - 1, 3, '0') + '.' + status + ' ' + pathName + suffix;
-		  folder.item.push(endpointPostman);
+      deleteHeaderAuthorization(endpointPostman,exclude)
+      folder.item.push(endpointPostman);
   	});
   	return result;
   };
+
+  function deleteHeaderAuthorization(endpointPostman,exclude){
+    if (!exclude.auth){
+      return
+    }
+    const header = _.remove(endpointPostman.request.header, function(header) {
+      return _.lowerCase(header.key) !== 'authorization'
+    })
+    endpointPostman.request.header = header
+  }
 
 }()

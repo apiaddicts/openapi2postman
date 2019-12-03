@@ -80,7 +80,7 @@ module.exports = function() {
 
 	try {
 		  fs.writeFileSync(target+'/'+title+'.postman_environment.json', JSON.stringify(output));
-		  console.log(`Environment ${target+'/'+title+'.postman_environment.json'} was succesfully created`, {"host": host});
+		  console.log(`Environment ${target+'/'+title+'.postman_environment.json'} was succesfully created`);
 	} catch(err) {
 		require('../utils/error.js')('Error writing the environment output');
 	}
