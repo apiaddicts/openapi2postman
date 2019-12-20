@@ -5,26 +5,21 @@ const fs   = require('fs');
 const argv = require('yargs').argv
 const path = require('path')
 
+
 module.exports = function() {
   
-  return function get(authorizationTokens){
-	if (argv.customAuthorizations){
-		try {
-			return JSON.parse(fs.readFileSync(argv.customAuthorizations, 'utf8'));
-		} catch (e) {
-		  	require('../utils/error.js')('error reading '+argv.customAuthorizations);
-		}
-	}
-	if (!authorizationTokens || authorizationTokens.length === 0){
-		return {};
-	}
+  return function get(endpoints,file){
 	let definition;
 	try {
-		definition = JSON.parse(fs.readFileSync(argv.authorization, 'utf8'));
+		definition = JSON.parse(fs.readFileSync(file, 'utf8'));
 	} catch (e) {
-	  	definition = false;
+	  	require('../utils/error.js')('error reading auth file ')
 	}
-	return definition;
+	for (let i in definition.item){
+		definition.item[i].authType = true
+		endpoints.unshift(definition.item[i])
+	}
+
   };
 
 }()

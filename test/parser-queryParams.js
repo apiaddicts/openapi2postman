@@ -9,10 +9,12 @@ describe('parser-queryParams', () => {
     const queryParams = require('../src/parser/queryParams.js')('GET','/pets');
     assert.deepStrictEqual(queryParams, [{
             "name": "tags",
+            "required": false,
             "type": "array"
          },
          {
             "name": "limit",
+            "required": false,
             "type": "integer"
          } ]);
   });

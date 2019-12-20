@@ -146,6 +146,10 @@ module.exports = function() {
       }
     }
 
+    if (areEquals){
+      global.circularTail = []
+    }
+
     return areEquals
 
   }

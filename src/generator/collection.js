@@ -5,7 +5,7 @@ const argv = require('yargs').argv
 
 module.exports = function() {
   
-  return function post(title,endpointsPostman){
+  return function post(target,title,endpointsPostman){
 	if (! argv.target ){
 		argv.target = process.cwd()+'/'
 	}
@@ -20,8 +20,8 @@ module.exports = function() {
 	}
 
 	try {
-		  fs.writeFileSync(argv.target+'/'+title+'.postman_collection.json', JSON.stringify(output));
-		  console.log(`Collection ${argv.target+'/'+title+'.postman_collection.json'} was succesfully created`, output.info);
+		  fs.writeFileSync(target+'/'+title+'.postman_collection.json', JSON.stringify(output));
+		  console.log(`Collection ${target+'/'+title+'.postman_collection.json'} was succesfully created`);
 	} catch(err) {
 		require('../utils/error.js')('Error writing the output');
 	}
