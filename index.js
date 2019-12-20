@@ -25,7 +25,7 @@ const endpointsPostman = [];
 
 const authorizationRequests = require('./src/parser/authorizationRequests.js')(authorizationTokens);
 const calculated = []
-if (argv.immovableAuthorizations){
+if (argv.customAuthorizations){
 	_.forEach(authorizationRequests.item, function(authorizationRequest) {
 		authorizationRequest.authType = true
 		endpointsPostman.push(authorizationRequest)

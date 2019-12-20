@@ -20,7 +20,8 @@ module.exports = function() {
 	}
 
 	try {
-	  	fs.writeFileSync(argv.target+'/'+title+'.postman_collection.json', JSON.stringify(output));
+		  fs.writeFileSync(argv.target+'/'+title+'.postman_collection.json', JSON.stringify(output));
+		  console.log(`Collection ${argv.target+'/'+title+'.postman_collection.json'} was succesfully created`, output.info);
 	} catch(err) {
 		require('../utils/error.js')('Error writing the output');
 	}
