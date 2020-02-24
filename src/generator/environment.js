@@ -11,7 +11,7 @@ module.exports = function() {
 		argv.target = process.cwd()+'/'
 	}
 
-	const items = [];
+	let items = [];
 
 	items.push({
   		"description": {
@@ -70,6 +70,8 @@ module.exports = function() {
       		"enabled": true
     	});
 	});
+
+	items = _.orderBy(items, ['key'], ['asc']);
 
 	const output = {
   		"id": "10a413ae-b106-43fe-9cc5-8481250a4bfe",

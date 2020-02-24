@@ -160,7 +160,7 @@
       ],
       "body":{  
          "mode":"raw",
-         "raw":"{\"orange\":\"{{orange}}\",\"water\":{\"paramAiden\":\"{{paramAiden}}\",\"paramBiden\":\"{{paramBiden}}\",\"paramCiden\":\"{{paramCiden}}\"}}"
+         "raw":"{\"orange\":\"{{apple_post_orange}}\",\"water\":{\"paramAiden\":\"{{apple_post_paramAiden}}\",\"paramBiden\":\"{{apple_post_paramBiden}}\",\"paramCiden\":\"{{apple_post_paramCiden}}\"}}"
       },
       "url":{  
          "raw":"{{host}}{{port}}{{basePath}}/apple",

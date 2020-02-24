@@ -27,7 +27,7 @@
       ],
       "body":{  
          "mode":"raw",
-         "raw":"{\"name\":\"{{name}}\",\"tag\":\"{{tag}}\"}"
+         "raw":"{\"name\":\"{{pets_post_name}}\",\"tag\":\"{{pets_post_tag}}\"}"
       },
       "url":{  
          "raw":"{{host}}{{port}}{{basePath}}/pets",

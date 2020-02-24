@@ -433,7 +433,7 @@
       ],
       "body":{  
          "mode":"raw",
-         "raw":"[{\"result\":{\"status\":\"{{status}}\",\"http_code\":\"{{http_code}}\",\"chains\":[\"{{chains}}\"]}}]"
+         "raw":"[{\"result\":{\"status\":\"{{apple_post_status}}\",\"http_code\":\"{{apple_post_http_code}}\",\"chains\":[\"{{apple_post_chains}}\"]}}]"
       },
       "url":{  
          "raw":"{{host}}{{port}}{{basePath}}/apple",

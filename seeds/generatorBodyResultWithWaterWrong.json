@@ -160,7 +160,7 @@
       ],
       "body":{  
          "mode":"raw",
-         "raw":"{\"red\":\"{{red}}\",\"orange\":\"{{orange}}\",\"water\":\"{{water_wrong}}\"}"
+         "raw":"{\"red\":\"{{apple_post_red}}\",\"orange\":\"{{apple_post_orange}}\",\"water\":\"{{apple_post_water_wrong}}\"}"
       },
       "url":{  
          "raw":"{{host}}{{port}}{{basePath}}/apple",

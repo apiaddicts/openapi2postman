@@ -30,12 +30,14 @@ _.forEach(endpoints, function (endpoint, i) {
 	let status = _.toInteger(endpoint.aux.status)
 	endpoint = require('./src/generator/authorization.js')(endpoint, status)
 	if (status === 404 && endpoint.aux.pathParameter) {
-		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + endpoint.aux.pathParameter + '}}', '{{' + endpoint.aux.pathParameter + '_not_found}}')
-		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' + endpoint.aux.pathParameter + '}}', '{{' + endpoint.aux.pathParameter + '_not_found}}')
+		let pathName = _.replace(endpoint.request.url.raw,'{{host}}{{port}}{{basePath}}/','')
+		let prefix =  _.toLower(pathName.split('/')[0]+'_'+endpoint.request.method+'_')
+		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + prefix+endpoint.aux.pathParameter + '}}', '{{' + prefix+endpoint.aux.pathParameter + '_not_found}}')
+		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' + prefix+endpoint.aux.pathParameter + '}}', '{{' + prefix+endpoint.aux.pathParameter + '_not_found}}')
 		endpoint = require('./src/generator/body.js')(endpoint);
 		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint);
 		endpointsPostman.push(endpoint);
-		require('./src/utils/addVariable.js')(endpoint.aux.pathParameter + '_not_found', 'string');
+		require('./src/utils/addVariable.js')(prefix+endpoint.aux.pathParameter + '_not_found', 'string');
 	} else if (status === 400) {
 		global.queryParamsRequiredAdded = []
 		let endpointPostman
@@ -58,6 +60,7 @@ _.forEach(endpoints, function (endpoint, i) {
 })
 
 let configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
+let apiName = configurationFile.api_name
 configurationFile = configurationFile.environments
 _.forEach(configurationFile, function (element) {
 	const endpointsStage = _.cloneDeep(endpointsPostman)
@@ -71,6 +74,10 @@ _.forEach(configurationFile, function (element) {
 		exclude.auth = true
 	}
 	let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsStage, exclude)
+	if (apiName){
+		element.postman_collection_name = _.replace(element.postman_collection_name, '%api_name%', apiName)
+		element.postman_environment_name = _.replace(element.postman_environment_name, '%api_name%', apiName)
+	}
 	require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders)
 	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host, schemaHostBasePath, endpointsParsed)
 })

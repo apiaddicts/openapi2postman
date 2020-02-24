@@ -8,7 +8,8 @@ module.exports = function() {
   	postmanRequest = _.cloneDeep(postmanRequest);
     if (!postmanRequest.aux.body){
   		return postmanRequest;
-  	}
+    }
+
     let parent;
     if (withoutRequired){
       parent = 'without';
@@ -16,6 +17,9 @@ module.exports = function() {
       parent = 'with';
     } 
 
+    let pathName = _.replace(postmanRequest.request.url.raw,'{{host}}{{port}}{{basePath}}/','')
+
+    global.prefix =  _.toLower(pathName.split('/')[0]+'_'+postmanRequest.request.method+'_')
     global.wrongParamsCatch = withWrongParam;
     global.requiredParamsCatch = withoutRequired;
 

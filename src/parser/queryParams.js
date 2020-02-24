@@ -9,11 +9,14 @@ module.exports = function() {
 		require('../utils/error.js')('paths is required');
 	}
 
+	const folderName = path.split('/')[1]
+	const prefix = _.toLower(folderName+'_'+verb+'_')
+
 	const parameters = global.definition.paths[path][_.toLower(verb)]['parameters'];
 	const queryParams = _.filter(parameters, ['in', 'query']);
 	const result = [];
 	_.forEach(queryParams, function(queryParam) {	
-		result.push( { name:queryParam.name , type:queryParam.type, required:queryParam.required } );
+		result.push( { prefix, name : queryParam.name , type : queryParam.type, required : queryParam.required } );
 	});
 
 	return result;

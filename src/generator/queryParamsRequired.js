@@ -18,11 +18,11 @@ module.exports = function() {
             return
         }
         if (queryParams.length === 0){
-            queryParams += '?'+queryParam.name+'={{' + queryParam.name + '}}'
+            queryParams += '?'+queryParam.name+'={{' + queryParam.prefix + queryParam.name + '}}'
         } else {
-            queryParams += '&'+queryParam.name+'={{' + queryParam.name + '}}'
+            queryParams += '&'+queryParam.name+'={{' + queryParam.prefix + queryParam.name + '}}'
         }
-        require('../utils/addVariable.js')(queryParam.name,queryParam.type)
+        require('../utils/addVariable.js')(queryParam.prefix + queryParam.name,queryParam.type)
     });
     if (error && !errorAdded){
         return false
