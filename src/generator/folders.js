@@ -5,8 +5,7 @@ const _ = require('lodash');
 module.exports = function() {
   
   return function get(endpointsPostman,exclude){
-  	const result = [];
-    let count = 1;
+  	const result = []
   	_.forEach(endpointsPostman,function(endpointPostman){
   		if (!endpointPostman.authType && exclude.write && (endpointPostman.request.method !== 'GET' && endpointPostman.request.method !== 'OPTIONS')){
         return
@@ -36,26 +35,67 @@ module.exports = function() {
   				name : folderName,
   				item: []
   			};
-  			result.push(folderRoot);
+  			result.push(folderRoot)
   		}
   		let folder = _.find(folderRoot.item, ['auxName', pathName]);
   		if (!folder) {
   			folder = {
-  				name : 'TC.'+_.padStart(count, 3, '0') + ' ' +pathName,
+  				name : pathName,
   				item: [],
-          auxName: pathName
+          auxName: pathName,
+          auxOrder: endpointPostman.request.method
   			};
-  			folderRoot.item.push(folder);
-        count++;
+  			folderRoot.item.push(folder)
   		}
       let status = _.has(endpointPostman,'aux') && _.has(endpointPostman.aux, 'status') ? endpointPostman.aux.status : 'x';
       let suffix = _.has(endpointPostman,'aux') && _.has(endpointPostman.aux,'suffix') ? ' ' + endpointPostman.aux.suffix : ' ' ;
-      endpointPostman.name = 'TC.'+_.padStart(count - 1, 3, '0') + '.' + status + ' ' + pathName + suffix;
+      endpointPostman.name = status + ' ' + pathName + suffix;
       deleteHeaderAuthorization(endpointPostman,exclude)
       folder.item.push(endpointPostman);
-  	});
+    });
+    orderByMethod(result)
+    numerate(result)
   	return result;
   };
+
+  function numerate(collection){
+    let countRoot = 1
+    for (let i in collection){
+      let countItem = 1
+      let numerateRoot = _.padStart(countRoot, 3, '0') + '.'
+      collection[i].name = numerateRoot + collection[i].name
+      for (let j in collection[i].item) {
+        let numerateItem = numerateRoot + _.padStart(countItem, 3, '0') + '.'
+        collection[i].item[j].name = numerateItem + collection[i].item[j].name
+        for (let k in collection[i].item[j].item){
+          collection[i].item[j].item[k].name = 'TC.' + numerateItem + collection[i].item[j].item[k].name
+        }
+        countItem++
+      }
+      countRoot++
+    }
+  }
+
+  function orderByMethod(collection){
+    for (let i in collection){
+      collection[i].item = _.orderBy(collection[i].item, function(item){
+          switch (item.auxOrder) {
+            case 'POST':
+              return 1
+            case 'PUT':
+              return 2
+            case 'PATCH':
+              return 3
+            case 'GET':
+              return 4
+            case 'DELETE':
+              return 5
+            default:
+              return 6
+          }
+      })
+    }
+  }
 
   function deleteHeaderAuthorization(endpointPostman,exclude){
     if (!exclude.auth){
