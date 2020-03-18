@@ -34,10 +34,9 @@ _.forEach(endpoints, function (endpoint, i) {
 		let prefix =  _.toLower(pathName.split('/')[0]+'_'+endpoint.request.method+'_')
 		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + prefix+endpoint.aux.pathParameter + '}}', '{{' + prefix+endpoint.aux.pathParameter + '_not_found}}')
 		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' + prefix+endpoint.aux.pathParameter + '}}', '{{' + prefix+endpoint.aux.pathParameter + '_not_found}}')
-		endpoint = require('./src/generator/body.js')(endpoint);
-		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint);
-		endpointsPostman.push(endpoint);
-		require('./src/utils/addVariable.js')(prefix+endpoint.aux.pathParameter + '_not_found', 'string');
+		endpoint = require('./src/generator/body.js')(endpoint)
+		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint)
+		endpointsPostman.push(endpoint)
 	} else if (status === 400) {
 		global.queryParamsRequiredAdded = []
 		let endpointPostman
@@ -65,21 +64,21 @@ configurationFile = configurationFile.environments
 _.forEach(configurationFile, function (element) {
 	const endpointsStage = _.cloneDeep(endpointsPostman)
 	let exclude = {}
-	if (element.read_only){
+	if ( element.read_only ){
 		exclude.write = true
 	}
-	if (element.custom_authorizations_file){
+	if ( element.custom_authorizations_file ) {
 		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
 	} else {
 		exclude.auth = true
 	}
 	let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsStage, exclude)
-	if (apiName){
+	if ( apiName ) {
 		element.postman_collection_name = _.replace(element.postman_collection_name, '%api_name%', apiName)
 		element.postman_environment_name = _.replace(element.postman_environment_name, '%api_name%', apiName)
 	}
 	require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders)
-	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host, schemaHostBasePath, endpointsParsed)
+	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host,endpointsPostmanWithFolders)
 })
 
 function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdded, suffix, withoutRequired, withWrongParam) {

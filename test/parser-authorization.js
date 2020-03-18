@@ -13,14 +13,14 @@ describe('parser-authorization', () => {
 
     global.definition = require('../seeds/parserAuthorizationInitialEndpoint.json')
     const authorization = require('../src/parser/authorization.js')('POST','/apple')
-    assert.deepStrictEqual(authorization, false)
+    assert.deepStrictEqual(authorization, 'oauth2_token')
   });
 
   it('general', () => {
 
     global.definition = require('../seeds/parserAuthorizationInitialGeneral.json')
     const authorization = require('../src/parser/authorization.js')('POST','/apple')
-    assert.deepStrictEqual(authorization, false)
+    assert.deepStrictEqual(authorization, 'basic_token')
   });
 
 });

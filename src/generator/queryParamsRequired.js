@@ -22,7 +22,6 @@ module.exports = function() {
         } else {
             queryParams += '&'+queryParam.name+'={{' + queryParam.prefix + queryParam.name + '}}'
         }
-        require('../utils/addVariable.js')(queryParam.prefix + queryParam.name,queryParam.type)
     });
     if (error && !errorAdded){
         return false

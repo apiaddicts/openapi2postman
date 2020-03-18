@@ -11,8 +11,7 @@ module.exports = function() {
 		let pathParameterSaved = false
 		_.forEach(endpoint.pathParameters,function(pathParameter){
 			pathParameterSaved = pathParameter.name
-			path = _.replace(path, '{'+pathParameter.name+'}', '{{'+pathParameter.prefix+pathParameter.name+'}}');
-			require('../utils/addVariable.js')(pathParameter.prefix+pathParameter.name,pathParameter.type);
+			path = _.replace(path, '{'+pathParameter.name+'}', '{{'+pathParameter.prefix+pathParameter.name+'}}')
 		});
 		_.forEach(endpoint.status,function(response){
 			items.push({
