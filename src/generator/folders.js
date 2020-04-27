@@ -67,8 +67,13 @@ module.exports = function() {
       for (let j in collection[i].item) {
         let numerateItem = numerateRoot + _.padStart(countItem, 3, '0') + '.'
         collection[i].item[j].name = numerateItem + collection[i].item[j].name
+        if (!collection[i].item[j].aux){
+          collection[i].item[j].aux = {}
+        }
+        collection[i].item[j].aux.numerateItem = 'TC.' + numerateItem
         for (let k in collection[i].item[j].item){
           collection[i].item[j].item[k].name = 'TC.' + numerateItem + collection[i].item[j].item[k].name
+          collection[i].item[j].item[k].aux.numerateItem = 'TC.' + numerateItem
         }
         countItem++
       }

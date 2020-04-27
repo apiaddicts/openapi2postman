@@ -73,12 +73,13 @@ _.forEach(configurationFile, function (element) {
 		exclude.auth = true
 	}
 	let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsStage, exclude)
+	let environmentVariables = require('./src/generator/environmentVariablesNames.js')(endpointsPostmanWithFolders)
 	if ( apiName ) {
 		element.postman_collection_name = _.replace(element.postman_collection_name, '%api_name%', apiName)
 		element.postman_environment_name = _.replace(element.postman_environment_name, '%api_name%', apiName)
 	}
 	require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders)
-	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host,endpointsPostmanWithFolders)
+	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host,endpointsPostmanWithFolders,environmentVariables)
 })
 
 function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdded, suffix, withoutRequired, withWrongParam) {
