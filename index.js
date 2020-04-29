@@ -4,9 +4,8 @@ const _ = require('lodash');
 const argv = require('yargs').argv
 const fs   = require('fs');
 
-global.definition = require('./src/parser/definition.js')();
-const schemaHostBasePath = require('./src/parser/schemaHostBasePath.js')();
-const endpointsParsed = require('./src/parser/endpoints.js')();
+global.definition = require('./src/parser/definition.js')()
+const endpointsParsed = require('./src/parser/endpoints.js')()
 const authorizationTokens = [];
 _.forEach(endpointsParsed, function (endpointParsed, i) {
 	endpointsParsed[i].status = require('./src/parser/status.js')(endpointParsed.verb, endpointParsed.path);
@@ -30,8 +29,7 @@ _.forEach(endpoints, function (endpoint, i) {
 	let status = _.toInteger(endpoint.aux.status)
 	endpoint = require('./src/generator/authorization.js')(endpoint, status)
 	if (status === 404 && endpoint.aux.pathParameter) {
-		let pathName = _.replace(endpoint.request.url.raw,'{{host}}{{port}}{{basePath}}/','')
-		let prefix =  _.toLower(pathName.split('/')[0]+'_'+endpoint.request.method+'_')
+		let prefix =  ''
 		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + prefix+endpoint.aux.pathParameter + '}}', '{{' + prefix+endpoint.aux.pathParameter + '_not_found}}')
 		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' + prefix+endpoint.aux.pathParameter + '}}', '{{' + prefix+endpoint.aux.pathParameter + '_not_found}}')
 		endpoint = require('./src/generator/body.js')(endpoint)

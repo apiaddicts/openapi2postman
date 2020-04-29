@@ -22,7 +22,7 @@ module.exports = function() {
     }
 
 	function parseRequest(numerateItem,request,items,itemKeys){
-		extractVariablesFromString(numerateItem,request.url.raw,items,itemKeys)
+		request.url.raw = extractVariablesFromString(numerateItem,request.url.raw,items,itemKeys)
         if (request.url.path && request.url.path[0]){
 			request.url.path[0] = extractVariablesFromString(numerateItem,request.url.path[0],items,itemKeys)
 		}
@@ -42,8 +42,8 @@ module.exports = function() {
 		} 
 		if (request.auth && request.auth.type && request.auth[request.auth.type]){
 			for (let i in request.auth[request.auth.type]){
-				extractVariablesFromString(numerateItem,request.auth[request.auth.type][i].key,items,itemKeys)
-				extractVariablesFromString(numerateItem,request.auth[request.auth.type][i].value,items,itemKeys)
+				request.auth[request.auth.type][i].key = extractVariablesFromString(numerateItem,request.auth[request.auth.type][i].key,items,itemKeys)
+				request.auth[request.auth.type][i].value = extractVariablesFromString(numerateItem,request.auth[request.auth.type][i].value,items,itemKeys)
 			}
 		}
     }
@@ -53,19 +53,23 @@ module.exports = function() {
 		const newItems = string.match(re)
 		for (let i in newItems){
 			newItems[i] = newItems[i].substring(0,newItems[i].length - 2).substring(2)
-			if (!_.includes(itemKeys, newItems[i])){
+			if (_.includes(['host','port','basePath'], newItems[i])){
+				continue
+			}
+			let key = numerateItem+newItems[i]
+			if (!_.includes(itemKeys, key)){
 				items.push({
 					"description": {
 					  "content": "",
 					  "type": "text/plain"
 					},
 					"value": '',
-					"key": numerateItem+newItems[i],
+					"key": key,
 					"enabled": true
 				})
-				itemKeys.push(newItems[i])
+				itemKeys.push(key)
             }
-            string = string.replace('{{'+newItems[i]+'}}','{{'+numerateItem+newItems[i]+'}}')
+            string = string.replace('{{'+newItems[i]+'}}','{{'+key+'}}')
         }
         return string
 	}

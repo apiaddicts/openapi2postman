@@ -1,35 +1,35 @@
-{  
+{
    "name":"/apple-201",
-   "aux":{  
+   "aux":{
       "status":"201",
-      "body":{  
+      "body":{
          "type":"array",
-         "items":{  
-            "properties":{  
-               "result":{  
+         "items":{
+            "properties":{
+               "result":{
                   "type":"object",
-                  "properties":{  
-                     "status":{  
+                  "properties":{
+                     "status":{
                         "type":"boolean"
                      },
-                     "http_code":{  
+                     "http_code":{
                         "type":"integer",
                         "example":200
                      },
-                     "chains":{  
+                     "chains":{
                         "type":"array",
-                        "items":{  
+                        "items":{
                            "type":"string",
                            "description":"asdsdfsdfsdf",
                            "maxLength":9
                         },
-                        "example":[  
-                           {  
+                        "example":[
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -37,7 +37,7 @@
                               "4":"s",
                               "5":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -54,40 +54,40 @@
                         "uniqueItems":true
                      }
                   },
-                  "required":[  
+                  "required":[
                      "status"
                   ]
                },
-               "properties":{  
-                  "result":{  
+               "properties":{
+                  "result":{
                      "type":"object",
-                     "properties":{  
-                        "status":{  
+                     "properties":{
+                        "status":{
                            "type":"boolean"
                         },
-                        "http_code":{  
+                        "http_code":{
                            "type":"integer",
                            "example":200
                         },
-                        "chains":{  
+                        "chains":{
                            "type":"array",
-                           "items":{  
+                           "items":{
                               "type":"string",
                               "description":"asdsdfsdfsdf",
                               "maxLength":9,
-                              "properties":{  
+                              "properties":{
                                  "type":"string",
                                  "description":"asdsdfsdfsdf",
                                  "maxLength":9
                               }
                            },
-                           "example":[  
-                              {  
+                           "example":[
+                              {
                                  "0":"a",
                                  "1":"s",
                                  "2":"d"
                               },
-                              {  
+                              {
                                  "0":"a",
                                  "1":"s",
                                  "2":"d",
@@ -95,7 +95,7 @@
                                  "4":"s",
                                  "5":"d"
                               },
-                              {  
+                              {
                                  "0":"a",
                                  "1":"s",
                                  "2":"d",
@@ -112,7 +112,7 @@
                            "uniqueItems":true
                         }
                      },
-                     "required":[  
+                     "required":[
                         "status"
                      ]
                   }
@@ -122,41 +122,41 @@
          }
       },
       "consumes":"application/json",
-      "bodyResponse":{  
-         "201":{  
-            "properties":{  
-               "data":{  
+      "bodyResponse":{
+         "201":{
+            "properties":{
+               "data":{
                   "type":"object",
-                  "properties":{  
-                     "id_peticion":{  
+                  "properties":{
+                     "id_peticion":{
                         "type":"integer"
                      }
                   }
                },
-               "result":{  
+               "result":{
                   "type":"object",
-                  "properties":{  
-                     "status":{  
+                  "properties":{
+                     "status":{
                         "type":"boolean"
                      },
-                     "http_code":{  
+                     "http_code":{
                         "type":"integer",
                         "example":200
                      },
-                     "chains":{  
+                     "chains":{
                         "type":"array",
-                        "items":{  
+                        "items":{
                            "type":"string",
                            "description":"asdsdfsdfsdf",
                            "maxLength":9
                         },
-                        "example":[  
-                           {  
+                        "example":[
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -164,7 +164,7 @@
                               "4":"s",
                               "5":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -181,44 +181,44 @@
                         "uniqueItems":true
                      }
                   },
-                  "required":[  
+                  "required":[
                      "status"
                   ]
                }
             },
-            "required":[  
+            "required":[
 
             ],
             "type":"object"
          },
-         "400":{  
+         "400":{
             "type":"array",
-            "items":{  
-               "properties":{  
-                  "result":{  
+            "items":{
+               "properties":{
+                  "result":{
                      "type":"object",
-                     "properties":{  
-                        "status":{  
+                     "properties":{
+                        "status":{
                            "type":"boolean"
                         },
-                        "http_code":{  
+                        "http_code":{
                            "type":"integer",
                            "example":200
                         },
-                        "chains":{  
+                        "chains":{
                            "type":"array",
-                           "items":{  
+                           "items":{
                               "type":"string",
                               "description":"asdsdfsdfsdf",
                               "maxLength":9
                            },
-                           "example":[  
-                              {  
+                           "example":[
+                              {
                                  "0":"a",
                                  "1":"s",
                                  "2":"d"
                               },
-                              {  
+                              {
                                  "0":"a",
                                  "1":"s",
                                  "2":"d",
@@ -226,7 +226,7 @@
                                  "4":"s",
                                  "5":"d"
                               },
-                              {  
+                              {
                                  "0":"a",
                                  "1":"s",
                                  "2":"d",
@@ -243,39 +243,39 @@
                            "uniqueItems":true
                         }
                      },
-                     "required":[  
+                     "required":[
                         "status"
                      ]
                   }
                }
             }
          },
-         "401":{  
-            "properties":{  
-               "result":{  
+         "401":{
+            "properties":{
+               "result":{
                   "type":"object",
-                  "properties":{  
-                     "status":{  
+                  "properties":{
+                     "status":{
                         "type":"boolean"
                      },
-                     "http_code":{  
+                     "http_code":{
                         "type":"integer",
                         "example":200
                      },
-                     "chains":{  
+                     "chains":{
                         "type":"array",
-                        "items":{  
+                        "items":{
                            "type":"string",
                            "description":"asdsdfsdfsdf",
                            "maxLength":9
                         },
-                        "example":[  
-                           {  
+                        "example":[
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -283,7 +283,7 @@
                               "4":"s",
                               "5":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -300,38 +300,38 @@
                         "uniqueItems":true
                      }
                   },
-                  "required":[  
+                  "required":[
                      "status"
                   ]
                }
             }
          },
-         "403":{  
-            "properties":{  
-               "result":{  
+         "403":{
+            "properties":{
+               "result":{
                   "type":"object",
-                  "properties":{  
-                     "status":{  
+                  "properties":{
+                     "status":{
                         "type":"boolean"
                      },
-                     "http_code":{  
+                     "http_code":{
                         "type":"integer",
                         "example":200
                      },
-                     "chains":{  
+                     "chains":{
                         "type":"array",
-                        "items":{  
+                        "items":{
                            "type":"string",
                            "description":"asdsdfsdfsdf",
                            "maxLength":9
                         },
-                        "example":[  
-                           {  
+                        "example":[
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -339,7 +339,7 @@
                               "4":"s",
                               "5":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -356,38 +356,38 @@
                         "uniqueItems":true
                      }
                   },
-                  "required":[  
+                  "required":[
                      "status"
                   ]
                }
             }
          },
-         "default":{  
-            "properties":{  
-               "result":{  
+         "default":{
+            "properties":{
+               "result":{
                   "type":"object",
-                  "properties":{  
-                     "status":{  
+                  "properties":{
+                     "status":{
                         "type":"boolean"
                      },
-                     "http_code":{  
+                     "http_code":{
                         "type":"integer",
                         "example":200
                      },
-                     "chains":{  
+                     "chains":{
                         "type":"array",
-                        "items":{  
+                        "items":{
                            "type":"string",
                            "description":"asdsdfsdfsdf",
                            "maxLength":9
                         },
-                        "example":[  
-                           {  
+                        "example":[
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -395,7 +395,7 @@
                               "4":"s",
                               "5":"d"
                            },
-                           {  
+                           {
                               "0":"a",
                               "1":"s",
                               "2":"d",
@@ -412,7 +412,7 @@
                         "uniqueItems":true
                      }
                   },
-                  "required":[  
+                  "required":[
                      "status"
                   ]
                }
@@ -420,38 +420,38 @@
          }
       }
    },
-   "response":[  
+   "response":[
 
    ],
-   "request":{  
+   "request":{
       "method":"POST",
-      "header":[  
-         {  
+      "header":[
+         {
             "key":"Content-Type",
             "value":"application/json"
          }
       ],
-      "body":{  
+      "body":{
          "mode":"raw",
-         "raw":"[{\"result\":{\"status\":\"{{apple_post_status}}\",\"http_code\":\"{{apple_post_http_code}}\",\"chains\":[\"{{apple_post_chains}}\"]}}]"
+         "raw":"[{\"result\":{\"status\":\"{{status}}\",\"http_code\":\"{{http_code}}\",\"chains\":[\"{{chains}}\"]}}]"
       },
-      "url":{  
+      "url":{
          "raw":"{{host}}{{port}}{{basePath}}/apple",
-         "host":[  
+         "host":[
             "{{host}}{{port}}{{basePath}}"
          ],
-         "path":[  
+         "path":[
             "/apple"
          ]
       }
    },
-   "event":[  
-      {  
+   "event":[
+      {
          "listen":"test",
-         "script":{  
+         "script":{
             "id":"63142ff5-28a4-40b2-8314-dcbeeaa89325",
             "type":"text/javascript",
-            "exec":[  
+            "exec":[
                "pm.test(\"Status code is 201\", function () {",
                "    pm.response.to.have.status(201);",
                "});",

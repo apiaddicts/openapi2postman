@@ -1,51 +1,51 @@
-{  
+{
    "name":"/pets-200",
-   "aux":{  
+   "aux":{
       "status":"200",
-      "body":{  
+      "body":{
          "type":"object",
-         "required":[  
+         "required":[
             "name"
          ],
-         "properties":{  
-            "name":{  
+         "properties":{
+            "name":{
                "type":"string"
             },
-            "tag":{  
+            "tag":{
                "type":"string"
             }
          }
       }
    },
-   "response":[  
+   "response":[
 
    ],
-   "request":{  
+   "request":{
       "method":"POST",
-      "header":[  
+      "header":[
 
       ],
-      "body":{  
+      "body":{
          "mode":"raw",
-         "raw":"{\"name\":\"{{pets_post_name}}\",\"tag\":\"{{pets_post_tag}}\"}"
+         "raw":"{\"name\":\"{{name}}\",\"tag\":\"{{tag}}\"}"
       },
-      "url":{  
+      "url":{
          "raw":"{{host}}{{port}}{{basePath}}/pets",
-         "host":[  
+         "host":[
             "{{host}}{{port}}{{basePath}}"
          ],
-         "path":[  
+         "path":[
             "/pets"
          ]
       }
    },
-   "event":[  
-      {  
+   "event":[
+      {
          "listen":"test",
-         "script":{  
+         "script":{
             "id":"63142ff5-28a4-40b2-8314-dcbeeaa89325",
             "type":"text/javascript",
-            "exec":[  
+            "exec":[
                "pm.test(\"Status code is 200\", function () {",
                "    pm.response.to.have.status(200);",
                "});"

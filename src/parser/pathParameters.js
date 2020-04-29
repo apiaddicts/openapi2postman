@@ -9,8 +9,7 @@ module.exports = function() {
 		require('../utils/error.js')('paths is required');
 	}
 
-	const folderName = path.split('/')[1]
-	const prefix = _.toLower(folderName+'_'+verb+'_')
+	const prefix = ''
 
 	const parameters = global.definition.paths[path][_.toLower(verb)]['parameters'];
 	const parametersPath = _.filter(parameters, ['in', 'path']);

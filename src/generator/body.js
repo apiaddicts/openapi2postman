@@ -17,9 +17,7 @@ module.exports = function() {
       parent = 'with';
     } 
 
-    let pathName = _.replace(postmanRequest.request.url.raw,'{{host}}{{port}}{{basePath}}/','')
-
-    global.prefix =  _.toLower(pathName.split('/')[0]+'_'+postmanRequest.request.method+'_')
+    global.prefix =  ''
     global.wrongParamsCatch = withWrongParam;
     global.requiredParamsCatch = withoutRequired;
 
