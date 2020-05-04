@@ -1,17 +1,19 @@
 {
+    "api_name" : "provincias_file",
     "environments":[
         {
             "name" : "DEV",
-            "postman_collection_name": "Provincias_API_TestSuite_DEV",
-            "postman_environment_name": "Provincias_API_TestSuiteEnv_DEV",
+            "postman_collection_name": "%api_name%_DEV",
+            "postman_environment_name": "%api_name%_DEV",
             "host": "https://icmsvlds052",
             "port": ":8243",
-            "target_folder": "test_results"
+            "target_folder": "test_results",
+            "validate_schema": false
         },
         {
             "name" : "VAL",
-            "postman_collection_name": "Provincias_API_TestSuite_VAL",
-            "postman_environment_name": "Provincias_API_TestSuiteEnv_VAL",
+            "postman_collection_name": "%api_name%_VAL",
+            "postman_environment_name": "%api_name%_VAL",
             "host": "https://apis.val.comunidad.madrid",
             "port": "",
             "target_folder": "test_results",

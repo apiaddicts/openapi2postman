@@ -23,7 +23,7 @@ module.exports = function() {
 		  fs.writeFileSync(target+'/'+title+'.postman_collection.json', JSON.stringify(output));
 		  console.log(`Collection ${target+'/'+title+'.postman_collection.json'} was succesfully created`);
 	} catch(err) {
-		require('../utils/error.js')('Error writing the output');
+		require('../utils/error.js')('Error writing the output: ' + target);
 	}
   };
 

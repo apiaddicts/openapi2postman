@@ -5,6 +5,7 @@ const argv = require('yargs').argv
 const fs   = require('fs');
 
 global.definition = require('./src/parser/definition.js')()
+const schemaHostBasePath = require('./src/parser/schemaHostBasePath.js')();
 const endpointsParsed = require('./src/parser/endpoints.js')()
 const authorizationTokens = [];
 _.forEach(endpointsParsed, function (endpointParsed, i) {
@@ -56,8 +57,14 @@ _.forEach(endpoints, function (endpoint, i) {
 	}
 })
 
-let configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
-let apiName = configurationFile.api_name
+let configurationFile
+try {
+	configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
+} catch(err) {
+  require('./src/utils/error.js')('Configuration file not exist or not is correct: ' + argv.configuration);
+}
+
+let apiName = argv.api_name || configurationFile.api_name
 configurationFile = configurationFile.environments
 _.forEach(configurationFile, function (element) {
 	const endpointsStage = _.cloneDeep(endpointsPostman)
@@ -72,12 +79,15 @@ _.forEach(configurationFile, function (element) {
 	}
 	let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsStage, exclude)
 	let environmentVariables = require('./src/generator/environmentVariablesNames.js')(endpointsPostmanWithFolders)
+	if (element.validate_schema === false){
+		require('./src/generator/validateSchema.js')(endpointsPostmanWithFolders)
+	}
 	if ( apiName ) {
 		element.postman_collection_name = _.replace(element.postman_collection_name, '%api_name%', apiName)
 		element.postman_environment_name = _.replace(element.postman_environment_name, '%api_name%', apiName)
 	}
 	require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders)
-	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, element.host,endpointsPostmanWithFolders,environmentVariables)
+	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, schemaHostBasePath,environmentVariables)
 })
 
 function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdded, suffix, withoutRequired, withWrongParam) {

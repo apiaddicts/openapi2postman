@@ -10,14 +10,14 @@ module.exports = function() {
   return function get(){
 
 	if (path.extname(argv.file) !== '.yaml' && path.extname(argv.file) !== '.yml'){
-		require('../utils/error.js')('Only yaml and yml is supported');
+		require('../utils/error.js')('The yaml format not exist or not is correct: '+argv.file);
 	}
 
 	let definition;
 	try {
 		definition = yaml.safeLoad(fs.readFileSync(argv.file, 'utf8'));
 	} catch (e) {
-	  	require('../utils/error.js')('The yaml format is not correct');
+	  	require('../utils/error.js')('The yaml format not exist or not is correct: '+argv.file);
 	}
 	return definition;
   };

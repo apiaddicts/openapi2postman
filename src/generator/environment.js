@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-	return function post(target,title,host,port,schemaHostBasePath,endpointsPostmanWithFolders,items){
+	return function post(target,title,host,port,schemaHostBasePath,items){
 		if (! argv.target ){
 			argv.target = process.cwd()+'/'
 		}
@@ -51,10 +51,10 @@ module.exports = function() {
 		}
 
 		try {
-			fs.writeFileSync(target+'/'+title+'.postman_environment.json', JSON.stringify(output));
+			fs.writeFileSync(target+'/'+title+'.postman_environment.json', JSON.stringify(output,null, 4));
 		  	console.log(`Environment ${target+'/'+title+'.postman_environment.json'} was succesfully created`);
 		} catch(err) {
-			require('../utils/error.js')('Error writing the environment output');
+			require('../utils/error.js')('Error writing the output: ' + target);
 		}
 	}
 	
