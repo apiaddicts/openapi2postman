@@ -23,7 +23,7 @@ module.exports = function() {
 
   	postmanRequest.request.body = {
 		mode: "raw",
-		raw: JSON.stringify(require('../swagger2json/index.js')(postmanRequest.aux.body,'',parent))
+		raw: JSON.stringify(require('../swagger2json/index.js')(postmanRequest.aux.body,'',parent), null, 4)
 	};
   	return postmanRequest;
   };
