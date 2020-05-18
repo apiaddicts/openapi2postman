@@ -15,7 +15,7 @@ module.exports = function() {
 	const parametersPath = _.filter(parameters, ['in', 'path']);
 	const result = [];
 	_.forEach(parametersPath, function(parameterPath) {	
-		result.push( { prefix, name : parameterPath.name , type: parameterPath.type} );
+		result.push( { prefix, name : parameterPath.name , type: parameterPath.type, example: parameterPath.example} );
 	});
 
 	return result;

@@ -21,32 +21,33 @@ module.exports = function() {
       case 'object':
 
         if (wrongParam) {
+          global.environmentVariables[global.prefix+name+'_wrong'] = global.prefix+name+'_wrong'
           return '{{'+global.prefix+name+'_wrong}}'
         }
       
-        return require('./object.js')(swagger,parent);
-        break;
+        return require('./object.js')(swagger,parent)
       case 'array':
 
         if (wrongParam) {
+          global.environmentVariables[global.prefix+name+'_wrong'] = global.prefix+name+'_wrong'
           return '{{'+global.prefix+name+'_wrong}}'
         }
       
         return require('./array.js')(swagger,name,parent);
-        break;
       case 'string':
       case 'number':
       case 'integer':
       case 'boolean':
         
         if (wrongParam) {
+          global.environmentVariables[global.prefix+name+'_wrong'] =  require('../utils/exampleForField.js')(swagger,true)
           return '{{'+global.prefix+name+'_wrong}}'
         }
+        global.environmentVariables[global.prefix+name] =  require('../utils/exampleForField.js')(swagger,false)
         return '{{'+global.prefix+name+'}}'
-        break;
       default:
         require('../utils/error.js')('The type '+swagger.type+' is not implemented');
     }
-  };
+  }
 
 }()

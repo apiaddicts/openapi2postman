@@ -22,6 +22,7 @@ module.exports = function() {
         } else {
             queryParams += '&'+queryParam.name+'={{' + queryParam.prefix + queryParam.name + '}}'
         }
+        global.environmentVariables[queryParam.prefix + queryParam.name] =  require('../utils/exampleForField.js')(queryParam,false)
     });
     if (error && !errorAdded){
         return false

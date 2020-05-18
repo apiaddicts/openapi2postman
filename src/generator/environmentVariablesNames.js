@@ -58,12 +58,13 @@ module.exports = function() {
 			}
 			let key = numerateItem+newItems[i]
 			if (!_.includes(itemKeys, key)){
+				let value = typeof global.environmentVariables[newItems[i]] !== 'undefined' ? global.environmentVariables[newItems[i]] : ''
 				items.push({
 					"description": {
 					  "content": "",
 					  "type": "text/plain"
 					},
-					"value": '',
+					"value": value,
 					"key": key,
 					"enabled": true
 				})

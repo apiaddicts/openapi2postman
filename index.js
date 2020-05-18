@@ -5,6 +5,7 @@ const argv = require('yargs').argv
 const fs   = require('fs');
 
 global.definition = require('./src/parser/definition.js')()
+global.environmentVariables = {}
 const schemaHostBasePath = require('./src/parser/schemaHostBasePath.js')();
 const endpointsParsed = require('./src/parser/endpoints.js')()
 const authorizationTokens = [];
