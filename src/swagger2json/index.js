@@ -21,7 +21,7 @@ module.exports = function() {
       case 'object':
 
         if (wrongParam) {
-          global.environmentVariables[global.prefix+name+'_wrong'] = global.prefix+name+'_wrong'
+          global.environmentVariables[global.prefix+name+'_wrong'] = require('../utils/exampleForField.js')(swagger,true)
           return '{{'+global.prefix+name+'_wrong}}'
         }
       
@@ -29,7 +29,7 @@ module.exports = function() {
       case 'array':
 
         if (wrongParam) {
-          global.environmentVariables[global.prefix+name+'_wrong'] = global.prefix+name+'_wrong'
+          global.environmentVariables[global.prefix+name+'_wrong'] = require('../utils/exampleForField.js')(swagger,true)
           return '{{'+global.prefix+name+'_wrong}}'
         }
       

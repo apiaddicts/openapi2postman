@@ -1,5 +1,19 @@
 {
     "api_name" : "provincias_file",
+    "examples" : {
+        "wrong" : {
+            "string" : "badstring",
+            "number" : -6,
+            "boolean" : false,
+            "object" : "badobject",
+            "array" : "badarray"
+        },
+        "successful" : {
+            "string" : "goodstring",
+            "number" : 6,
+            "boolean" : true
+        }
+    },
     "environments":[
         {
             "name" : "DEV",

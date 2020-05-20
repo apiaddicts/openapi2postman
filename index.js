@@ -4,8 +4,16 @@ const _ = require('lodash');
 const argv = require('yargs').argv
 const fs   = require('fs');
 
+let configurationFile
+try {
+	configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
+} catch(err) {
+  require('./src/utils/error.js')('Configuration file not exist or not is correct: ' + argv.configuration);
+}
+
 global.definition = require('./src/parser/definition.js')()
 global.environmentVariables = {}
+global.configurationFile = configurationFile
 const schemaHostBasePath = require('./src/parser/schemaHostBasePath.js')();
 const endpointsParsed = require('./src/parser/endpoints.js')()
 const authorizationTokens = [];
@@ -57,13 +65,6 @@ _.forEach(endpoints, function (endpoint, i) {
 		endpointsPostman.push(endpoint);
 	}
 })
-
-let configurationFile
-try {
-	configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
-} catch(err) {
-  require('./src/utils/error.js')('Configuration file not exist or not is correct: ' + argv.configuration);
-}
 
 let apiName = argv.api_name || configurationFile.api_name
 configurationFile = configurationFile.environments
