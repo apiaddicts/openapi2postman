@@ -6,7 +6,7 @@ module.exports = function() {
   
   return function get(verb,path,bodyResponse){
   	if (!_.isObject(global.definition.paths)) {
-		require('../utils/error.js')('paths is required');
+		require('../../utils/error.js')('paths is required');
 	}
 
 	const endpoint = global.definition.paths[path][_.toLower(verb)];
@@ -40,7 +40,7 @@ module.exports = function() {
       }
 			let entity = global.definition.definitions[ref];
 			if (!entity){
-				require('../utils/error.js')('ref '+ref+' is not defined');
+				require('../../utils/error.js')('ref '+ref+' is not defined');
 			}
 			entity = replaceRefs(entity,global.definition);
 			result = _.merge(result, entity);
@@ -93,7 +93,7 @@ module.exports = function() {
             } else if (k === 'description'){
               continue;
             } else {
-              require('../utils/error.js')('the property '+k+' of allOf is not implemented');
+              require('../../utils/error.js')('the property '+k+' of allOf is not implemented');
             }
           }
 

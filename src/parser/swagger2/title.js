@@ -9,7 +9,7 @@ module.exports = function() {
 	if (argv.name ){
 		return argv.name;
 	}
-	require('../utils/error.js')('--name is required');
+	require('../../utils/error.js')('--name is required');
   };
 
 }()

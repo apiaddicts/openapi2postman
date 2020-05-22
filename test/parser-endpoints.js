@@ -5,13 +5,13 @@ describe('parser-endpoints', () => {
   
   before(() => {
     sinon.stub(process, 'exit');
-  });
+  })
 
   after(() => {
     process.exit.restore();
-  });
+  })
 
-  it('bad', () => {
+  it('bad swagger2', () => {
 
     global.definition = require('../seeds/parserEndpointsInitialBad.json');
 
@@ -19,9 +19,9 @@ describe('parser-endpoints', () => {
 
     sinon.assert.called(process.exit);
     sinon.assert.calledWith(process.exit, 1);
-  });
+  })
 
-  it('good', () => {
+  it('good swagger2', () => {
 
     global.definition = require('../seeds/parserEndpointsInitialGood.json');
 
@@ -31,6 +31,20 @@ describe('parser-endpoints', () => {
         { verb: 'POST', path: '/pets' },
         { verb: 'GET', path: '/pets/{id}' },
         { verb: 'DELETE', path: '/pets/{id}' } 
-      ]);
-  });
-});
+      ])
+  })
+
+  it('good openapi3', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApi3.json');
+
+    const endpoints = require('../src/parser/endpoints.js')();
+    assert.deepEqual(endpoints, [ 
+        { verb: 'GET', path: '/pets' },
+        { verb: 'POST', path: '/pets' },
+        { verb: 'GET', path: '/pets/{petId}' } 
+      ])
+  })
+
+
+})

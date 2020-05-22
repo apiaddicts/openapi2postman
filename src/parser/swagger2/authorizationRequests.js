@@ -13,7 +13,7 @@ module.exports = function() {
 	try {
 		definition = JSON.parse(fs.readFileSync(file, 'utf8'));
 	} catch (e) {
-	  	require('../utils/error.js')('error reading auth file ')
+	  	require('../../utils/error.js')('error reading auth file ')
 	}
 	for (let i in definition.item){
 		definition.item[i].authType = true

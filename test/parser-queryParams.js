@@ -2,11 +2,11 @@ const assert = require('assert');
 
 describe('parser-queryParams', () => {
   
-  it('fill', () => {
+  it('fill swagger2', () => {
 
     global.definition = require('../seeds/parserQueryParamsGood.json');
 
-    const queryParams = require('../src/parser/queryParams.js')('GET','/pets');
+    const queryParams = require('../src/parser/swagger2/queryParams.js')('GET','/pets');
     assert.deepStrictEqual(queryParams, [{
             "name": "tags",
             "prefix": "",
@@ -21,11 +21,11 @@ describe('parser-queryParams', () => {
          } ]);
   });
 
-  it('void', () => {
+  it('void swagger2', () => {
 
     global.definition = require('../seeds/parserQueryParamsGood.json');
 
-    const queryParams = require('../src/parser/queryParams.js')('POST','/pets');
+    const queryParams = require('../src/parser/swagger2/queryParams.js')('POST','/pets');
     assert.deepStrictEqual(queryParams, []);
   });
 

@@ -20,7 +20,7 @@ module.exports = function() {
 			} else if (xAuthType === 'application user'){
 				securityName = 'user_token'
 			} else {
-				require('../utils/error.js')(xAuthType+' not implemented')
+				require('../../utils/error.js')(xAuthType+' not implemented')
 			}
   		}
 		return securityName

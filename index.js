@@ -12,22 +12,25 @@ try {
 }
 
 global.definition = require('./src/parser/definition.js')()
+const version = require('./src/parser/version.js')()
 global.environmentVariables = {}
 global.configurationFile = configurationFile
-const schemaHostBasePath = require('./src/parser/schemaHostBasePath.js')();
+
+
+const schemaHostBasePath = require('./src/parser/'+version+'/schemaHostBasePath.js')()
 const endpointsParsed = require('./src/parser/endpoints.js')()
-const authorizationTokens = [];
+const authorizationTokens = []
 _.forEach(endpointsParsed, function (endpointParsed, i) {
-	endpointsParsed[i].status = require('./src/parser/status.js')(endpointParsed.verb, endpointParsed.path);
+	endpointsParsed[i].status = require('./src/parser/'+version+'/status.js')(endpointParsed.verb, endpointParsed.path)
 	if (endpointParsed.verb === 'POST' || endpointParsed.verb === 'PUT' || endpointParsed.verb === 'PATCH') {
-		endpointsParsed[i].body = require('./src/parser/body.js')(endpointParsed.verb, endpointParsed.path);
-		endpointsParsed[i].consumes = require('./src/parser/consumes.js')(endpointParsed.verb, endpointParsed.path);
+		endpointsParsed[i].body = require('./src/parser/'+version+'/body.js')(endpointParsed.verb, endpointParsed.path)
+		endpointsParsed[i].consumes = require('./src/parser/'+version+'/consumes.js')(endpointParsed.verb, endpointParsed.path)
 	}
-	endpointsParsed[i].pathParameters = require('./src/parser/pathParameters.js')(endpointParsed.verb, endpointParsed.path);
-	endpointsParsed[i].bodyResponse = require('./src/parser/body.js')(endpointParsed.verb, endpointParsed.path, true);
-	endpointsParsed[i].authorization = require('./src/parser/authorization.js')(endpointParsed.verb, endpointParsed.path, authorizationTokens);
-	endpointsParsed[i].queryParams = require('./src/parser/queryParams.js')(endpointParsed.verb, endpointParsed.path);
-	endpointsParsed[i].summary = require('./src/parser/summary.js')(endpointParsed.verb, endpointParsed.path);
+	endpointsParsed[i].pathParameters = require('./src/parser/'+version+'/pathParameters.js')(endpointParsed.verb, endpointParsed.path)
+	endpointsParsed[i].bodyResponse = require('./src/parser/'+version+'/body.js')(endpointParsed.verb, endpointParsed.path, true)
+	endpointsParsed[i].authorization = require('./src/parser/'+version+'/authorization.js')(endpointParsed.verb, endpointParsed.path, authorizationTokens)
+	endpointsParsed[i].queryParams = require('./src/parser/'+version+'/queryParams.js')(endpointParsed.verb, endpointParsed.path)
+	endpointsParsed[i].summary = require('./src/parser/'+version+'/summary.js')(endpointParsed.verb, endpointParsed.path)
 });
 
 const endpointsPostman = [];
@@ -75,7 +78,7 @@ _.forEach(configurationFile, function (element) {
 		exclude.write = true
 	}
 	if ( element.custom_authorizations_file ) {
-		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
+		require('./src/parser/'+version+'/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
 	} else {
 		exclude.auth = true
 	}
