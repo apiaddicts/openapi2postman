@@ -1,6 +1,6 @@
 'use strict'
 
-const _ = require('lodash');
+const _ = require('lodash')
 
 module.exports = function() {
   
@@ -11,9 +11,9 @@ module.exports = function() {
 
 	const parameters = global.definition.paths[path][_.toLower(verb)]['parameters']
 	const parametersPath = _.filter(parameters, ['in', 'path'])
-	const result = []
+    const result = []
 	_.forEach(parametersPath, function(parameterPath) {	
-		result.push( { name : parameterPath.name , type: parameterPath.type, example: parameterPath.example} )
+		result.push( { name : parameterPath.name , type: parameterPath.schema.type, example: parameterPath.schema.example} )
 	})
 
 	return result

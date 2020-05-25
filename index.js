@@ -4,6 +4,7 @@ const _ = require('lodash');
 const argv = require('yargs').argv
 const fs   = require('fs');
 
+//PARSER-------------------------------- */
 let configurationFile
 try {
 	configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
@@ -21,7 +22,7 @@ const schemaHostBasePath = require('./src/parser/'+version+'/schemaHostBasePath.
 const endpointsParsed = require('./src/parser/endpoints.js')()
 const authorizationTokens = []
 _.forEach(endpointsParsed, function (endpointParsed, i) {
-	endpointsParsed[i].status = require('./src/parser/'+version+'/status.js')(endpointParsed.verb, endpointParsed.path)
+	endpointsParsed[i].status = require('./src/parser/status.js')(endpointParsed.verb, endpointParsed.path)
 	if (endpointParsed.verb === 'POST' || endpointParsed.verb === 'PUT' || endpointParsed.verb === 'PATCH') {
 		endpointsParsed[i].body = require('./src/parser/'+version+'/body.js')(endpointParsed.verb, endpointParsed.path)
 		endpointsParsed[i].consumes = require('./src/parser/'+version+'/consumes.js')(endpointParsed.verb, endpointParsed.path)
@@ -33,18 +34,17 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 	endpointsParsed[i].summary = require('./src/parser/'+version+'/summary.js')(endpointParsed.verb, endpointParsed.path)
 });
 
+//GENERATOR-------------------------------- */
 const endpointsPostman = [];
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
 _.forEach(endpoints, function (endpoint, i) {
 	endpoint = require('./src/generator/testStatus.js')(endpoint);
 	endpoint = require('./src/generator/testBody.js')(endpoint);
 	endpoint = require('./src/generator/contentType.js')(endpoint);
-	let status = _.toInteger(endpoint.aux.status)
 	endpoint = require('./src/generator/authorization.js')(endpoint, status)
 	if (status === 404 && endpoint.aux.pathParameter) {
-		let prefix =  ''
-		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + prefix+endpoint.aux.pathParameter + '}}', '{{' + prefix+endpoint.aux.pathParameter + '_not_found}}')
-		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' + prefix+endpoint.aux.pathParameter + '}}', '{{' + prefix+endpoint.aux.pathParameter + '_not_found}}')
+		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + endpoint.aux.pathParameter + '}}', '{{' +endpoint.aux.pathParameter + '_not_found}}')
+		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' +endpoint.aux.pathParameter + '}}', '{{' +endpoint.aux.pathParameter + '_not_found}}')
 		endpoint = require('./src/generator/body.js')(endpoint)
 		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint)
 		endpointsPostman.push(endpoint)
@@ -69,6 +69,7 @@ _.forEach(endpoints, function (endpoint, i) {
 	}
 })
 
+//EXPORT-------------------------------- */
 let apiName = argv.api_name || configurationFile.api_name
 configurationFile = configurationFile.environments
 _.forEach(configurationFile, function (element) {

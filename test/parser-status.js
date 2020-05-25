@@ -4,10 +4,18 @@ describe('parser-status', () => {
   
   it('good swagger2', () => {
 
-    global.definition = require('../seeds/parserInitialGood.json');
+    global.definition = require('../seeds/parserInitialGood.json')
 
-    const status = require('../src/parser/swagger2/status.js')('DELETE','/pets/{id}');
-    assert.deepStrictEqual(status, [ '204', '500' ]);
-  });
+    const status = require('../src/parser/status.js')('DELETE','/pets/{id}')
+    assert.deepStrictEqual(status, [ 204, 500 ])
+  })
+
+  it('good openapi3', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApi3.json')
+
+    const status = require('../src/parser/status.js')('POST','/pets')
+    assert.deepStrictEqual(status, [ 201, 500 ])
+  })
 
 });
