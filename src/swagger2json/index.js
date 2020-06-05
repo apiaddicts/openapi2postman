@@ -21,16 +21,16 @@ module.exports = function() {
       case 'object':
 
         if (wrongParam) {
-          global.environmentVariables[global.prefix+name+'_wrong'] = require('../utils/exampleForField.js')(swagger,true)
-          return '{{'+global.prefix+name+'_wrong}}'
+          global.environmentVariables[global.currentId+name+'_wrong'] = require('../utils/exampleForField.js')(swagger,true)
+          return '{{'+name+'_wrong}}'
         }
       
         return require('./object.js')(swagger,parent)
       case 'array':
 
         if (wrongParam) {
-          global.environmentVariables[global.prefix+name+'_wrong'] = require('../utils/exampleForField.js')(swagger,true)
-          return '{{'+global.prefix+name+'_wrong}}'
+          global.environmentVariables[global.currentId+name+'_wrong'] = require('../utils/exampleForField.js')(swagger,true)
+          return '{{'+name+'_wrong}}'
         }
       
         return require('./array.js')(swagger,name,parent);
@@ -40,11 +40,11 @@ module.exports = function() {
       case 'boolean':
         
         if (wrongParam) {
-          global.environmentVariables[global.prefix+name+'_wrong'] =  require('../utils/exampleForField.js')(swagger,true)
-          return '{{'+global.prefix+name+'_wrong}}'
+          global.environmentVariables[global.currentId+name+'_wrong'] =  require('../utils/exampleForField.js')(swagger,true)
+          return '{{'+name+'_wrong}}'
         }
-        global.environmentVariables[global.prefix+name] =  require('../utils/exampleForField.js')(swagger,false)
-        return '{{'+global.prefix+name+'}}'
+        global.environmentVariables[global.currentId+name] =  require('../utils/exampleForField.js')(swagger,false)
+        return '{{'+name+'}}'
       default:
         require('../utils/error.js')('The type '+swagger.type+' is not implemented');
     }

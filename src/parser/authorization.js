@@ -27,13 +27,7 @@ module.exports = function() {
   	}
 
 	function getTokenFromDefinition(key){
-		key = _.keys(key)[0]
-		for(let i in global.definition.securityDefinitions){
-			if (i === key && global.definition.securityDefinitions[i].type) {
-				return global.definition.securityDefinitions[i].type + '_token'
-			}
-		}
-		return false
+		return _.keys(key)[0]
 	}
 
 }()

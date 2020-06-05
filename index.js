@@ -17,7 +17,6 @@ const version = require('./src/parser/version.js')()
 global.environmentVariables = {}
 global.configurationFile = configurationFile
 
-
 const schemaHostBasePath = require('./src/parser/'+version+'/schemaHostBasePath.js')()
 const endpointsParsed = require('./src/parser/endpoints.js')()
 const authorizationTokens = []
@@ -29,7 +28,7 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 	}
 	endpointsParsed[i].pathParameters = require('./src/parser/'+version+'/pathParameters.js')(endpointParsed.verb, endpointParsed.path)
 	endpointsParsed[i].bodyResponse = require('./src/parser/'+version+'/body.js')(endpointParsed.verb, endpointParsed.path, true)
-	endpointsParsed[i].authorization = require('./src/parser/'+version+'/authorization.js')(endpointParsed.verb, endpointParsed.path, authorizationTokens)
+	endpointsParsed[i].authorization = require('./src/parser/authorization.js')(endpointParsed.verb, endpointParsed.path, authorizationTokens)
 	endpointsParsed[i].queryParams = require('./src/parser/'+version+'/queryParams.js')(endpointParsed.verb, endpointParsed.path)
 	endpointsParsed[i].summary = require('./src/parser/'+version+'/summary.js')(endpointParsed.verb, endpointParsed.path)
 });
@@ -41,14 +40,16 @@ _.forEach(endpoints, function (endpoint, i) {
 	endpoint = require('./src/generator/testStatus.js')(endpoint);
 	endpoint = require('./src/generator/testBody.js')(endpoint);
 	endpoint = require('./src/generator/contentType.js')(endpoint);
-	endpoint = require('./src/generator/authorization.js')(endpoint, status)
-	if (status === 404 && endpoint.aux.pathParameter) {
+	endpoint = require('./src/generator/authorization.js')(endpoint, endpoint.aux.status)
+	global.currentId = endpoint.request.method + endpoint.request.url.path[0]
+	global.currentId = global.currentId.replace(/{{/g,'{').replace(/}}/g,'}').split('?')[0]
+	if (endpoint.aux.status === 404 && endpoint.aux.pathParameter) {
 		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + endpoint.aux.pathParameter + '}}', '{{' +endpoint.aux.pathParameter + '_not_found}}')
 		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' +endpoint.aux.pathParameter + '}}', '{{' +endpoint.aux.pathParameter + '_not_found}}')
 		endpoint = require('./src/generator/body.js')(endpoint)
 		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint)
 		endpointsPostman.push(endpoint)
-	} else if (status === 400) {
+	} else if (endpoint.aux.status === 400) {
 		global.queryParamsRequiredAdded = []
 		let endpointPostman
 		do{
@@ -62,7 +63,7 @@ _.forEach(endpoints, function (endpoint, i) {
 		} while(endpointPostman)
 		addBadRequestEndpoints(endpointsPostman, endpoint, 'requiredParams', '', true, false);
 		addBadRequestEndpoints(endpointsPostman, endpoint, 'wrongParams', '.wrong', false, true);
-	} else if ((status >= 200 && status < 300) || ((status === 401 || status === 403) && endpoint.aux.authorization)) {
+	} else if ((endpoint.aux.status >= 200 && endpoint.aux.status < 300) || ((endpoint.aux.status === 401 || endpoint.aux.status === 403) && endpoint.aux.authorization)) {
 		endpoint = require('./src/generator/body.js')(endpoint);
 		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint);
 		endpointsPostman.push(endpoint);

@@ -22,7 +22,7 @@ module.exports = function() {
         } else {
             queryParams += '&'+queryParam.name+'={{' + queryParam.prefix + queryParam.name + '}}'
         }
-        global.environmentVariables[queryParam.prefix + queryParam.name] =  require('../utils/exampleForField.js')(queryParam,false)
+        global.environmentVariables[postmanRequest.request.method + postmanRequest.request.url.path[0] + queryParam.name] =  require('../utils/exampleForField.js')(queryParam,false)
     });
     if (error && !errorAdded){
         return false
