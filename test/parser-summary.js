@@ -4,9 +4,18 @@ describe('parser-summary', () => {
   
   it('good swagger2', () => {
 
-    global.definition = require('../seeds/parserSummaryInitial.json');
+    global.definition = require('../seeds/parserSummaryInitial.json')
 
-    const summary = require('../src/parser/swagger2/summary.js')('POST','/pets');
-    assert.equal(summary, "Create a pet");
-  });
-});
+    const summary = require('../src/parser/summary.js')('POST','/pets')
+    assert.equal(summary, "Create a pet")
+  })
+
+  it('good swagger2', () => {
+
+    global.definition = require('../seeds/parserSummaryOpenApi3.json')
+
+    const summary = require('../src/parser/summary.js')('POST','/pets')
+    assert.equal(summary, "Create pet")
+  })
+
+})

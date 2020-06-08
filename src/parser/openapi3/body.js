@@ -20,7 +20,7 @@ module.exports = function() {
 	}
 	const bodyResponses = {}
 	_.forEach(endpoint['responses'],function(response,status){
-		if (response.content['application/json'].schema){
+		if (response && response.content && response.content['application/json'] && response.content['application/json'].schema){
 			const withOutRefs = replaceRefs(response.content['application/json'].schema)
 			bodyResponses[status] = replaceAllOfs(withOutRefs)
 		}

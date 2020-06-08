@@ -18,6 +18,7 @@ security:
 paths:
   /pets:
     get:
+      summary: "Pets list"
       security:
         - OAuth2: [admin] 
       description: |
@@ -38,7 +39,7 @@ paths:
         - name: limit
           in: query
           description: maximum number of results to return
-          required: false
+          required: true
           schema:
             type: integer
             format: int32
@@ -58,6 +59,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     post:
+      summary: "Create pet"
       description: Creates a new pet in the store. Duplicates are allowed
       operationId: addPet
       requestBody:

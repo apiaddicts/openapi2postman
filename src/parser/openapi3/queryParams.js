@@ -13,7 +13,7 @@ module.exports = function() {
 	const queryParams = _.filter(parameters, ['in', 'query'])
 	const result = []
 	_.forEach(queryParams, function(queryParam) {	
-		result.push( { name : queryParam.name , type : queryParam.type, required : queryParam.required } )
+		result.push( { name : queryParam.name , type : queryParam.schema.type, required : queryParam.required } )
 	})
 
 	return result

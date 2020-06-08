@@ -9,7 +9,7 @@ module.exports = function() {
 		require('../../utils/error.js')('paths is required')
 	}
 
-	const endpoint = global.definition.paths[path][_.toLower(verb)];
+	const endpoint = global.definition.paths[path][_.toLower(verb)]
 	if (_.has(endpoint,'summary')){
 		return endpoint.summary
 	}

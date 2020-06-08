@@ -43,7 +43,7 @@
                    "name":"limit",
                    "in":"query",
                    "description":"maximum number of results to return",
-                   "required":false,
+                   "required":true,
                    "schema":{
                       "type":"integer",
                       "format":"int32"

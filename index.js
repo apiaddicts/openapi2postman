@@ -30,7 +30,7 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 	endpointsParsed[i].bodyResponse = require('./src/parser/'+version+'/body.js')(endpointParsed.verb, endpointParsed.path, true)
 	endpointsParsed[i].authorization = require('./src/parser/authorization.js')(endpointParsed.verb, endpointParsed.path, authorizationTokens)
 	endpointsParsed[i].queryParams = require('./src/parser/'+version+'/queryParams.js')(endpointParsed.verb, endpointParsed.path)
-	endpointsParsed[i].summary = require('./src/parser/'+version+'/summary.js')(endpointParsed.verb, endpointParsed.path)
+	endpointsParsed[i].summary = require('./src/parser/summary.js')(endpointParsed.verb, endpointParsed.path)
 });
 
 //GENERATOR-------------------------------- */
@@ -80,7 +80,7 @@ _.forEach(configurationFile, function (element) {
 		exclude.write = true
 	}
 	if ( element.custom_authorizations_file ) {
-		require('./src/parser/'+version+'/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
+		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
 	} else {
 		exclude.auth = true
 	}

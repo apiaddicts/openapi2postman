@@ -18,9 +18,9 @@ module.exports = function() {
             return
         }
         if (queryParams.length === 0){
-            queryParams += '?'+queryParam.name+'={{' + queryParam.prefix + queryParam.name + '}}'
+            queryParams += '?'+queryParam.name+'={{' + queryParam.name + '}}'
         } else {
-            queryParams += '&'+queryParam.name+'={{' + queryParam.prefix + queryParam.name + '}}'
+            queryParams += '&'+queryParam.name+'={{' + queryParam.name + '}}'
         }
         global.environmentVariables[postmanRequest.request.method + postmanRequest.request.url.path[0] + queryParam.name] =  require('../utils/exampleForField.js')(queryParam,false)
     });
