@@ -52,6 +52,22 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+        '400':
+          description: pet response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '401':
+          description: pet response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
         default:
           description: unexpected error
           content:

@@ -11,7 +11,7 @@ module.exports = function() {
     const all = global.definition.servers[0].url
     const allArray = all.split( '/' )
     const protocol = allArray[0]
-    if (protocol !== 'http:' && protocol !== 'https:') {
+    if (protocol !== 'http:' && protocol !== 'https:' && protocol !== '{scheme}:') {
         require('../../utils/error.js')('servers.url should be http or https')
     }
     const domain = allArray[2]

@@ -3,7 +3,7 @@
 const _ = require('lodash')
 
 module.exports = function() {
-  
+
   return function get(verb,path,bodyResponse){
   	if (!_.isObject(global.definition.paths)) {
 		require('../../utils/error.js')('paths is required')
@@ -11,10 +11,18 @@ module.exports = function() {
 
 	const endpoint = global.definition.paths[path][_.toLower(verb)]
 	if (!bodyResponse){
-		const body = endpoint['requestBody']
+		let body = endpoint['requestBody']
 		if (!body){
 			return undefined
 		}
+    if (body['$ref']) {
+      let componentType = body['$ref'].split('/')[2]
+      const ref = _.replace(body['$ref'], '#/components/'+componentType+'/', '')
+      body = global.definition.components[componentType][ref]
+    }
+    if (!body.content['application/json']) {
+      require('../../utils/error.js')('Endpoint: '+verb+' '+path+' is not application/json')
+    }
 		const withOutRefs = replaceRefs(body.content['application/json'].schema)
 		return replaceAllOfs(withOutRefs)
 	}
@@ -32,13 +40,14 @@ module.exports = function() {
     let result = {}
   	for (let i in schema) {
   		if (i === '$ref'){
-            const ref = _.replace(schema[i], '#/components/schemas/', '')
+            let componentType = schema[i].split('/')[2]
+            const ref = _.replace(schema[i], '#/components/'+componentType+'/', '')
             if (checkCircularReferences(ref,3,2) || checkCircularReferences(ref,3,3) || checkCircularReferences(ref,3,4)){
                 return { type: 'string',
                     description: 'Circular REF solved swagger2postman' 
                 }
             }
-            let entity = global.definition.components.schemas[ref]
+            let entity = global.definition.components[componentType][ref]
 			if (!entity){
 				require('../../utils/error.js')('ref '+ref+' is not defined')
 			}
