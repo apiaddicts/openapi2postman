@@ -24,7 +24,6 @@ Those collections can be importend in postan application.  The tests includes te
 * [Build and run](#build-and-run)
   * [Prerequisites](#prerequisites)
   * [Get the source code for the first time](#get-the-source-code-for-the-first-time)
-  * [Build](#build)
   * [Run](#run)
   * [Get the latest changes](#get-the-latest-changes)
 * [Contribute](#contribute)
@@ -46,7 +45,11 @@ Those collections can be importend in postan application.  The tests includes te
 ## Build and run
 ### Prerequisites
 You need node v10 or later.
-Create folder "targetFolder" before tu run
+
+
+### run
+review the s2p_config_file.json
+node index.js --configuration s2p_config_file.json --file example/swagger_provincias.yml
 
 
 ## Configuration file
