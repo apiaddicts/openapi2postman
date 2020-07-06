@@ -1,4 +1,12 @@
+<p align="center">
+	<a href="https://apiaddicts.org/">
+	  <img src="logo.png">
+	</a>
+</p>
+
 # swagger2postman
+
+
 
 swagger2postman converts a yaml (swagger 2.0) to a postman collection. This collection includes tests for the 2xx, 400 and 401.
 
