@@ -1,9 +1,11 @@
+/** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
+
 'use strict'
 
 module.exports = function() {
   
   return function post(message){
-	console.error('\x1b[31m%s\x1b[0m',message);
+	console.error('[31m%s[0m',message);
 	process.exit(1);
   };
 
