@@ -1,42 +1,53 @@
+<p align="center">
+	<a href="https://apiaddicts.org/">
+	  <img src="logo.png">
+	</a>
+</p>
+
+APIAddicts is the world's leading fundation aroung APIs. See the [APIAddicts website](https://www.apiaddicts.org/)  to learn more. 
+
+# contributors
+## CloudAPPi
+CloudAppi is one leader in APIs in global word. See the [CloudAPPi Services](https://cloudappi.net) 
+
+## Madrid Digital
+Madrid Digital is a public administration in Spain. See the [Comunidad de Madrid website](https://www.comunidad.madrid/)
+
 # swagger2postman
 
-swagger2postman converts a yaml (swagger 2.0) to a postman collection. This collection includes tests for the 2xx, 400 and 401.
+swagger2postman creates automatic tests from swagger 2.0 using postman format. Also, it creates environments files, depending of configuration.
+Those collections can be importend in postan application.  The tests includes tests for 2xx, 4xx... and tests to validate output formats.
 
-![image1.png](images/image1.png)
+## Table of content
 
-In all cases the status is checked and it is verified that the scheme of the output corresponds to the defined. In the 400 the wrong types and the obligatory fields are tested. To check the 401, the authorization header is not sent.
+* [Structure and submodules](#structure-and-submodules)
+* [Build and run](#build-and-run)
+  * [Prerequisites](#prerequisites)
+  * [Get the source code for the first time](#get-the-source-code-for-the-first-time)
+  * [Build](#build)
+  * [Run](#run)
+  * [Get the latest changes](#get-the-latest-changes)
+* [Contribute](#contribute)
+  * [IDE support](#ide-support)
+    * [IntelliJ IDEA](#intellij-idea)
+    * [Eclipse](#eclipse)
+* [Documentation](#documentation)
+* [Advanced Functionality](#advanced-functionality)
+* [Additional resources](#additional-resources)
 
-![image2.png](images/image2.png)
 
-swagger2postman also generates a file of type environment with all the variables of both the bodies and the paths. These variables are used by the collection of postman generated to compose their bodies and their paths.
+## Structure and submodules
 
-![image3.png](images/image3.png)
+* *[docs](docs)* - This module contents the guides to configurate and run the product.
+* *[example](example)* - Integration and system tests for SoapUI.
+* *[src](src)* – Source code
+* *[test](soapui-maven-plugin-tester)* - Testing folder
 
-In the endpoints protected by basic token or by apikey an environment variable will be generated for these tokens.
+## Build and run
+### Prerequisites
+You need node v10 or later.
+Create folder "targetFolder" before tu run
 
-![image4.png](images/image4.png)
-
-![image4-bis.png](images/image4-bis.png)
-
-if you use the securityDefinition of type oauth2 you will need to pass as an argument another collection that includes the requests to get the token. The name of each request will be the name of the securityDefinition and the token with the same name will be set in the test part. After that request will be copied to the result collection to get the token.
-
-![image5.png](images/image5.png)
-
-![image5-bis.png](images/image5-bis.png)
-
-401 will be tested not sending the token.
-
-![image6.png](images/image6.png)
-
-![images/image6-bis.png](images/image6-bis.png)
-
-400 will be tested not sending required parameters.
-
-![image7.png](images/image7.png)
-
-400 will be tested sending parameters with other types.
-
-![image8.png](images/image8.png)
 
 ## Configuration file
 
