@@ -3,55 +3,6 @@
 	  <img src="logo.png">
 	</a>
 </p>
-<<<<<<< HEAD
-
-APIAddicts is the world's leading fundation aroung APIs. See the [APIAddicts website](https://www.apiaddicts.org/)  to learn more. 
-
-# contributors
-## CloudAPPi
-CloudAppi is one leader in APIs in global word. See the [CloudAPPi Services](https://cloudappi.net) 
-
-## Madrid Digital
-Madrid Digital is a public administration in Spain. See the [Comunidad de Madrid website](https://www.comunidad.madrid/)
-
-# swagger2postman
-
-swagger2postman creates automatic tests from swagger 2.0 using postman format. Also, it creates environments files, depending of configuration.
-Those collections can be importend in postan application.  The tests includes tests for 2xx, 4xx... and tests to validate output formats.
-
-## Table of content
-
-* [Structure and submodules](#structure-and-submodules)
-* [Build and run](#build-and-run)
-  * [Prerequisites](#prerequisites)
-  * [Get the source code for the first time](#get-the-source-code-for-the-first-time)
-  * [Build](#build)
-  * [Run](#run)
-  * [Get the latest changes](#get-the-latest-changes)
-* [Contribute](#contribute)
-  * [IDE support](#ide-support)
-    * [IntelliJ IDEA](#intellij-idea)
-    * [Eclipse](#eclipse)
-* [Documentation](#documentation)
-* [Advanced Functionality](#advanced-functionality)
-* [Additional resources](#additional-resources)
-
-
-## Structure and submodules
-
-* *[docs](docs)* - This module contents the guides to configurate and run the product.
-* *[example](example)* - Integration and system tests for SoapUI.
-* *[src](src)* – Source code
-* *[test](soapui-maven-plugin-tester)* - Testing folder
-
-
-
-
-
-=======
-
-APIAddicts is the world's leading fundation aroung APIs. See the [APIAddicts website](https://www.apiaddicts.org/)  to learn more. 
->>>>>>> develop
 
 # contributors
 ## CloudAPPi
