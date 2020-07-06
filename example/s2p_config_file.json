@@ -1,5 +1,5 @@
 {
-    "api_name" : "provincias_file",
+    "api_name" : "pestore_file",
     "examples" : {
         "wrong" : {
             "string" : "badstring",
