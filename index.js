@@ -18,6 +18,7 @@ global.definition = require('./src/parser/definition.js')()
 const version = require('./src/parser/version.js')()
 global.environmentVariables = {}
 global.configurationFile = configurationFile
+require('./src/parser/'+version+'/refs.js')()
 
 const schemaHostBasePath = require('./src/parser/'+version+'/schemaHostBasePath.js')()
 const endpointsParsed = require('./src/parser/endpoints.js')()
