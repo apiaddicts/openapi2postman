@@ -11,9 +11,9 @@ CloudAppi is one leader in APIs in global word. See the [CloudAPPi Services](htt
 ## Madrid Digital
 Madrid Digital is a public administration in Spain. See the [Comunidad de Madrid website](https://www.comunidad.madrid/)
 
-# Swagger2postman
+# Openapi2postman
 
-swagger2postman creates automatic tests from swagger 2.0 using postman format. Also, it creates environments files, depending of configuration.
+Openapi2postman creates automatic tests from Openapi 3.0 using postman format. Also, it creates environments files, depending of configuration.
 Those collections can be importend in postan application.  The tests includes tests for 2xx, 4xx... and tests to validate output formats.
 
 ## Table of content
@@ -68,13 +68,13 @@ In postman:
 
 ### Get the source code for the first time
 
-To get the source code, run `git clone https://github.com/apiaddicts/swagger2postman.git` in the folder where you want to clone the root folder of the Swagger2Postman project.
+To get the source code, run `git clone https://github.com/apiaddicts/openapi2postman.git` in the folder where you want to clone the root folder of the Openapi2postman project.
 
 
 ### Configuration file
 
 Collections and environments to generate can be configured using a JSON configuration file. Collection and environment name can be specified, as well as the target folder for resulting files, the authorizations collection to be used and some other characteristics. This configuration file has an specification and examples that can be read on the following document:  
-[Configuration file swagger2postman](./docs/swagger2postman-Archivo_de_configuracion.pdf). This document is only available in spanish by now. it will be soon translated to english.
+[Configuration file openapi2postman](./docs/openapi2postman-Archivo_de_configuracion.pdf). This document is only available in spanish by now. it will be soon translated to english.
 
 an example configuration file is included in file structure.
 
