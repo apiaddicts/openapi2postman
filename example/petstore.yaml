@@ -432,6 +432,9 @@ components:
         clientCredentials:
           tokenUrl: https://token.server/token
           refreshUrl: https://token.server/token
+          scopes:
+            reader: grants pet reading access
+            admin: grants pet creation access
       
     OauthPassword:
       type: oauth2
