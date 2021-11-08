@@ -11,7 +11,7 @@ module.exports = function() {
 	_.forEach(endpoints, function(endpoint){
 		let path = endpoint.path;
 		let pathParameterSaved = false
-		_.forEach(endpoint.pathParameters,function(pathParameter){
+		_.forEach(endpoint.pathParameters, function(pathParameter){
 			pathParameterSaved = pathParameter.name
 			path = _.replace(path, '{'+pathParameter.name+'}', '{{'+pathParameter.name+'}}')
 			global.environmentVariables[endpoint.verb+endpoint.path+pathParameter.name] =  require('../utils/exampleForField.js')(pathParameter,false)

@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(verb,path,bodyResponse){
+  return function get(verb, path, bodyResponse){
   	if (!_.isObject(global.definition.paths)) {
 		require('../../utils/error.js')('paths is required');
 	}
@@ -14,6 +14,7 @@ module.exports = function() {
 	const endpoint = global.definition.paths[path][_.toLower(verb)];
 	if (!bodyResponse){
 		const body = _.find(endpoint['parameters'], ['in', 'body']);
+    let bodyParameter = replaceRefs(endpoint['parameters']);
 		if (!body){
 			return undefined;
 		}
@@ -21,7 +22,7 @@ module.exports = function() {
 		return replaceAllOfs(withOutRefs);
 	}
 	const bodyResponses = {};
-	_.forEach(endpoint['responses'],function(response,status){
+	_.forEach(endpoint['responses'], function(response, status) {
 		if (response.schema){
 			const withOutRefs = replaceRefs(response.schema);
 			bodyResponses[status] = replaceAllOfs(withOutRefs);
@@ -35,7 +36,7 @@ module.exports = function() {
   	for (let i in schema) {
   		if (i === '$ref'){
 			const ref = _.replace(schema[i], '#/definitions/', '');
-      if (checkCircularReferences(ref,3,2) || checkCircularReferences(ref,3,3) || checkCircularReferences(ref,3,4)){
+      if (checkCircularReferences(ref, 3, 2) || checkCircularReferences(ref, 3, 3) || checkCircularReferences(ref, 3, 4)){
         return { type: 'string',
                 description: 'Circular REF solved swagger2postman' 
               }
@@ -44,7 +45,7 @@ module.exports = function() {
 			if (!entity){
 				require('../../utils/error.js')('ref '+ref+' is not defined');
 			}
-			entity = replaceRefs(entity,global.definition);
+			entity = replaceRefs(entity, global.definition);
 			result = _.merge(result, entity);
   		} else if ( _.isArray(schema[i]) && i !== 'required'){
   			const arrayResult = [];
@@ -118,8 +119,7 @@ module.exports = function() {
   	return result;
   }
 
-  
-  function checkCircularReferences(reference,depthLevel,patternNumber){
+  function checkCircularReferences(reference, depthLevel, patternNumber){
     if (!global.circularTail){
       global.circularTail = []
     }

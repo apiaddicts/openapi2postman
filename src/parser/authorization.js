@@ -5,7 +5,7 @@
 const _ = require('lodash')
 
 module.exports = function() {
-  
+
 	return function get(verb,path){
   		const endpoint = global.definition.paths[path][_.toLower(verb)]
 		let securityName = false

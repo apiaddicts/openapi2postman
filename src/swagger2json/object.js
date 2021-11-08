@@ -5,7 +5,7 @@
 const _ = require('lodash');
 
 module.exports = function() {
-  
+
   return function get(swagger,parent){
     if (!swagger.properties){
     	require('../utils/error.js')('There is a object without properties');

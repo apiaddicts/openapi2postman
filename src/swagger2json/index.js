@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(swagger,name,parent){
+  return function get(swagger, name, parent){
 
     if (!swagger.type && swagger.properties){
       swagger.type = 'object';

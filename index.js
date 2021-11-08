@@ -11,7 +11,7 @@ let configurationFile
 try {
 	configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
 } catch(err) {
-  require('./src/utils/error.js')('Configuration file not exist or not is correct: ' + argv.configuration);
+	require('./src/utils/error.js')('Configuration file does not exist or is not correct: ' + argv.configuration);
 }
 
 global.definition = require('./src/parser/definition.js')()
@@ -73,21 +73,48 @@ _.forEach(endpoints, function (endpoint, i) {
 })
 
 //EXPORT-------------------------------- */
-let apiName = argv.api_name || configurationFile.api_name
-configurationFile = configurationFile.environments
-_.forEach(configurationFile, function (element) {
+let apiName = argv.api_name || configurationFile.api_name;
+let environments = configurationFile.environments;
+_.forEach(environments, function (element) {
 	const endpointsStage = _.cloneDeep(endpointsPostman)
 	let exclude = {}
 	if ( element.read_only ){
 		exclude.write = true
 	}
+
+	// Se añaden casos de éxito por cada scope indicado en el fichero de configuración
+	// También se añaden los nuevos tokens como variables en la cabecera Authorization
+	if (element.hasScopes) {
+		let actualLength = endpointsStage.length;
+		for (let i = 0; i < actualLength; i++) {
+			if (endpointsStage[i].aux.status >= 200 && endpointsStage[i].aux.status < 400 && endpointsStage[i].aux.authorization) {
+				// Añadir el Test Case con application_token
+				if (element.applicationToken) {
+					endpointsStage.push(createEndpointWithScope(endpointsStage[i], 'application_token'));
+				}
+				
+				// Añadir la cantidad indicada de Test Cases por cada scope_token
+				for (let j = 2; j <= element.numberOfScopes; j++) {
+					endpointsStage.push(createEndpointWithScope(endpointsStage[i], endpointsStage[i].aux.authorization + j));
+				}
+			}
+		}
+	}
+
 	if ( element.custom_authorizations_file ) {
 		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
 	} else {
+		// Elimina la cabecera Authorization de las peticiones en Postman
 		exclude.auth = true
 	}
 	let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsStage, exclude)
 	let environmentVariables = require('./src/generator/environmentVariablesNames.js')(endpointsPostmanWithFolders)
+	
+	// Añadir letras a los TestCases con el mismo status code para diferenciarlos en el Runner
+	for (let i = element.custom_authorizations_file? 1 : 0; i < endpointsPostmanWithFolders.length; i++) {
+		addLettersToName(endpointsPostmanWithFolders[i].item);
+	}
+	
 	if (element.validate_schema === false){
 		require('./src/generator/validateSchema.js')(endpointsPostmanWithFolders)
 	}
@@ -111,4 +138,35 @@ function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdd
 			endpointsPostman.push(endpointPostman);
 		}
 	} while (global[memoryAlreadyAdded].length > initialCount)
+}
+
+function createEndpointWithScope(endpoint, name) {
+	let scopeEndpoint = _.cloneDeep(endpoint);
+	let authHeader = scopeEndpoint.request.header.find(obj => { return obj.key === 'Authorization' });
+
+	scopeEndpoint.aux.authorization = name;
+	scopeEndpoint.aux.suffix = 'with.' + name;
+	authHeader.value = _.replace(authHeader.value, endpoint.aux.authorization, scopeEndpoint.aux.authorization);
+
+	return scopeEndpoint;
+}
+
+function addLettersToName(collection) {
+	let alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
+	for (let i in collection) {
+		let orderedCollection = _.groupBy(collection[i].item, function(item) { return item.aux.status });
+		
+		for (let j in orderedCollection) {
+			let array = orderedCollection[j];
+			if (array.length > 1) {
+				// Añade una letra al nombre de cada Test Case, justo despues del status code. Ej.: 200a OK
+				// Controla el exceso de Test Cases y añade dos letras en caso de ser necesario. Ej.: 200aa OK, 200ab OK
+				for (let k in array) {
+					array[k].name = _.replace(array[k].name, array[k].aux.status, 
+						k < alphabet.length? array[k].aux.status + alphabet[k] : array[k].aux.status + alphabet[(alphabet.length / k) - 1] + alphabet[alphabet.length % k]);
+				}
+			}
+		}
+	}
 }
