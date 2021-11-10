@@ -87,6 +87,13 @@ _.forEach(environments, function (element) {
 	if (element.hasScopes) {
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
+			if (!endpointsStage[i].aux.authorization){
+				endpointsStage[i].aux.authorization = 'user_token_with_scope';
+				endpointsStage[i].request.header.push({
+					key: 'Authorization',
+					value: '{{user_token_with_scope}}'
+				});
+			} 
 			if (endpointsStage[i].aux.status >= 200 && endpointsStage[i].aux.status < 400 && endpointsStage[i].aux.authorization) {
 				// Añadir el Test Case con application_token
 				if (element.applicationToken) {
@@ -111,7 +118,7 @@ _.forEach(environments, function (element) {
 	let environmentVariables = require('./src/generator/environmentVariablesNames.js')(endpointsPostmanWithFolders)
 	
 	// Añadir letras a los TestCases con el mismo status code para diferenciarlos en el Runner
-	for (let i = element.custom_authorizations_file? 1 : 0; i < endpointsPostmanWithFolders.length; i++) {
+	for (let i = element.custom_authorizations_file ? 1 : 0; i < endpointsPostmanWithFolders.length; i++) {
 		addLettersToName(endpointsPostmanWithFolders[i].item);
 	}
 	
@@ -145,7 +152,9 @@ function createEndpointWithScope(endpoint, name) {
 	let authHeader = scopeEndpoint.request.header.find(obj => { return obj.key === 'Authorization' });
 
 	scopeEndpoint.aux.authorization = name;
-	scopeEndpoint.aux.suffix = 'with.' + name;
+	if (typeof scopeEndpoint.aux.suffix !== 'undefined'){
+		scopeEndpoint.aux.suffix += 'with.' + name;
+	} else scopeEndpoint.aux.suffix = 'with.' + name;
 	authHeader.value = _.replace(authHeader.value, endpoint.aux.authorization, scopeEndpoint.aux.authorization);
 
 	return scopeEndpoint;
