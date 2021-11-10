@@ -62,7 +62,7 @@ module.exports = function() {
 			}
 			let key = isUserToken? newItems[i] : numerateItem + newItems[i];
 			if (!_.includes(itemKeys, key)){
-				let value = typeof global.environmentVariables[id+newItems[i]] !== 'undefined' ? global.environmentVariables[id+newItems[i]] : ''
+				let value = typeof global.environmentVariables[id+newItems[i]] !== 'undefined' ? global.environmentVariables[id+newItems[i]] : '';
 				// Cuando la variable isInline del fichero de configuración no diga lo contrario,
 				// se guardarán las variables de entorno
 				if (!global.configurationFile.isInline || isUserToken) {
@@ -76,6 +76,8 @@ module.exports = function() {
 						"enabled": true
 					});
 					itemKeys.push(key);
+
+					string = string.replace(new RegExp('{{'+newItems[i]+'}}', "g"), '{{'+key+'}}');
 				} else {
 					// Se añade el valor del campo en el propio objeto de la petición
 					if (typeof value !== 'string') {
@@ -84,7 +86,6 @@ module.exports = function() {
 					string = string.replace(`{{${newItems[i]}}}`, value);
 				}
             }
-			string = string.replace('{{'+newItems[i]+'}}','{{'+key+'}}');
         }
         return string
 	}

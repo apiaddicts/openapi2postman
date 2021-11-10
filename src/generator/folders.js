@@ -124,13 +124,15 @@ module.exports = function() {
   function shortName (status) {
     switch (status) {
       case 200:
-        return 'OK';
+        return 'Successfull';
       case 201: 
         return 'Created';
+      case 202:
+        return 'Acepted';
       case 204:
-        return 'No content';
+        return 'No Content';
       case 206:
-        return 'Partial content';
+        return 'Partial Content';
       case 400:
         return 'Error';
       case 401:
@@ -138,7 +140,7 @@ module.exports = function() {
       case 403:
         return 'Forbidden';
       case 404:
-        return 'Not found';
+        return 'Not Found';
       case 409:
         return 'Conflict';
       default:
