@@ -84,7 +84,7 @@ _.forEach(environments, function (element) {
 
 	// Se añaden casos de éxito por cada scope indicado en el fichero de configuración
 	// También se añaden los nuevos tokens como variables en la cabecera Authorization
-	if (element.hasScopes) {
+	if (element.has_scopes) {
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
 			if (!endpointsStage[i].aux.authorization){
@@ -96,12 +96,12 @@ _.forEach(environments, function (element) {
 			} 
 			if (endpointsStage[i].aux.status >= 200 && endpointsStage[i].aux.status < 400 && endpointsStage[i].aux.authorization) {
 				// Añadir el Test Case con application_token
-				if (element.applicationToken) {
+				if (element.application_token) {
 					endpointsStage.push(createEndpointWithScope(endpointsStage[i], 'application_token'));
 				}
 				
 				// Añadir la cantidad indicada de Test Cases por cada scope_token
-				for (let j = 2; j <= element.numberOfScopes; j++) {
+				for (let j = 2; j <= element.number_of_scopes; j++) {
 					endpointsStage.push(createEndpointWithScope(endpointsStage[i], endpointsStage[i].aux.authorization + j));
 				}
 			}
