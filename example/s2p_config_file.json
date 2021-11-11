@@ -7,12 +7,16 @@
             "number" : -6,
             "boolean" : false,
             "object" : "badobject",
-            "array" : "badarray"
+            "array" : "badarray",
+            "date": "2020-40-40",
+            "date_time": "2020-40-40T00:00:00"
         },
         "successful" : {
             "string" : "goodstring",
             "number" : 6,
-            "boolean" : true
+            "boolean" : true,
+            "date": "2020-01-01",
+            "date_time": "2020-01-01T23:59:59"
         }
     },
     "environments":[
@@ -23,10 +27,9 @@
             "host": "https://apis.comunidad.madrid",
             "port": ":443",
             "target_folder": "generated/dev",
-            "custom_authorizations_file": "authorizations.postman_collection.json",
-            "hasScopes": true,
-            "applicationToken": true,
-            "numberOfScopes": 5
+            "hasScopes": false,
+            "applicationToken": false,
+            "numberOfScopes": 0
         },
         {
             "name" : "PROD",
