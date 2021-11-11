@@ -1,6 +1,6 @@
 {
-    "api_name" : "ISSUES_API",
-    "is_inline": true,
+    "api_name" : "japi_rest_ejemplo_alumnos",
+    "is_inline": false,
     "examples" : {
         "wrong" : {
             "string" : "badstring",
@@ -24,9 +24,9 @@
             "name" : "DEV",
             "postman_collection_name": "%api_name%_TestSuite_DEV",
             "postman_environment_name": "%api_name%_TestSuiteEnv_DEV",
-            "host": "https://apis.comunidad.madrid",
+            "host": "apis.comunidad.madrid",
             "port": ":443",
-            "target_folder": "generated/dev",
+            "target_folder": "pruebas",
             "has_scopes": false,
             "application_token": false,
             "number_of_scopes": 0
@@ -35,14 +35,14 @@
             "name" : "PROD",
             "postman_collection_name": "%api_name%_TestSuite_PROD",
             "postman_environment_name": "%api_name%_TestSuiteEnv_PROD",
-            "host": "https://apis.comunidad.madrid",
+            "host": "apis.comunidad.madrid",
             "port": "443",
             "read_only": true,
-            "target_folder": "generated/prod",
+            "target_folder": "pruebas",
             "custom_authorizations_file": "authorizations.postman_collection.json",
             "has_scopes": false,
             "application_token": true,
-            "number_of_scopes": 1
+            "number_of_scopes": 0
         }
     ]
 }

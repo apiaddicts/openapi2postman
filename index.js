@@ -173,7 +173,7 @@ function addLettersToName(collection) {
 				// Controla el exceso de Test Cases y añade dos letras en caso de ser necesario. Ej.: 200aa OK, 200ab OK
 				for (let k in array) {
 					array[k].name = _.replace(array[k].name, array[k].aux.status, 
-						k < alphabet.length? array[k].aux.status + alphabet[k] : array[k].aux.status + alphabet[(alphabet.length / k) - 1] + alphabet[alphabet.length % k]);
+						k < alphabet.length ? array[k].aux.status + alphabet[k] : array[k].aux.status + alphabet[Math.floor(k / alphabet.length) - 1] + alphabet[k % alphabet.length]);
 				}
 			}
 		}
