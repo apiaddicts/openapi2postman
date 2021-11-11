@@ -13,9 +13,9 @@ module.exports = function() {
 
 	const endpoint = global.definition.paths[path][_.toLower(verb)];
 	if (!bodyResponse){
-		const body = _.find(endpoint['parameters'], ['in', 'body']);
     let bodyParameter = replaceRefs(endpoint['parameters']);
-		if (!body){
+		const body = _.find(bodyParameter, ['in', 'body']);
+		if (!body) {
 			return undefined;
 		}
 		const withOutRefs = replaceRefs(body.schema);
@@ -35,7 +35,7 @@ module.exports = function() {
   	let result = {};
   	for (let i in schema) {
   		if (i === '$ref'){
-			const ref = _.replace(schema[i], '#/definitions/', '');
+			const ref = _.replace(schema[i], schema[i].substring(0, schema[i].lastIndexOf('/') + 1), '');
       if (checkCircularReferences(ref, 3, 2) || checkCircularReferences(ref, 3, 3) || checkCircularReferences(ref, 3, 4)){
         return { type: 'string',
                 description: 'Circular REF solved swagger2postman' 
@@ -43,7 +43,10 @@ module.exports = function() {
       }
 			let entity = global.definition.definitions[ref];
 			if (!entity){
-				require('../../utils/error.js')('ref '+ref+' is not defined');
+        entity = global.definition.parameters[ref];
+        if (!entity) {
+          require('../../utils/error.js')('ref ' + ref + ' is not defined');
+        }
 			}
 			entity = replaceRefs(entity, global.definition);
 			result = _.merge(result, entity);
