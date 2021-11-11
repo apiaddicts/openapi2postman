@@ -1,6 +1,6 @@
 {
     "api_name" : "ISSUES_API",
-    "isInline": true,
+    "is_inline": true,
     "examples" : {
         "wrong" : {
             "string" : "badstring",
@@ -27,9 +27,9 @@
             "host": "https://apis.comunidad.madrid",
             "port": ":443",
             "target_folder": "generated/dev",
-            "hasScopes": false,
-            "applicationToken": false,
-            "numberOfScopes": 0
+            "has_scopes": false,
+            "application_token": false,
+            "number_of_scopes": 0
         },
         {
             "name" : "PROD",
@@ -40,9 +40,9 @@
             "read_only": true,
             "target_folder": "generated/prod",
             "custom_authorizations_file": "authorizations.postman_collection.json",
-            "hasScopes": false,
-            "applicationToken": true,
-            "numberOfScopes": 1
+            "has_scopes": false,
+            "application_token": true,
+            "number_of_scopes": 1
         }
     ]
 }

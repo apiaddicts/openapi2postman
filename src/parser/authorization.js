@@ -7,7 +7,7 @@ const _ = require('lodash')
 module.exports = function() {
 
 	return function get(verb,path){
-  		const endpoint = global.definition.paths[path][_.toLower(verb)]
+		const endpoint = global.definition.paths[path][_.toLower(verb)]
 		let securityName = false
 		if (endpoint.security && _.isArray(endpoint.security) && endpoint.security.length > 0){
 			securityName = getTokenFromDefinition(endpoint.security[0])

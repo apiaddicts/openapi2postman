@@ -63,9 +63,9 @@ module.exports = function() {
 			let key = isUserToken? newItems[i] : numerateItem + newItems[i];
 			if (!_.includes(itemKeys, key)){
 				let value = typeof global.environmentVariables[id+newItems[i]] !== 'undefined' ? global.environmentVariables[id+newItems[i]] : '';
-				// Cuando la variable isInline del fichero de configuración no diga lo contrario,
+				// Cuando la variable is_inline del fichero de configuración no diga lo contrario,
 				// se guardarán las variables de entorno
-				if (!global.configurationFile.isInline || isUserToken) {
+				if (!global.configurationFile.is_inline || isUserToken) {
 					items.push({
 						"description": {
 							"content": "",
