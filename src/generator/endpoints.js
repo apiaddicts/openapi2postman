@@ -48,14 +48,19 @@ module.exports = function() {
 					}
 				}
 			}
-			// Cambio de nombre para los POST /recurso/get que tengan definido $filter
+			items.push(item);
+
+			// Duplicidad de los Test Case POST de /recurso/get que tengan definido $filter, indicándolo en el nombre
 			if (item.aux.status >= 200 && item.aux.status < 400 && item.request.method === 'POST') {
 				let nameWithoutStatus = item.name.substring(0, item.name.length - 4);
 				if (nameWithoutStatus.substring(nameWithoutStatus.length - 4) === '/get' && item.aux.body.properties['$filter']) {
-					item.aux.suffix = '$filter ';
+					let clon = _.cloneDeep(item);
+					clon.aux.suffix = '$filter ';
+					clon.aux.queryParams = [];
+					items.push(clon);
 				}
 			}
-			items.push(item);
+
 			// Duplicar los endpoints para cada queryParameter
 			if (item.aux.status >= 200 && item.aux.status < 400 && item.aux.queryParams.length > 0) {
 				addQueryParamEndpoint(item, items);
@@ -78,6 +83,14 @@ module.exports = function() {
 		notRequiredParams = _.difference(endpoint.aux.queryParams, requiredParams);
 		for (let i in notRequiredParams) {
 			let item = _.cloneDeep(endpoint);
+
+			// Eliminar el $filter de los POST /recurso/get que se prueben con cada queryParameter
+			if (item.aux.status >= 200 && item.aux.status < 400 && item.request.method === 'POST') {
+				let nameWithoutStatus = item.name.substring(0, item.name.length - 4);
+				if (nameWithoutStatus.substring(nameWithoutStatus.length - 4) === '/get' && item.aux.body.properties['$filter']) {
+					item.aux.body = false;
+				}
+			}
 			item.aux.queryParams = _.concat(requiredParams, notRequiredParams[i]);
 			item.aux.suffix = `queryString ${notRequiredParams[i].name} `;
 			items.push(item);

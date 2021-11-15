@@ -87,7 +87,7 @@ _.forEach(environments, function (element) {
 	if (element.has_scopes) {
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
-			if (!endpointsStage[i].aux.authorization){
+			if (!endpointsStage[i].aux.authorization) {
 				endpointsStage[i].aux.authorization = 'user_token_with_scope';
 				endpointsStage[i].request.header.push({
 					key: 'Authorization',
