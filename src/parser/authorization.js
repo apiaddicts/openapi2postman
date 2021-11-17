@@ -10,7 +10,7 @@ module.exports = function() {
 		const endpoint = global.definition.paths[path][_.toLower(verb)]
 		let securityName = false
 		if (endpoint.security && _.isArray(endpoint.security) && endpoint.security.length > 0){
-			securityName = getTokenFromDefinition(endpoint.security[0])
+			securityName = getTokenFromDefinition(endpoint.security[0]) + '1';
 		}
 		if(global.definition.security && _.isArray(global.definition.security) && global.definition.security.length > 0 && securityName === false){
 			securityName = getTokenFromDefinition(global.definition.security[0])

@@ -88,13 +88,15 @@ _.forEach(environments, function (element) {
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
 			if (!endpointsStage[i].aux.authorization) {
-				endpointsStage[i].aux.authorization = 'user_token_with_scope';
+				endpointsStage[i].aux.authorization = 'user_token_with_scope1';
 				endpointsStage[i].request.header.push({
 					key: 'Authorization',
-					value: '{{user_token_with_scope}}'
+					value: '{{user_token_with_scope1}}'
 				});
 			} 
-			if (endpointsStage[i].aux.status >= 200 && endpointsStage[i].aux.status < 400 && endpointsStage[i].aux.authorization) {
+			let auth = endpointsStage[i].aux.authorization;
+			let name = _.endsWith(auth, '1') ? auth.substring(0, auth.length - 1) : auth;
+			if (endpointsStage[i].aux.status >= 200 && endpointsStage[i].aux.status < 400 && auth) {
 				// Añadir el Test Case con application_token
 				if (element.application_token) {
 					endpointsStage.push(createEndpointWithScope(endpointsStage[i], 'application_token'));
@@ -102,8 +104,12 @@ _.forEach(environments, function (element) {
 				
 				// Añadir la cantidad indicada de Test Cases por cada scope_token
 				for (let j = 2; j <= element.number_of_scopes; j++) {
-					endpointsStage.push(createEndpointWithScope(endpointsStage[i], endpointsStage[i].aux.authorization + j));
+					endpointsStage.push(createEndpointWithScope(endpointsStage[i], name + j));
 				}
+
+				if (typeof endpointsStage[i].aux.suffix !== 'undefined'){
+					endpointsStage[i].aux.suffix += 'with.' + name + '1';
+				} else endpointsStage[i].aux.suffix = 'with.' + name + '1';
 			}
 		}
 	}
@@ -155,7 +161,7 @@ function createEndpointWithScope(endpoint, name) {
 	if (typeof scopeEndpoint.aux.suffix !== 'undefined'){
 		scopeEndpoint.aux.suffix += 'with.' + name;
 	} else scopeEndpoint.aux.suffix = 'with.' + name;
-	authHeader.value = _.replace(authHeader.value, endpoint.aux.authorization, scopeEndpoint.aux.authorization);
+	authHeader.value = `{{${name}}}`;//_.replace(authHeader.value, endpoint.aux.authorization, name);
 
 	return scopeEndpoint;
 }
