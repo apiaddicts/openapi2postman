@@ -1,37 +1,48 @@
 {
-    "api_name" : "pestore_file",
+    "api_name" : "japi_rest_ejemplo_alumnos",
+    "is_inline": false,
     "examples" : {
         "wrong" : {
             "string" : "badstring",
             "number" : -6,
             "boolean" : false,
             "object" : "badobject",
-            "array" : "badarray"
+            "array" : "badarray",
+            "date": "2020-40-40",
+            "date_time": "2020-40-40T00:00:00"
         },
         "successful" : {
             "string" : "goodstring",
             "number" : 6,
-            "boolean" : true
+            "boolean" : true,
+            "date": "2020-01-01",
+            "date_time": "2020-01-01T23:59:59"
         }
     },
     "environments":[
         {
             "name" : "DEV",
-            "postman_collection_name": "SWAGGER_API_TestSuite_DEV",
-            "postman_environment_name": "SWAGGER_API_TestSuiteEnv_DEV",
-            "host": "petstore.swagger.io",
+            "postman_collection_name": "%api_name%_TestSuite_DEV",
+            "postman_environment_name": "%api_name%_TestSuiteEnv_DEV",
+            "host": "apis.comunidad.madrid",
             "port": ":443",
-            "target_folder": "example"
+            "target_folder": "pruebas",
+            "has_scopes": false,
+            "application_token": false,
+            "number_of_scopes": 0
         },
         {
             "name" : "PROD",
-            "postman_collection_name": "SWAGGER_API_TestSuite_PROD",
-            "postman_environment_name": "SWAGGER_API_TestSuiteEnv_PROD",
-            "host": "petstore.swagger.io",
+            "postman_collection_name": "%api_name%_TestSuite_PROD",
+            "postman_environment_name": "%api_name%_TestSuiteEnv_PROD",
+            "host": "apis.comunidad.madrid",
             "port": "443",
             "read_only": true,
-            "target_folder": "example",
-            "custom_authorizations_file": "authorizations.postman_collection.json"
+            "target_folder": "pruebas",
+            "custom_authorizations_file": "authorizations.postman_collection.json",
+            "has_scopes": false,
+            "application_token": true,
+            "number_of_scopes": 0
         }
     ]
 }

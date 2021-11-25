@@ -5,7 +5,7 @@
 const _ = require('lodash');
 
 module.exports = function() {
-  
+
     return function get(collection){
         const items = []
         const itemKeys = []
@@ -25,7 +25,7 @@ module.exports = function() {
         return items
     }
 
-	function parseRequest(numerateItem,request,items,itemKeys,id){
+	function parseRequest(numerateItem, request, items, itemKeys, id){
 		request.url.raw = extractVariablesFromString(numerateItem,request.url.raw,items,itemKeys,id)
         if (request.url.path && request.url.path[0]){
 			request.url.path[0] = extractVariablesFromString(numerateItem,request.url.path[0],items,itemKeys,id)
@@ -33,7 +33,7 @@ module.exports = function() {
 		if(request.header){
 			for (let i in request.header){
 				request.header[i].key = extractVariablesFromString(numerateItem,request.header[i].key,items,itemKeys,id)
-				request.header[i].value = extractVariablesFromString(numerateItem,request.header[i].value,items,itemKeys,id)
+				request.header[i].value = extractVariablesFromString(numerateItem, request.header[i].value, items, itemKeys, id, request.header[i].key === 'Authorization');
 			}
 		}
 		if (request.body && request.body.raw) {
@@ -52,7 +52,7 @@ module.exports = function() {
 		}
     }
     
-	function extractVariablesFromString(numerateItem,string,items,itemKeys,id){
+	function extractVariablesFromString(numerateItem, string, items, itemKeys, id, isUserToken){
 		const re = /\{\{(.*?)\}\}/g
 		const newItems = string.match(re)
 		for (let i in newItems){
@@ -60,21 +60,32 @@ module.exports = function() {
 			if (_.includes(['host','port','basePath'], newItems[i])){
 				continue
 			}
-			let key = numerateItem+newItems[i]
+			let key = isUserToken? newItems[i] : numerateItem + newItems[i];
 			if (!_.includes(itemKeys, key)){
-				let value = typeof global.environmentVariables[id+newItems[i]] !== 'undefined' ? global.environmentVariables[id+newItems[i]] : ''
-				items.push({
-					"description": {
-					  "content": "",
-					  "type": "text/plain"
-					},
-					"value": value,
-					"key": key,
-					"enabled": true
-				})
-				itemKeys.push(key)
+				let value = typeof global.environmentVariables[id+newItems[i]] !== 'undefined' ? global.environmentVariables[id+newItems[i]] : '';
+				// Cuando la variable is_inline del fichero de configuración no diga lo contrario,
+				// se guardarán las variables de entorno
+				if (!global.configurationFile.is_inline || isUserToken) {
+					items.push({
+						"description": {
+							"content": "",
+							"type": "text/plain"
+						},
+						"value": value,
+						"key": key,
+						"enabled": true
+					});
+					itemKeys.push(key);
+
+					string = string.replace(new RegExp('{{'+newItems[i]+'}}', "g"), '{{'+key+'}}');
+				} else {
+					// Se añade el valor del campo en el propio objeto de la petición
+					if (typeof value !== 'string') {
+						string = string.replace(`"{{${newItems[i]}}}"`, value);
+					}
+					string = string.replace(`{{${newItems[i]}}}`, value);
+				}
             }
-            string = string.replace('{{'+newItems[i]+'}}','{{'+key+'}}')
         }
         return string
 	}

@@ -24,7 +24,13 @@ module.exports = function() {
         } else {
             queryParams += '&'+queryParam.name+'={{' + queryParam.name + '}}'
         }
-        global.environmentVariables[postmanRequest.request.method + postmanRequest.request.url.path[0] + queryParam.name] =  require('../utils/exampleForField.js')(queryParam,false)
+
+        // El valor que tomará la variable de entorno será: Valor por defecto > valor del fichero de configuración
+        if (typeof queryParam.default !== 'undefined') {
+            global.environmentVariables[postmanRequest.request.method + postmanRequest.request.url.path[0] + queryParam.name] = queryParam.default;
+        }  else {
+            global.environmentVariables[postmanRequest.request.method + postmanRequest.request.url.path[0] + queryParam.name] = require('../utils/exampleForField.js')(queryParam,false);
+        }
     });
     if (error && !errorAdded){
         return false
