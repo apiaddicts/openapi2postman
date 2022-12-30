@@ -11,7 +11,7 @@
   "dependencies": {
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.21",
-    "mocha": "^8.0.1",
+    "mocha": "^8.4.0",
     "sinon": "^4.5.0",
     "yargs": "^13.2.2"
   }
