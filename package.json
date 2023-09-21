@@ -4,15 +4,15 @@
   "description": "swagger2postman",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha"
+    "test": "mocha"
   },
   "author": "Isidoro de la Vieja",
   "license": "ISC",
   "dependencies": {
     "js-yaml": "^3.13.1",
     "lodash": "^4.17.21",
-    "mocha": "^8.0.1",
+    "mocha": "^9.1.3",
     "sinon": "^4.5.0",
-    "yargs": "^13.2.2"
+    "yargs": "^17.2.1"
   }
 }

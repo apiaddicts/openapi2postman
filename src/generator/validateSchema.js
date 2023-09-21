@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-    return function get(collection){
+    return function get(collection, validate_schema){
         const items = []
         const itemKeys = []
         for (let i in collection){
@@ -15,7 +15,15 @@ module.exports = function() {
                     
                 } else {
                     for (let k in collection[i].item[j].item){//request
-                        deleteValidateSchema(collection[i].item[j].item[k].event[0].script.exec)
+                        
+                        if (validate_schema === true) {
+                            const params = new URLSearchParams('?' + collection[i].item[j].item[k].request.url.path[0].split('?')[1]);
+                            if (params.get('$select') || params.get('$exclude')) {
+                                deleteValidateSchema(collection[i].item[j].item[k].event[0].script.exec)
+                            }
+                        } else {
+                            deleteValidateSchema(collection[i].item[j].item[k].event[0].script.exec)
+                        }
                     }
                 }
             }
@@ -26,8 +34,8 @@ module.exports = function() {
     function deleteValidateSchema(execCode){
         let findEnd = false
         for (let i in execCode){
-            if (execCode[i] === "pm.test('Schema is valid', function() {"){
-                execCode[i] = "/*pm.test('Schema is valid', function() {"
+            if (execCode[i] === "var schemaIsValid = tv4.validate(json, schema);"){
+                execCode[i] = "/*var schemaIsValid = tv4.validate(json, schema);"
                 findEnd = true
             }
             if (findEnd && execCode[i] === "});"){

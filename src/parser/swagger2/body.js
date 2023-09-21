@@ -6,45 +6,55 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(verb,path,bodyResponse){
+  return function get(verb, path, bodyResponse) {
   	if (!_.isObject(global.definition.paths)) {
-		require('../../utils/error.js')('paths is required');
-	}
+      require('../../utils/error.js')('paths is required');
+    }
 
-	const endpoint = global.definition.paths[path][_.toLower(verb)];
-	if (!bodyResponse){
-		const body = _.find(endpoint['parameters'], ['in', 'body']);
-		if (!body){
-			return undefined;
-		}
-		const withOutRefs = replaceRefs(body.schema);
-		return replaceAllOfs(withOutRefs);
-	}
-	const bodyResponses = {};
-	_.forEach(endpoint['responses'],function(response,status){
-		if (response.schema){
-			const withOutRefs = replaceRefs(response.schema);
-			bodyResponses[status] = replaceAllOfs(withOutRefs);
-		}
-	});
-	return bodyResponses;
+    const endpoint = global.definition.paths[path][_.toLower(verb)];
+    if (!bodyResponse){
+      let bodyParameter = replaceRefs(endpoint['parameters']);
+      const body = _.find(bodyParameter, ['in', 'body']);
+      if (!body) {
+        return undefined;
+      }
+      const withOutRefs = replaceRefs(body.schema);
+      return replaceAllOfs(withOutRefs);
+    }
+    const bodyResponses = {};
+    _.forEach(endpoint['responses'], function(response, status) {
+      if (response.schema){
+        const withOutRefs = replaceRefs(response.schema);
+        bodyResponses[status] = replaceAllOfs(withOutRefs);
+        if (bodyResponses[status].hasOwnProperty('required')) {
+          const requiredWtihoutDuplicates = bodyResponses[status].required.filter((value, index, arr) => {
+            return arr.indexOf(value) === index;
+          });
+          bodyResponses[status].required = requiredWtihoutDuplicates; 
+        }
+      }
+    });
+    return bodyResponses;
   };
 
   function replaceRefs(schema){
   	let result = {};
   	for (let i in schema) {
   		if (i === '$ref'){
-			const ref = _.replace(schema[i], '#/definitions/', '');
-      if (checkCircularReferences(ref,3,2) || checkCircularReferences(ref,3,3) || checkCircularReferences(ref,3,4)){
+			const ref = _.replace(schema[i], schema[i].substring(0, schema[i].lastIndexOf('/') + 1), '');
+      if (checkCircularReferences(ref, 3, 2) || checkCircularReferences(ref, 3, 3) || checkCircularReferences(ref, 3, 4)){
         return { type: 'string',
                 description: 'Circular REF solved swagger2postman' 
               }
       }
 			let entity = global.definition.definitions[ref];
 			if (!entity){
-				require('../../utils/error.js')('ref '+ref+' is not defined');
+        entity = global.definition.parameters[ref];
+        if (!entity) {
+          require('../../utils/error.js')('ref ' + ref + ' is not defined');
+        }
 			}
-			entity = replaceRefs(entity,global.definition);
+			entity = replaceRefs(entity, global.definition);
 			result = _.merge(result, entity);
   		} else if ( _.isArray(schema[i]) && i !== 'required'){
   			const arrayResult = [];
@@ -118,8 +128,7 @@ module.exports = function() {
   	return result;
   }
 
-  
-  function checkCircularReferences(reference,depthLevel,patternNumber){
+  function checkCircularReferences(reference, depthLevel, patternNumber){
     if (!global.circularTail){
       global.circularTail = []
     }

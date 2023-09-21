@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(verb,path){
+  return function get(verb, path){
   	if (!_.isObject(global.definition.paths)) {
 		require('../../utils/error.js')('paths is required');
 	}

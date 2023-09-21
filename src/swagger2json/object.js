@@ -5,10 +5,10 @@
 const _ = require('lodash');
 
 module.exports = function() {
-  
+
   return function get(swagger,parent){
     if (!swagger.properties){
-    	require('../utils/error.js')('There is a object without properties');
+    	require('../utils/error.js')(`There is an object without properties: ${swagger}`);
     }
     let notInclude = false;
     if (parent && global.requiredParamsCatch && _.has(swagger, 'required')){

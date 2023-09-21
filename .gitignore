@@ -1,4 +1,6 @@
 node_modules/*
 .vscode/
-package-lock.json
-package.json
+generated/
+example/*.yaml
+example/*.yml
+Postman_files

@@ -1,6 +1,6 @@
-# Openapi2postman
+# swagger2postman
 
-Openapi2postman genera una colección y un entorno Postman a partir de un archivo de definición OpenApi v. 2.0 (AKA swagger). Dicha colección incluye tests para respuestas 2xx, 400, 401 y 404.
+swagger2postman genera una colección y un entorno Postman a partir de un archivo de definición OpenApi v. 2.0 (AKA swagger). Dicha colección incluye tests para respuestas 2xx, 400, 401 y 404.
 
 ![image1.png](images/image1.png)
 
@@ -42,7 +42,7 @@ También puede probarse enviando parámetros de tipo erróneo (distinto al defin
 ## Archivo de configuración
 
 Es posible configurar la ejecución de la herramienta para que genere las colecciones y entornos que se deseen, eligiendo el nombre de los archivos, la ubicación dónde se dejarán los resultados, el tipo de peticiones que se pueden realizar, etc. Dicha configuración se establece de forma individualizada para cada colección y entorno. Puede consultarse la definición y ejemplos de dicho archivo de configuración en el siguiente documento:
-[Archivo de configuración openapi2postman](./docs/openapi2postman-Archivo_de_configuracion.pdf)
+[Archivo de configuración swagger2postman](./docs/MD-swagger2postman-Archivo_de_configuracion.pdf)
 
 En la estructura de archivos se incluye un archivo de configuración que puede tomarse como ejemplo.
 
