@@ -1,4 +1,4 @@
-# 🛠️ Openapi2postman ![Release](https://img.shields.io/badge/release-2.0.0-purple) ![Swagger](https://img.shields.io/badge/-openapi-%23Clojure?style=flat&logo=swagger&logoColor=white) ![Js](https://img.shields.io/badge/javascript-%23ED8B00.svg?style=flat&logo=javascript&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white) [![License: LGPL v3](https://img.shields.io/badge/license-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) 
+# 🛠️ Openapi2postman ![Release](https://img.shields.io/badge/release-2.0.0-purple) ![Swagger](https://img.shields.io/badge/-openapi-%23Clojure?style=flat&logo=swagger&logoColor=white)  ![Postman](https://img.shields.io/badge/postman-FF6C37?style=flat&logo=postman&logoColor=white) [![NPM](https://img.shields.io/badge/npm-%23CB3837.svg?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com/package/openapi2postman) [![License: LGPL v3](https://img.shields.io/badge/license-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)  
 
 **Openapi2postman** creates automatic tests from Openapi 3.0 using postman format. Also, it creates environments files, depending of configuration.
 Those collections can be importend in postan application.  The tests includes tests for 2xx, 4xx... and tests to validate output formats.
@@ -29,6 +29,13 @@ Feel free to drop by and greet us on our GitHub discussion or Discord chat. You 
 
 
 # 📑 Getting started 
+
+
+[![NPM](https://img.shields.io/badge/openapi2postman-%23CB3837.svg?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com/package/openapi2postman)
+```
+npm i openapi2postman
+```
+
 ## Table of content
 
 * [Structure and submodules](#structure-and-submodules)
