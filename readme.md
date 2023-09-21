@@ -1,4 +1,4 @@
-# 🛠️ Openapi2postman ![Release](https://img.shields.io/badge/release-0.1.0-purple) ![Swagger](https://img.shields.io/badge/-openapi-%23Clojure?style=flat&logo=swagger&logoColor=white) ![Js](https://img.shields.io/badge/javascript-%23ED8B00.svg?style=flat&logo=javascript&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white) [![License: LGPL v3](https://img.shields.io/badge/license-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) 
+# 🛠️ Openapi2postman ![Release](https://img.shields.io/badge/release-2.0.0-purple) ![Swagger](https://img.shields.io/badge/-openapi-%23Clojure?style=flat&logo=swagger&logoColor=white) ![Js](https://img.shields.io/badge/javascript-%23ED8B00.svg?style=flat&logo=javascript&logoColor=white) ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white) [![License: LGPL v3](https://img.shields.io/badge/license-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) 
 
 **Openapi2postman** creates automatic tests from Openapi 3.0 using postman format. Also, it creates environments files, depending of configuration.
 Those collections can be importend in postan application.  The tests includes tests for 2xx, 4xx... and tests to validate output formats.
@@ -48,7 +48,7 @@ Feel free to drop by and greet us on our GitHub discussion or Discord chat. You 
 
 ## Structure and submodules
 
-* *[docs](docs)* - This module contents the guides to configurate and run the product.
+* *[docs](docs)* - This module contents the guides to configurate and run the product. Documents Pdfs by CloudAppi.
 * *[example](example)* - Integration and system tests for SoapUI.
 * *[src](src)* – Source code
 * *[test](soapui-maven-plugin-tester)* - Testing folder
