@@ -6,10 +6,16 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(swagger,name,parent){
+  return function get(swagger, name, parent){
 
-    if (!swagger.type && swagger.properties){
-      swagger.type = 'object';
+    if (!swagger.type){
+      if (swagger.properties) {
+        swagger.type = 'object';
+      } else if (swagger.oneOf) {
+        swagger = swagger.oneOf[0];
+      } else if (swagger.anyOf)  {
+        swagger = swagger.anyOf[0];
+      }
     }
 
     let wrongParam = false;

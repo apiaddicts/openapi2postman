@@ -3,19 +3,17 @@
 'use strict'
 
 function eachRecursive(obj) {
-    for (var k in obj) {
+	for (var k in obj) {
 		if (typeof obj[k] == "object" && obj[k] !== null) {
 			eachRecursive(obj[k]);
 		} else {
-			if(k == '$ref') {
+			if (k == '$ref') {
 				let property = obj[k]
 				property = property.replace('#/', '')
 				let propertiesArray = property.split('/')
 				let refObject = findObject(global.definition, propertiesArray)
-
 				// Clear ref property
 				delete obj[k]
-
 				// Assign properties refOcject
 				Object.assign(obj, refObject)
 			}

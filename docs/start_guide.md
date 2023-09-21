@@ -12,7 +12,7 @@ In all cases the status is checked and it is verified that the scheme of the out
 
 ![image2.png](images/image2.png)
 
-Openapi2postman also generates a file of type environment with all the variables of both the bodies and the paths. These variables are used by the collection of postman generated to compose their bodies and their paths.
+swagger2postman also generates a file of type environment with all the variables of both the bodies and the paths. These variables are used by the collection of postman generated to compose their bodies and their paths.
 
 ![image3.png](images/image3.png)
 

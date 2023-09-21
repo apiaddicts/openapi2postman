@@ -42,6 +42,16 @@ module.exports = function() {
   		"key": 'basePath',
   		"enabled": true
 		})
+		const uniqueKeys = {};
+		const arregloSinDuplicados = items.filter(obj => {
+			if (uniqueKeys[obj.key]) {
+				return false;
+			} else {
+				uniqueKeys[obj.key] = true;
+				return true;
+			}
+		});
+		items = arregloSinDuplicados;
 
 		items = _.orderBy(items, ['key'], ['asc']);
 
@@ -54,7 +64,7 @@ module.exports = function() {
 
 		try {
 			fs.writeFileSync(target+'/'+title+'.postman_environment.json', JSON.stringify(output,null, 4));
-		  	console.log(`Environment ${target+'/'+title+'.postman_environment.json'} was succesfully created`);
+			console.log(`Environment ${target+'/'+title+'.postman_environment.json'} was succesfully created`);
 		} catch(err) {
 			require('../utils/error.js')('Error writing the output: ' + target);
 		}

@@ -13,13 +13,13 @@ module.exports = function() {
 
 	const responses = global.definition.paths[path][_.toLower(verb)]['responses']
 	const keys = _.keys(responses)
-	for (let i in keys) {
-		keys[i] = _.toInteger(keys[i])
-		if (keys[i] < 200) {
-			keys[i] = 500
+		for (const index in keys) {
+			keys[index] = _.toInteger(keys[index])
+			if (keys[index] < 200) {
+				keys[index] = 500
+			}
 		}
-	}
-	return keys
+		return keys
   }
 
 }()
