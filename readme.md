@@ -1,7 +1,13 @@
-# 🛠️ Openapi2postman ![Release](https://img.shields.io/badge/release-2.0.0-purple) ![Swagger](https://img.shields.io/badge/-openapi-%23Clojure?style=flat&logo=swagger&logoColor=white)  ![Postman](https://img.shields.io/badge/postman-FF6C37?style=flat&logo=postman&logoColor=white) [![NPM](https://img.shields.io/badge/npm-%23CB3837.svg?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com/package/openapi2postman) [![License: LGPL v3](https://img.shields.io/badge/license-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)  
+# 🛠️ Openapi2Postman ![Release](https://img.shields.io/badge/release-2.0.1-purple) ![OpenApi](https://img.shields.io/badge/-openapi-%23Clojure?style=flat&logo=openapiinitiative&logoColor=white)  ![Postman](https://img.shields.io/badge/postman-FF6C37?style=flat&logo=postman&logoColor=white) [![NPM](https://img.shields.io/badge/npm-%23CB3837.svg?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com/package/openapi2postman) [![License: LGPL v3](https://img.shields.io/badge/license-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)  
 
-**Openapi2postman** creates automatic tests from Openapi 3.0 using postman format. Also, it creates environments files, depending of configuration.
+**Openapi2Postman** creates automatic tests from Openapi 3.0 using postman format. Also, it creates environments files, depending of configuration.
 Those collections can be importend in postan application.  The tests includes tests for 2xx, 4xx... and tests to validate output formats.
+
+<p align="center">
+	<a href="https://apiaddicts.org/">
+	  <img src="imgs/openapi2postman.svg" height = '100'>
+	</a>
+</p>
 
 ### This repository is intended for :octocat: **community** use, it can be modified and adapted without commercial use. If you need a version, support or help for your **enterprise** or project, please contact us 📧 devrel@apiaddicts.org
 
@@ -30,11 +36,7 @@ Feel free to drop by and greet us on our GitHub discussion or Discord chat. You 
 
 # 📑 Getting started 
 
-
-[![NPM](https://img.shields.io/badge/openapi2postman-%23CB3837.svg?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com/package/openapi2postman)
-```
-npm i openapi2postman
-```
+[![NPM](https://img.shields.io/badge/openapi2postman-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/openapi2postman)
 
 ## Table of content
 
@@ -86,10 +88,10 @@ In postman:
 
 * update variables in the envirnoment to test all cases
 
-### Get the source code for the first time
-
-To get the source code, run `git clone https://github.com/apiaddicts/openapi2postman.git` in the folder where you want to clone the root folder of the Openapi2postman project.
-
+### Install package
+```
+npm i openapi2postman
+```
 
 ### Configuration file
 
