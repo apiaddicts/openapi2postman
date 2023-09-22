@@ -5,7 +5,7 @@ Those collections can be importend in postan application.  The tests includes te
 
 <p align="center">
 	<a href="https://apiaddicts.org/">
-	  <img src="imgs/openapi2postman.svg" height = '100'>
+	  <img src="https://github.com/apiaddicts/openapi2postman/raw/master/imgs/openapi2postman.svg" height = '100'>
 	</a>
 </p>
 
