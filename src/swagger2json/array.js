@@ -13,7 +13,7 @@ module.exports = function() {
     if (!swagger.items.properties){
         swagger.items.properties = _.cloneDeep(swagger.items);
     }
-    if (!swagger.items.properties.type){
+    if (!(swagger.items.properties.type && typeof swagger.items.properties.type === 'string')){
         let keys = _.keys(swagger.items.properties);
         if (!keys || keys.length === 0){
             require('../utils/error.js')('There are malformed items');
