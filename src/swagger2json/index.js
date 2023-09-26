@@ -8,14 +8,12 @@ module.exports = function() {
   
   return function get(swagger, name, parent){
 
-    if (!swagger.type){
-      if (swagger.properties) {
-        swagger.type = 'object';
-      } else if (swagger.oneOf) {
-        swagger = swagger.oneOf[0];
-      } else if (swagger.anyOf)  {
-        swagger = swagger.anyOf[0];
-      }
+    if (!swagger.type && swagger.properties){
+      swagger.type = 'object';
+    } else if (swagger.oneOf) {
+      swagger.type = 'oneOf';
+    } else if (swagger.anyOf) {
+      swagger.type = 'anyOf';
     }
 
     let wrongParam = false;
@@ -53,8 +51,26 @@ module.exports = function() {
         }
         global.environmentVariables[global.currentId+name] =  require('../utils/exampleForField.js')(swagger,false)
         return '{{'+name+'}}'
+      case 'oneOf':
+        let schemaOne = swagger.oneOf[0];
+        return anyOfOneOfChoice(schemaOne, name, parent);
+      case 'anyOf':
+        let schemaAny = swagger.anyOf[0];
+        return anyOfOneOfChoice(schemaAny, name, parent);
       default:
         require('../utils/error.js')('The type '+swagger.type+' is not implemented');
+    }
+  }
+
+  function anyOfOneOfChoice(schema, name, parent) {
+    switch (schema.type) {
+      case 'object':
+        return require('./object.js')(schema, parent);
+      case 'array':
+        return require('./array.js')(schema, name, parent);
+      default:
+        global.environmentVariables[global.currentId+name] =  require('../utils/exampleForField.js')(schema, false);
+        return '{{'+name+'}}';
     }
   }
 
