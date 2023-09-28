@@ -38,6 +38,51 @@ Feel free to drop by and greet us on our GitHub discussion or Discord chat. You 
 
 [![NPM](https://img.shields.io/badge/openapi2postman-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)](https://www.npmjs.com/package/openapi2postman)
 
+### Install package
+```
+npm i openapi2postman -g
+```
+
+### First steps
+
+#### `Arguments`
+| argv  | a |description |
+|---|---|---|
+| --file | -f | path openapi file |
+| --configuration | -c | path config file |
+
+#### `Normal` usage
+
+
+```
+o2p -c .\example\o2p_config_file.json -f .\example\petstore.yaml
+```
+
+#### `Default` config 
+
+```
+o2p  -f .\example\petstore.yaml
+```
+If you do not use the -c argument, the following default configuration will be used. The output path `target_folder` is `./out`.
+```
+  api_name: filename,
+  is_inline: false,
+  schema_is_inline: false,
+  schema_pretty_print: true,
+  environments:[
+    {
+      name : "DEV",
+      postman_collection_name: "%api_name%_DEV",
+      postman_environment_name: "%api_name%_DEV",
+      target_folder: "./out",
+      has_scopes: false,
+      application_token: false,
+      number_of_scopes: 0
+    }
+  ]
+```
+
+
 ## Table of content
 
 * [Structure and submodules](#structure-and-submodules)
@@ -69,9 +114,9 @@ You need node v10 or later.
 
 ### run
 
-Please review the s2p_config_file.json before to execute the command
+Please review the o2p_config_file.json before to execute the command
 Execute 
-node index.js --configuration s2p_config_file.json --file example/swagger_provincias.yml
+node index.js --configuration o2p_config_file.json --file example/swagger_provincias.yml
 
 The output files are the following (in example folder): 
 * SWAGGER_API_TestSuite_DEV.postman_collection.json
@@ -84,19 +129,13 @@ In postman:
 
 * import generated postman collection file in postman 
 * import generated postman environment file in postman
-
-
 * update variables in the envirnoment to test all cases
 
-### Install package
-```
-npm i openapi2postman
-```
 
 ### Configuration file
 
 Collections and environments to generate can be configured using a JSON configuration file. Collection and environment name can be specified, as well as the target folder for resulting files, the authorizations collection to be used and some other characteristics. This configuration file has an specification and examples that can be read on the following document:  
-[Configuration file openapi2postman](./docs/openapi2postman-Archivo_de_configuracion.pdf). This document is only available in spanish by now. it will be soon translated to english.
+[Configuration file openapi2postman](./docs/openapi2postman-guia.pdf). This document is only available in spanish by now. it will be soon translated to english.
 
 an example configuration file is included in file structure.
 

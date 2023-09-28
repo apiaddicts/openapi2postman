@@ -1,18 +1,59 @@
-/** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
+#! /usr/bin/env node
 
 'use strict'
-
+const path = require('path');
 const _ = require('lodash');
-const argv = require('yargs').argv
+const argv = require('yargs')(process.argv.slice(2))
+    .option('c', {
+        alias: 'configuration',
+        describe: 'Path to configuration file',
+        type: 'string'
+    })
+	.option('f', {
+        alias: 'file',
+        describe: 'Path to openapi file',
+        type: 'string'
+    })
+	.help()
+	.argv
 const fs   = require('fs');
+const { Console } = require('console');
 
 //PARSER-------------------------------- */
 let configurationFile
 
 try {
-	configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
+	if (argv.configuration) {
+        configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
+    } else {
+		try{
+			let filename = path.basename(argv.file, path.extname(argv.file));
+			configurationFile = {
+				api_name: filename,
+				is_inline: false,
+				schema_is_inline: false,
+				schema_pretty_print: true,
+				environments:[
+					{
+						name : "DEV",
+						postman_collection_name: "%api_name%_DEV",
+						postman_environment_name: "%api_name%_DEV",
+						target_folder: "./out",
+						has_scopes: false,
+						application_token: false,
+						number_of_scopes: 0
+					}
+				]
+			};
+		}catch(err) {
+			require('yargs').showHelp();
+			require('./src/utils/error.js')('use arg: -f/--file. openapi file path does not exist or is not correct: ' + argv.file);
+		}
+		
+    }
 } catch(err) {
-	require('./src/utils/error.js')('configuration file does not exist or is not correct: ' + argv.configuration);
+	require('yargs').showHelp();
+	require('./src/utils/error.js')('use argv: -c/--configuration. configuration file path does not exist or is not correct: ' + argv.configuration);
 }
 
 global.definition = require('./src/parser/definition.js')()

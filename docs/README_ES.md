@@ -65,7 +65,7 @@ Puede probarse la herramienta con el swagger de ejemplo y la colección de autor
 
  `npm install`
 
- `node index.js --file example/swagger_provincias.yml  --configuration example/s2p_config_file.json`
+ `node index.js --file example/swagger_provincias.yml  --configuration example/o2p_config_file.json`
 
 Tras la ejecución del comando se generarán los siguientes archivos:
 
