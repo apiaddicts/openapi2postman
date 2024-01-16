@@ -44,7 +44,7 @@ module.exports = function() {
 							"{{host}}{{port}}{{basePath}}"
 						],
 						path: [
-							path.replace("/")
+							path
 						]
 					}
 				}
