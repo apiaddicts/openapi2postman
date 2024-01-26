@@ -174,8 +174,8 @@ _.forEach(environments, function (element) {
 				}
 
 				if (typeof endpointsStage[i].aux.suffix !== 'undefined'){
-					endpointsStage[i].aux.suffix += 'with.' + name + '1';
-				} else endpointsStage[i].aux.suffix = 'with.' + name + '1';
+					endpointsStage[i].aux.suffix += 'with.' + name;
+				} else endpointsStage[i].aux.suffix = 'with.' + name;
 			}
 		}
 	}
