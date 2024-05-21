@@ -1,0 +1,245 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Swagger Petstore 2.0",
+      "description": "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters.",
+      "termsOfService": "http://swagger.io/terms/",
+      "contact": {
+        "email": "apiteam@swagger.io"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "https://petstore.swagger.io/v2"
+      },
+      {
+        "url": "http://petstore.swagger.io/v2"
+      }
+    ],
+    "tags": [
+      {
+        "name": "pet",
+        "description": "Everything about your Pets",
+        "externalDocs": {
+          "description": "Find out more",
+          "url": "http://swagger.io"
+        }
+      },
+      {
+        "name": "store",
+        "description": "Access to Petstore orders"
+      },
+      {
+        "name": "user",
+        "description": "Operations about user",
+        "externalDocs": {
+          "description": "Find out more about our store",
+          "url": "http://swagger.io"
+        }
+      }
+    ],
+    "paths": {
+      "/user": {
+        "post": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Create user",
+          "description": "This can only be done by the logged in user.",
+          "operationId": "createUser",
+          "requestBody": {
+            "description": "Created user object",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "default": {
+              "description": "successful operation",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "body"
+        }
+      },
+      "/user/{username}": {
+        "get": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Get user by user name",
+          "operationId": "getUserByName",
+          "parameters": [
+            {
+              "name": "username",
+              "in": "path",
+              "description": "The name that needs to be fetched. Use user1 for testing. ",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "examples": {
+                    "sucess": {
+                      "value": {
+                        "id": 123456,
+                        "username": "usuario123",
+                        "firstName": "Juan",
+                        "lastName": "Pérez",
+                        "email": "juan@example.com",
+                        "password": "contraseña123",
+                        "phone": "+1234567890",
+                        "userStatus": 1
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid username supplied",
+              "content": {}
+            },
+            "404": {
+              "description": "User not found",
+              "content": {}
+            }
+          },
+          "x-microcks-operation": {
+            "delay": 100,
+            "dispatcher": "SCRIPT",
+            "dispatcherRules": "def headers = mockRequest.getRequestHeaders(); if (headers.hasValues(\"X-Microcks-Response-Name\")) { return headers.get(\"X-Microcks-Response-Name\", \"null\") }"
+          }
+        },
+        "put": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Updated user",
+          "description": "This can only be done by the logged in user.",
+          "operationId": "updateUser",
+          "parameters": [
+            {
+              "name": "username",
+              "in": "path",
+              "description": "name that need to be updated",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Updated user object",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "400": {
+              "description": "Invalid user supplied",
+              "content": {}
+            },
+            "404": {
+              "description": "User not found",
+              "content": {}
+            }
+          },
+          "x-codegen-request-body-name": "body"
+        },
+        "delete": {
+          "tags": [
+            "user"
+          ],
+          "summary": "Delete user",
+          "description": "This can only be done by the logged in user.",
+          "operationId": "deleteUser",
+          "parameters": [
+            {
+              "name": "username",
+              "in": "path",
+              "description": "The name that needs to be deleted",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "400": {
+              "description": "Invalid username supplied",
+              "content": {}
+            },
+            "404": {
+              "description": "User not found",
+              "content": {}
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "username": {
+              "type": "string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "userStatus": {
+              "type": "integer",
+              "description": "User Status",
+              "format": "int32"
+            }
+          },
+          "xml": {
+            "name": "User"
+          }
+        }
+      }
+    },
+    "x-original-swagger-version": "2.0"
+  }

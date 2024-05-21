@@ -77,14 +77,18 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 	endpointsParsed[i].authorization = require('./src/parser/authorization.js')(endpointParsed.verb, endpointParsed.path, authorizationTokens)
 	endpointsParsed[i].queryParams = require('./src/parser/'+version+'/queryParams.js')(endpointParsed.verb, endpointParsed.path)
 	endpointsParsed[i].summary = require('./src/parser/summary.js')(endpointParsed.verb, endpointParsed.path)
+	endpointsParsed[i].microcks = require('./src/parser/openapi3/microcks.js')(endpointParsed.verb, endpointParsed.path)
 });
+
 //GENERATOR-------------------------------- */
 let endpointsPostman = [];
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
+
 _.forEach(endpoints, function (endpoint, i) {
 	endpoint = require('./src/generator/testStatus.js')(endpoint);
 	endpoint = require('./src/generator/testBody.js')(endpoint, configurationFile);
 	endpoint = require('./src/generator/contentType.js')(endpoint);
+	endpoint = require("./src/generator/microcks.js")(endpoint);
 	endpoint = require('./src/generator/authorization.js')(endpoint, endpoint.aux.status)
 	global.currentId = endpoint.request.method + endpoint.request.url.path[0]
 	global.currentId = global.currentId.replace(/{{/g,'{').replace(/}}/g,'}').split('?')[0]
