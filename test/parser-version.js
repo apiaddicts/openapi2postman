@@ -20,4 +20,19 @@ describe('parser-version', () => {
     assert.equal(version, 'openapi3')
   });
 
+  it('openapi versio 3.0.2' , () => {
+      
+      global.definition = require('../seeds/parserInitialGoodOpenApi3.0.2.json')
+  
+      const version = require('../src/parser/version.js')()
+      assert.equal(version, 'openapi3')
+  })
+
+  it('openapi versio 3.0.3' , () => {
+      
+      global.definition = require('../seeds/parserInitialGoodOpenApi3.0.3.json')
+  
+      const version = require('../src/parser/version.js')()
+      assert.equal(version, 'openapi3')
+  })
 });
