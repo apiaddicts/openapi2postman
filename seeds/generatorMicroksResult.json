@@ -1,0 +1,44 @@
+{
+  "name": "/user/{username}-404",
+  "path": "/user/{username}",
+  "aux": {
+    "status": 404,
+    "body": false,
+    "consumes": false,
+    "bodyResponse": {
+      "404": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "xml": {
+          "name": "User"
+        }
+      }
+    },
+    "authorization": false,
+    "summary": "Delete user",
+    "queryParams": [],
+    "pathParameter": "username",
+    "pathParameterExample": ""
+  },
+  "response": [],
+  "microcks": true,
+  "request": {
+    "method": "DELETE",
+    "header": [
+      {
+        "key": "X-Microcks-Response-Name",
+        "value": "message-error"
+      }
+    ]}
+    }
