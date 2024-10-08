@@ -152,8 +152,19 @@ _.forEach(environments, function (element) {
 	if ( element.read_only ) {
 		exclude.write = true
 	}
-	// Se añaden casos de éxito por cada scope indicado en el fichero de configuración
-	// También se añaden los nuevos tokens como variables en la cabecera Authorization
+	if (element.microcks_headers) {
+		let actualLength = endpointsStage.length;
+		for (let i = 0; i < actualLength; i++) {
+			const responseNameHeader = endpointsStage[i].request.header.find(h => h.key === 'X-Microcks-Response-Name');
+
+			if (!responseNameHeader) {
+				endpointsStage[i].request.header.push({
+					key: 'X-Microcks-Response-Name',
+					value: 'default'  
+				});
+			}
+		}
+	}
 	if (element.has_scopes) {
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
