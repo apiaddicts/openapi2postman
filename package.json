@@ -14,7 +14,6 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "mocha": "^10.7.3",
-    "openapi2postman": "file:",
     "sinon": "^19.0.2",
     "yargs": "^17.7.2"
   },
