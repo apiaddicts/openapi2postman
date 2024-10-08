@@ -32,7 +32,7 @@
             "has_scopes": false,
             "application_token": false,
             "number_of_scopes": 0,
-            "microcks_headers": true
+            "microcks_headers": false
         },
         {
             "name" : "PROD",
@@ -46,7 +46,7 @@
             "has_scopes": false,
             "application_token": true,
             "number_of_scopes": 0,
-            "microcks_headers": true
+            "microcks_headers": false
         }
     ]
 }
