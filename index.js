@@ -3,6 +3,7 @@
 'use strict'
 const path = require('path');
 const _ = require('lodash');
+const examples = require('./src/generator/examples');
 const argv = require('yargs')(process.argv.slice(2))
     .option('c', {
         alias: 'configuration',
@@ -155,16 +156,33 @@ _.forEach(environments, function (element) {
 	if (element.microcks_headers) {
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
-			const responseNameHeader = endpointsStage[i].request.header.find(h => h.key === 'X-Microcks-Response-Name');
-
-			if (!responseNameHeader) {
-				endpointsStage[i].request.header.push({
-					key: 'X-Microcks-Response-Name',
-					value: 'default'  
-				});
+		  const endpoint = endpointsStage[i];
+		  const responseNameHeader = endpoint.request.header.find(
+			(h) => h.key === 'X-Microcks-Response-Name'
+		  );
+	
+		  if (!responseNameHeader) {
+			if (!endpoint.request.header) {
+			  endpoint.request.header = [];
 			}
+				const pathArray = endpoint.request.url.path;
+			const path = '/' + pathArray.join('/');
+			const method = endpoint.request.method;
+			const status = endpoint.aux.status.toString();
+	
+			const exampleName = examples(path, method, status);
+	
+			const headerValue = exampleName || 'default';
+	
+			endpoint.request.header.push({
+			  key: 'X-Microcks-Response-Name',
+			  value: headerValue
+			});
+		  }
 		}
 	}
+	
+	  
 	if (element.has_scopes) {
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
