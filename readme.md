@@ -77,7 +77,8 @@ If you do not use the -c argument, the following default configuration will be u
       target_folder: "./out",
       has_scopes: false,
       application_token: false,
-      number_of_scopes: 0
+      number_of_scopes: 0,
+      microcks_headers: false
     }
   ]
 ```
