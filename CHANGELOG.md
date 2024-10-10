@@ -12,3 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Microcks headers added
 
 - Added 'microcks_headers' parameter in the environments config section to auto configure the Micrkocs headers.
+
+
+[2.1.0]: https://github.com/openapi2postman/releases/tag/2.1.0
