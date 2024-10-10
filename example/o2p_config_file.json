@@ -31,7 +31,8 @@
             "target_folder": "pruebas",
             "has_scopes": false,
             "application_token": false,
-            "number_of_scopes": 0
+            "number_of_scopes": 0,
+            "microcks_headers": false
         },
         {
             "name" : "PROD",
@@ -44,7 +45,8 @@
             "custom_authorizations_file": "authorizations.postman_collection.json",
             "has_scopes": false,
             "application_token": true,
-            "number_of_scopes": 0
+            "number_of_scopes": 0,
+            "microcks_headers": false
         }
     ]
 }

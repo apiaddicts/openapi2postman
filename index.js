@@ -3,6 +3,7 @@
 'use strict'
 const path = require('path');
 const _ = require('lodash');
+const examples = require('./src/generator/examples');
 const argv = require('yargs')(process.argv.slice(2))
     .option('c', {
         alias: 'configuration',
@@ -77,14 +78,18 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 	endpointsParsed[i].authorization = require('./src/parser/authorization.js')(endpointParsed.verb, endpointParsed.path, authorizationTokens)
 	endpointsParsed[i].queryParams = require('./src/parser/'+version+'/queryParams.js')(endpointParsed.verb, endpointParsed.path)
 	endpointsParsed[i].summary = require('./src/parser/summary.js')(endpointParsed.verb, endpointParsed.path)
+	endpointsParsed[i].microcks = require('./src/parser/openapi3/microcks.js')(endpointParsed.verb, endpointParsed.path)
 });
+
 //GENERATOR-------------------------------- */
 let endpointsPostman = [];
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
+
 _.forEach(endpoints, function (endpoint, i) {
 	endpoint = require('./src/generator/testStatus.js')(endpoint);
 	endpoint = require('./src/generator/testBody.js')(endpoint, configurationFile);
 	endpoint = require('./src/generator/contentType.js')(endpoint);
+	endpoint = require("./src/generator/microcks.js")(endpoint);
 	endpoint = require('./src/generator/authorization.js')(endpoint, endpoint.aux.status)
 	global.currentId = endpoint.request.method + endpoint.request.url.path[0]
 	global.currentId = global.currentId.replace(/{{/g,'{').replace(/}}/g,'}').split('?')[0]
@@ -148,8 +153,36 @@ _.forEach(environments, function (element) {
 	if ( element.read_only ) {
 		exclude.write = true
 	}
-	// Se añaden casos de éxito por cada scope indicado en el fichero de configuración
-	// También se añaden los nuevos tokens como variables en la cabecera Authorization
+	if (element.microcks_headers) {
+		let actualLength = endpointsStage.length;
+		for (let i = 0; i < actualLength; i++) {
+		  const endpoint = endpointsStage[i];
+		  const responseNameHeader = endpoint.request.header.find(
+			(h) => h.key === 'X-Microcks-Response-Name'
+		  );
+	
+		  if (!responseNameHeader) {
+			if (!endpoint.request.header) {
+			  endpoint.request.header = [];
+			}
+				const pathArray = endpoint.request.url.path;
+			const path = '/' + pathArray.join('/');
+			const method = endpoint.request.method;
+			const status = endpoint.aux.status.toString();
+	
+			const exampleName = examples(path, method, status);
+	
+			const headerValue = exampleName || 'default';
+	
+			endpoint.request.header.push({
+			  key: 'X-Microcks-Response-Name',
+			  value: headerValue
+			});
+		  }
+		}
+	}
+	
+	  
 	if (element.has_scopes) {
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
