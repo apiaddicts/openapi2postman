@@ -20,7 +20,7 @@ module.exports = function() {
 				require('../utils/error.js')('The yaml format is not correct: '+argv.file);
 			}
 			
-			const definition = yaml.safeLoad(fs.readFileSync(argv.file, 'utf8'));
+			const definition = yaml.load(fs.readFileSync(argv.file, 'utf8'));
 			return definition;
 		} catch (e) {
 				require('../utils/error.js')('The yaml file does not exist or is not correct: ' + argv.file);
