@@ -28,7 +28,7 @@ module.exports = function() {
     		"content": "",
     		"type": "text/plain"
   		},
-  		"value": port,
+  		"value": ":"+ port,
   		"key": 'port',
   		"enabled": true
 		})
