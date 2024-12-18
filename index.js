@@ -150,6 +150,7 @@ let environments = configurationFile.environments;
 _.forEach(environments, function (element) {
 	const endpointsStage = _.cloneDeep(endpointsPostman)
 	let exclude = {}
+	let urlPath;
 	if ( element.read_only ) {
 		exclude.write = true
 	}
@@ -218,6 +219,11 @@ _.forEach(environments, function (element) {
 		// Elimina la cabecera Authorization de las peticiones en Postman
 		exclude.auth = true
 	}
+
+	if(element.host_server_pattern){
+		urlPath = require('./src/generator/serverPath.js')(global.definition.servers,element.host_server_pattern)
+	}
+
   let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsStage, exclude)
 	// Crea el listado de variables de entorno
 	let environmentVariables = require('./src/generator/environmentVariablesNames.js')(endpointsPostmanWithFolders)
@@ -232,7 +238,7 @@ _.forEach(environments, function (element) {
 		element.postman_environment_name = _.replace(element.postman_environment_name, '%api_name%', apiName)
 	}
 	require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders)
-	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, schemaHostBasePath,environmentVariables)
+	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, schemaHostBasePath,environmentVariables,urlPath)
 })
 function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdded, suffix, withoutRequired, withWrongParam) {
 	global[memoryAlreadyAdded] = [];

@@ -8,7 +8,7 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-	return function post(target,title,host,port,schemaHostBasePath,items){
+	return function post(target,title,host,port,schemaHostBasePath,items,pathPattern){
 		if (! argv.target ){
 			argv.target = process.cwd()+'/'
 		}
@@ -18,7 +18,7 @@ module.exports = function() {
     		"content": "",
     		"type": "text/plain"
   		},
-  		"value": host,
+  		"value": pathPattern ? pathPattern.host : host,
   		"key": 'host',
   		"enabled": true
 		})
