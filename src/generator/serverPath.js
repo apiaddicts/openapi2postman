@@ -9,20 +9,18 @@ module.exports = function(){
     const cleanPattern = pattern.replace(/%/g, ""); 
     const serverFound = servers.find(server => server.url.includes(cleanPattern));
   
-    let url = serverFound ? serverFound.url : "";
-
-    if(url){
-      const allArray = url.split( '/' )
+    if(serverFound){
+      const allArray = serverFound.url.split( '/' )
       const protocol = allArray[0]
       const domain = allArray[2]
       const host = protocol + '//' + domain
       return {
         host: host,
-        basePath: url.replace(host, '')
+        basePath: serverFound.url.replace(host, '')
       };
     }
 
-    return "";
+    return;
 
   }
 }()

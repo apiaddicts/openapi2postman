@@ -150,7 +150,7 @@ let environments = configurationFile.environments;
 _.forEach(environments, function (element) {
 	const endpointsStage = _.cloneDeep(endpointsPostman)
 	let exclude = {}
-	let urlPath = {};
+	let urlPath;
 	if ( element.read_only ) {
 		exclude.write = true
 	}

@@ -18,7 +18,7 @@ module.exports = function() {
     		"content": "",
     		"type": "text/plain"
   		},
-  		"value": pathPattern.host ? pathPattern.host : host,
+  		"value": pathPattern ? pathPattern.host : host,
   		"key": 'host',
   		"enabled": true
 		})
