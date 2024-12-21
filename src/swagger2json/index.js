@@ -6,8 +6,10 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(swagger, name, parent){
+  return function get(swagger, name, parent,index){
 
+    console.log(swagger.oneOf);
+    
     if (!swagger.type && swagger.properties){
       swagger.type = 'object';
     } else if (swagger.oneOf) {
@@ -52,10 +54,10 @@ module.exports = function() {
         global.environmentVariables[global.currentId+name] =  require('../utils/exampleForField.js')(swagger,false)
         return '{{'+name+'}}'
       case 'oneOf':
-        let schemaOne = swagger.oneOf[0];
+        let schemaOne = swagger.oneOf[index];
         return anyOfOneOfChoice(schemaOne, name, parent);
       case 'anyOf':
-        let schemaAny = swagger.anyOf[0];
+        let schemaAny = swagger.anyOf[index];
         return anyOfOneOfChoice(schemaAny, name, parent);
       default:
         require('../utils/error.js')('The type '+swagger.type+' is not implemented');

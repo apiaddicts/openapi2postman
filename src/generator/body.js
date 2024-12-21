@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 module.exports = function() {
 
-  return function get(postmanRequest,withoutRequired,withWrongParam){
+  return function get(postmanRequest,withoutRequired,withWrongParam,index){
     postmanRequest = _.cloneDeep(postmanRequest);
     if (!postmanRequest.aux.body){
       return postmanRequest;
@@ -41,7 +41,7 @@ module.exports = function() {
     global.wrongParamsCatch = withWrongParam;
     global.requiredParamsCatch = withoutRequired;
 
-    const body = require('../swagger2json/index.js')(postmanRequest.aux.body,'',parent);
+    const body = require('../swagger2json/index.js')(postmanRequest.aux.body,'',parent,index);
     let requestBody = {
       mode: "raw",
       raw: JSON.stringify(body, null, 4)
