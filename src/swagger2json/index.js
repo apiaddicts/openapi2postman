@@ -8,8 +8,6 @@ module.exports = function() {
   
   return function get(swagger, name, parent,index){
 
-    console.log(swagger.oneOf);
-    
     if (!swagger.type && swagger.properties){
       swagger.type = 'object';
     } else if (swagger.oneOf) {
