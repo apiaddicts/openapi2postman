@@ -34,6 +34,8 @@ try {
 				is_inline: false,
 				schema_is_inline: false,
 				schema_pretty_print: true,
+				generate_oneOf_anyOf:false,
+  			minimal_endpoints:false,
 				environments:[
 					{
 						name : "DEV",
@@ -41,8 +43,15 @@ try {
 						postman_environment_name: "%api_name%_DEV",
 						target_folder: "./out",
 						has_scopes: false,
+						microcks_headers:true,
 						application_token: false,
-						number_of_scopes: 0
+						number_of_scopes: 0,
+						application_token: false,
+      			has_scopes: false,
+      			read_only: false,
+      			validate_schema:false,
+						host_server_pattern:"%dev%",
+
 					}
 				]
 			};
