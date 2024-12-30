@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 module.exports = function() {
   
-  return function get(endpoint) {
+  return function get(endpoint,index) {
     if (endpoint.aux.queryParams.filter(s => s.required === true).length > 0) {
       return false;
     }
@@ -29,7 +29,7 @@ module.exports = function() {
     const urlWithoutParams = endpointPostmanRequest.request.url.path[0].split('?');
     endpointPostmanRequest.request.url.path[0] = urlWithoutParams[0] + queryParams;
 
-    endpointPostmanRequest = require('./body.js')(endpointPostmanRequest)
+    endpointPostmanRequest = require('./body.js')(endpointPostmanRequest,false,false,index)
     if (endpointPostmanRequest.aux.hasOwnProperty('suffix') && endpointPostmanRequest.aux.suffix.includes('wrong')) {
       endpointPostmanRequest.name += '.with.' + endpointPostmanRequest.aux.suffix;
       endpointPostmanRequest = require('./queryParamsRequired.js')(endpointPostmanRequest);

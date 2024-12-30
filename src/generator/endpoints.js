@@ -31,6 +31,7 @@ module.exports = function() {
             pathParameter: pathParameterSaved.name,
             pathParameterExample: pathParameterSaved.example || '',
           },
+          count: countRequest(endpoint),
           response: [],
           microcks: endpoint.microcks || false,
           request: {
@@ -108,5 +109,18 @@ module.exports = function() {
     endpointWrong.aux.suffix = `queryString ${notRequiredParam.name} wrong`;
 
     return endpointWrong;
+  }
+
+  function countRequest(endpoint){
+    if(!global.configurationFile.generate_oneOf_anyOf){
+      return 1;
+    }
+    if (endpoint.body) {
+      const found = _.find(endpoint.body, (value, key) => key === 'oneOf' || key === 'anyOf');
+      if (found) {
+        return found.length;
+      }
+    }
+    return 1;
   }
 }()
