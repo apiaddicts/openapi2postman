@@ -41,13 +41,10 @@ module.exports = function() {
 			"",
 			"var schema = "+schemaJSON+";",
 			"",
-			"var schemaIsValid = tv4.validate(json, schema);",
-			"if (!schemaIsValid) {",
-			"   console.error(tv4.error);",
-			"}",
-			"pm.test('Schema is valid', function() {",
-			"	pm.expect(schemaIsValid).to.be.true;",
-			"});"
+			"var checkRecursive = false;",
+			"var banUnknownProperties = true;",
+			"var schemaIsValid = tv4.validateMultiple(json, schema, checkRecursive,banUnknownProperties);",
+			"pm.expect(schemaIsValid.valid, schemaIsValid.errors).to.be.true;"
 		]);
 		return postmanRequest;
 };
