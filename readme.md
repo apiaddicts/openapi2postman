@@ -25,6 +25,7 @@ Those collections can be importend in postan application. The tests includes tes
 | ----------------------------------------------------------------------------------------- | ------------------------------------------- |
 | [CloudAppi](https://cloudappi.net/)                                                       | Apification and generation of microservices |
 | [Madrid Digital](https://www.comunidad.madrid/servicios/sede-electronica/madrid-digital/) | Generation of microservices                 |
+| [APIquality](https://apiquality.io/)  | Common contributor  |
 
 # 👩🏽‍💻 Contribute to ApiAddicts
 
