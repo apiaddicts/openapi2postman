@@ -124,9 +124,11 @@ _.forEach(endpoints, function (endpoint, i) {
 			if (endpointWithoutQueryParamsRequired && endpointCopy) {
 				endpointsPostman.push(endpointWithoutQueryParamsRequired);
 			}
+
+			let hasWrongParams = global.configurationFile.minimal_endpoints ? false : true;
 			
 			addBadRequestEndpoints(endpointsPostman, endpointCopy, 'requiredParams', '', true, false,index);
-			addBadRequestEndpoints(endpointsPostman, endpointCopy, 'wrongParams', '.wrong', false, true,index);
+			addBadRequestEndpoints(endpointsPostman, endpointCopy, 'wrongParams', '.wrong', false, hasWrongParams,index);
 		} else if ((endpointCopy.aux.status >= 200 && endpointCopy.aux.status < 300) || ((endpointCopy.aux.status === 401 || endpointCopy.aux.status === 403) && endpointCopy.aux.authorization)) {
 			endpointCopy = require('./src/generator/body.js')(endpointCopy,false,false,index);
 			endpointCopy = require('./src/generator/queryParamsRequired.js')(endpointCopy);
