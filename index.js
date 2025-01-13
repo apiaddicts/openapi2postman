@@ -34,6 +34,8 @@ try {
 				is_inline: false,
 				schema_is_inline: false,
 				schema_pretty_print: true,
+				generate_oneOf_anyOf:false,
+  			minimal_endpoints:false,
 				environments:[
 					{
 						name : "DEV",
@@ -41,8 +43,15 @@ try {
 						postman_environment_name: "%api_name%_DEV",
 						target_folder: "./out",
 						has_scopes: false,
+						microcks_headers:true,
 						application_token: false,
-						number_of_scopes: 0
+						number_of_scopes: 0,
+						application_token: false,
+      			has_scopes: false,
+      			read_only: false,
+      			validate_schema:false,
+						host_server_pattern:"%dev%",
+
 					}
 				]
 			};
@@ -86,49 +95,54 @@ let endpointsPostman = [];
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
 
 _.forEach(endpoints, function (endpoint, i) {
-	endpoint = require('./src/generator/testStatus.js')(endpoint);
-	endpoint = require('./src/generator/testBody.js')(endpoint, configurationFile);
-	endpoint = require('./src/generator/contentType.js')(endpoint);
-	endpoint = require("./src/generator/microcks.js")(endpoint);
-	endpoint = require('./src/generator/authorization.js')(endpoint, endpoint.aux.status)
-	global.currentId = endpoint.request.method + endpoint.request.url.path[0]
-	global.currentId = global.currentId.replace(/{{/g,'{').replace(/}}/g,'}').split('?')[0]
-	if (endpoint.aux.status === 404 && endpoint.aux.pathParameter) {
-		endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + endpoint.aux.pathParameter + '}}', '{{' +endpoint.aux.pathParameter + '_not_found}}')
-		endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' +endpoint.aux.pathParameter + '}}', '{{' +endpoint.aux.pathParameter + '_not_found}}')
-		endpoint = require('./src/generator/body.js')(endpoint)
-		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint)
-		endpointsPostman.push(endpoint)
-	} else if (endpoint.aux.status === 400) {
-		global.queryParamsRequiredAdded = []
-		let endpointPostman
-		do{
-			endpointPostman = require('./src/generator/queryParamsRequired.js')(endpoint,true)
-			if (endpointPostman) {
-				endpointPostman = require('./src/generator/body.js')(endpointPostman)
-				if (endpointPostman.aux.hasOwnProperty('suffix') && endpointPostman.aux.suffix.includes('wrong')) {
-					endpointPostman.name += '.with.' + endpointPostman.aux.suffix;
-					endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointPostman);
-					endpointPostman.request.url.path[0] = _.replace(endpointPostman.request.url.path[0], '{{' +endpointPostman.aux.suffix.split(' ')[1]+ '}}', '{{' +endpointPostman.aux.suffix.split(' ')[1]+ '_wrong}}')
-				} else {
-					endpointPostman.name += '.without.' + _.last(global.queryParamsRequiredAdded);
-					endpointPostman.aux.suffix = '.without.' +_.last(global.queryParamsRequiredAdded);
+	for (let index = 0; index < endpoint.count; index++) {
+		let endpointCopy = _.cloneDeep(endpoint);
+		endpointCopy = require('./src/generator/testStatus.js')(endpoint);
+		endpointCopy = require('./src/generator/testBody.js')(endpoint, configurationFile);
+		endpointCopy = require('./src/generator/contentType.js')(endpoint);
+		endpointCopy = require("./src/generator/microcks.js")(endpoint);
+		endpointCopy = require('./src/generator/authorization.js')(endpoint, endpoint.aux.status)
+		global.currentId = endpointCopy.request.method + endpointCopy.request.url.path[0]
+		global.currentId = global.currentId.replace(/{{/g,'{').replace(/}}/g,'}').split('?')[0]
+		if (endpointCopy.aux.status === 404 && endpointCopy.aux.pathParameter) {
+			endpointCopy.request.url.raw = _.replace(endpointCopy.request.url.raw, '{{' + endpointCopy.aux.pathParameter + '}}', '{{' +endpointCopy.aux.pathParameter + '_not_found}}')
+			endpointCopy.request.url.path[0] = _.replace(endpointCopy.request.url.path[0], '{{' +endpointCopy.aux.pathParameter + '}}', '{{' +endpointCopy.aux.pathParameter + '_not_found}}')
+			endpointCopy = require('./src/generator/body.js')(endpointCopy,false,false,index)
+			endpointCopy = require('./src/generator/queryParamsRequired.js')(endpointCopy)
+			endpointsPostman.push(endpointCopy)
+		} else if (endpointCopy.aux.status === 400) {
+			global.queryParamsRequiredAdded = []
+			let endpointPostman
+			do{
+				endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointCopy,true)
+				if (endpointPostman) {
+					endpointPostman = require('./src/generator/body.js')(endpointPostman,false, false, index)
+					if (endpointPostman.aux.hasOwnProperty('suffix') && endpointPostman.aux.suffix.includes('wrong')) {
+						endpointPostman.name += '.with.' + endpointPostman.aux.suffix;
+						endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointPostman);
+						endpointPostman.request.url.path[0] = _.replace(endpointPostman.request.url.path[0], '{{' +endpointPostman.aux.suffix.split(' ')[1]+ '}}', '{{' +endpointPostman.aux.suffix.split(' ')[1]+ '_wrong}}')
+					} else {
+						endpointPostman.name += '.without.' + _.last(global.queryParamsRequiredAdded);
+						endpointPostman.aux.suffix = '.without.' +_.last(global.queryParamsRequiredAdded);
+					}
+					endpointsPostman.push(endpointPostman);
 				}
-				endpointsPostman.push(endpointPostman);
+			} while(endpointPostman)
+			
+			const endpointWithoutQueryParamsRequired = require('./src/generator/queryParamsNotRequired.js')(endpointCopy,index);
+			if (endpointWithoutQueryParamsRequired && endpointCopy) {
+				endpointsPostman.push(endpointWithoutQueryParamsRequired);
 			}
-		} while(endpointPostman)
-		
-		const endpointWithoutQueryParamsRequired = require('./src/generator/queryParamsNotRequired.js')(endpoint);
-		if (endpointWithoutQueryParamsRequired && endpoint) {
-			endpointsPostman.push(endpointWithoutQueryParamsRequired);
+
+			let hasWrongParams = global.configurationFile.minimal_endpoints ? false : true;
+			
+			addBadRequestEndpoints(endpointsPostman, endpointCopy, 'requiredParams', '', true, false,index);
+			addBadRequestEndpoints(endpointsPostman, endpointCopy, 'wrongParams', '.wrong', false, hasWrongParams,index);
+		} else if ((endpointCopy.aux.status >= 200 && endpointCopy.aux.status < 300) || ((endpointCopy.aux.status === 401 || endpointCopy.aux.status === 403) && endpointCopy.aux.authorization)) {
+			endpointCopy = require('./src/generator/body.js')(endpointCopy,false,false,index);
+			endpointCopy = require('./src/generator/queryParamsRequired.js')(endpointCopy);
+			endpointsPostman.push(endpointCopy);
 		}
-		
-		addBadRequestEndpoints(endpointsPostman, endpoint, 'requiredParams', '', true, false);
-		addBadRequestEndpoints(endpointsPostman, endpoint, 'wrongParams', '.wrong', false, true);
-	} else if ((endpoint.aux.status >= 200 && endpoint.aux.status < 300) || ((endpoint.aux.status === 401 || endpoint.aux.status === 403) && endpoint.aux.authorization)) {
-		endpoint = require('./src/generator/body.js')(endpoint);
-		endpoint = require('./src/generator/queryParamsRequired.js')(endpoint);
-		endpointsPostman.push(endpoint);
 	}
 })
 
@@ -150,6 +164,7 @@ let environments = configurationFile.environments;
 _.forEach(environments, function (element) {
 	const endpointsStage = _.cloneDeep(endpointsPostman)
 	let exclude = {}
+	let urlPath;
 	if ( element.read_only ) {
 		exclude.write = true
 	}
@@ -212,12 +227,23 @@ _.forEach(environments, function (element) {
 			}
 		}
 	}
-	if ( element.custom_authorizations_file ) {
-		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
+	if(global.definition.components.securitySchemes){
+		console.log('securitySchemes');
+		let securityDefinition = require('./src/parser/openapiAuthorizationDefinition.js')(global.definition.components.securitySchemes)
+		if(securityDefinition){
+			require('./src/parser/authorizationRequests.js')(endpointsStage,securityDefinition)
+		} else {
+			exclude.auth = true
+		}
 	} else {
 		// Elimina la cabecera Authorization de las peticiones en Postman
 		exclude.auth = true
 	}
+
+	if(element.host_server_pattern){
+		urlPath = require('./src/generator/serverPath.js')(global.definition.servers,element.host_server_pattern)
+	}
+
   let endpointsPostmanWithFolders = require('./src/generator/folders.js')(endpointsStage, exclude)
 	// Crea el listado de variables de entorno
 	let environmentVariables = require('./src/generator/environmentVariablesNames.js')(endpointsPostmanWithFolders)
@@ -232,14 +258,14 @@ _.forEach(environments, function (element) {
 		element.postman_environment_name = _.replace(element.postman_environment_name, '%api_name%', apiName)
 	}
 	require('./src/generator/collection.js')(element.target_folder, element.postman_collection_name, endpointsPostmanWithFolders)
-	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, schemaHostBasePath,environmentVariables)
+	require('./src/generator/environment.js')(element.target_folder, element.postman_environment_name, element.host, element.port, schemaHostBasePath,environmentVariables,urlPath)
 })
-function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdded, suffix, withoutRequired, withWrongParam) {
+function addBadRequestEndpoints(endpointsPostman, endpointBase, memoryAlreadyAdded, suffix, withoutRequired, withWrongParam,index) {
 	global[memoryAlreadyAdded] = [];
 	do {
 		var initialCount = global[memoryAlreadyAdded].length;
 		let endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointBase);
-		endpointPostman = require('./src/generator/body.js')(endpointPostman, withoutRequired, withWrongParam);
+		endpointPostman = require('./src/generator/body.js')(endpointPostman, withoutRequired, withWrongParam,index);
 		if (global[memoryAlreadyAdded].length > initialCount) {
 			endpointPostman.name += '-' + _.last(global[memoryAlreadyAdded]) + suffix;
 			endpointPostman.aux.suffix = _.last(global[memoryAlreadyAdded]) + suffix;
