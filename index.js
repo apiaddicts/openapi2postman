@@ -227,14 +227,13 @@ _.forEach(environments, function (element) {
 			}
 		}
 	}
-	if(global.definition.components.securitySchemes){
-		console.log('securitySchemes');
+	if ( element.custom_authorizations_file ) {
+		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
+	} else if(global.definition.components.securitySchemes){
 		let securityDefinition = require('./src/parser/openapiAuthorizationDefinition.js')(global.definition.components.securitySchemes)
 		if(securityDefinition){
-			require('./src/parser/authorizationRequests.js')(endpointsStage,securityDefinition)
-		} else {
-			exclude.auth = true
-		}
+			require('./src/parser/authorizationRequests.js')(endpointsStage,null,securityDefinition)
+		} 
 	} else {
 		// Elimina la cabecera Authorization de las peticiones en Postman
 		exclude.auth = true
