@@ -10,7 +10,15 @@ const path = require('path')
 
 module.exports = function() {
   
-  return function get(endpoints,definition){
+  return function get(endpoints,file, definition){
+		if(!definition){
+			
+			try {
+				definition = JSON.parse(fs.readFileSync(file, 'utf8'));
+			} catch (e) {
+					require('../utils/error.js')('error reading auth file ');
+			}
+		}
 	for (let i in definition.item){
 		definition.item[i].authType = true
 		// Comprobar que viene un status dentro del objeto aux para cada endpoint de autorización
