@@ -8,10 +8,12 @@ const _ = require('lodash');
 module.exports = function() {
   
   return function get(oAuthDefinition){
-    // console.log('oAuthDefinition');
-    // console.log(oAuthDefinition.oAuth2ClientCredentials.flows);
-
-   const data =  parseUrl(oAuthDefinition.oAuth2ClientCredentials.flows.clientCredentials.tokenUrl)
+    let definition
+    for (const i in oAuthDefinition) {
+			definition = oAuthDefinition[i];
+			
+    }
+   const data =  parseUrl(definition.flows)
    return generateDefinition(data) 
   }
 
@@ -85,13 +87,17 @@ module.exports = function() {
     return postmanCollection;
   }
 
-  function parseUrl(url) {
-    const urlObject = new URL(url);
+  function parseUrl(flows) {
+		let getTokenUrl
+		for (const i in flows) {
+			getTokenUrl = flows[i];
+    }
+    const urlObject = new URL(getTokenUrl.tokenUrl);
     const host = `${urlObject.protocol}//${urlObject.host}`;
     const path = urlObject.pathname.split('/').filter(segment => segment);
 
     return {
-        raw: url,
+        raw: getTokenUrl.tokenUrl,
         host: host,
         path: path
     };

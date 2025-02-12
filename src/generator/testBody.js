@@ -34,7 +34,7 @@ module.exports = function() {
 			"	// Guardar variables en environment",
 			"	// pm.environment.set('nombreVariable', json.data.variable);",
 			"} catch (e) {",
-			"	pm.test(\"Se esperaba una respuesta JSON\", function() {",
+			"	pm.test(\"A JSON response was expected\", function() {",
 			"		pm.expect(json, \"responseBody no es un JSON\").not.to.be.null;",
 			"	});",
 			"}",
