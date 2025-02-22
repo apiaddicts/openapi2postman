@@ -20,7 +20,7 @@ module.exports = function() {
         }else {
             if(swagger.required.length > 0){
                 let property = swagger.required[0];
-                requiredProperties(property,parent,notInclude);
+                requiredProperties(property,"",notInclude);
                 
             }
         }
@@ -36,7 +36,7 @@ module.exports = function() {
   };
 
   function requiredProperties(property,parent,notInclude){
-    let key = parent+'.'+property;
+    let key = !global.configurationFile.minimal_endpoints ? parent+'.'+property : "";
     if (_.indexOf(global.requiredParams, key) === -1 && global.requiredParamsCatch){
         notInclude = property;
         global.requiredParams.push(key);

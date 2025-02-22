@@ -93,28 +93,29 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 //GENERATOR-------------------------------- */
 let endpointsPostman = [];
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
+// console.log(endpoints);
 
 _.forEach(endpoints, function (endpoint, i) {
 	for (let index = 0; index < endpoint.count; index++) {
 		let endpointCopy = _.cloneDeep(endpoint);
-		endpointCopy = require('./src/generator/testStatus.js')(endpoint);
-		endpointCopy = require('./src/generator/testBody.js')(endpoint, configurationFile);
-		endpointCopy = require('./src/generator/contentType.js')(endpoint);
-		endpointCopy = require("./src/generator/microcks.js")(endpoint);
-		endpointCopy = require('./src/generator/authorization.js')(endpoint, endpoint.aux.status)
-		global.currentId = endpointCopy.request.method + endpointCopy.request.url.path[0]
+		endpoint = require('./src/generator/testStatus.js')(endpoint);
+		endpoint = require('./src/generator/testBody.js')(endpoint, configurationFile);
+		endpoint = require('./src/generator/contentType.js')(endpoint);
+		endpoint = require("./src/generator/microcks.js")(endpoint);
+		endpoint = require('./src/generator/authorization.js')(endpoint, endpoint.aux.status)
+		global.currentId = endpoint.request.method + endpoint.request.url.path[0]
 		global.currentId = global.currentId.replace(/{{/g,'{').replace(/}}/g,'}').split('?')[0]
-		if (endpointCopy.aux.status === 404 && endpointCopy.aux.pathParameter) {
-			endpointCopy.request.url.raw = _.replace(endpointCopy.request.url.raw, '{{' + endpointCopy.aux.pathParameter + '}}', '{{' +endpointCopy.aux.pathParameter + '_not_found}}')
-			endpointCopy.request.url.path[0] = _.replace(endpointCopy.request.url.path[0], '{{' +endpointCopy.aux.pathParameter + '}}', '{{' +endpointCopy.aux.pathParameter + '_not_found}}')
-			endpointCopy = require('./src/generator/body.js')(endpointCopy,false,false,index)
-			endpointCopy = require('./src/generator/queryParamsRequired.js')(endpointCopy)
-			endpointsPostman.push(endpointCopy)
-		} else if (endpointCopy.aux.status === 400) {
+		if (endpoint.aux.status === 404 && endpoint.aux.pathParameter) {
+			endpoint.request.url.raw = _.replace(endpoint.request.url.raw, '{{' + endpoint.aux.pathParameter + '}}', '{{' +endpoint.aux.pathParameter + '_not_found}}')
+			endpoint.request.url.path[0] = _.replace(endpoint.request.url.path[0], '{{' +endpoint.aux.pathParameter + '}}', '{{' +endpoint.aux.pathParameter + '_not_found}}')
+			endpoint = require('./src/generator/body.js')(endpoint,false,false,index)
+			endpoint = require('./src/generator/queryParamsRequired.js')(endpoint)
+			endpointsPostman.push(endpoint)
+		} else if (endpoint.aux.status === 400) {
 			global.queryParamsRequiredAdded = []
 			let endpointPostman
 			do{
-				endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointCopy,true)
+				endpointPostman = require('./src/generator/queryParamsRequired.js')(endpoint,true)
 				if (endpointPostman) {
 					endpointPostman = require('./src/generator/body.js')(endpointPostman,false, false, index)
 					if (endpointPostman.aux.hasOwnProperty('suffix') && endpointPostman.aux.suffix.includes('wrong')) {
@@ -129,19 +130,19 @@ _.forEach(endpoints, function (endpoint, i) {
 				}
 			} while(endpointPostman)
 			
-			const endpointWithoutQueryParamsRequired = require('./src/generator/queryParamsNotRequired.js')(endpointCopy,index);
-			if (endpointWithoutQueryParamsRequired && endpointCopy) {
+			const endpointWithoutQueryParamsRequired = require('./src/generator/queryParamsNotRequired.js')(endpoint,index);
+			if (endpointWithoutQueryParamsRequired && endpoint) {
 				endpointsPostman.push(endpointWithoutQueryParamsRequired);
 			}
 
 			let hasWrongParams = global.configurationFile.minimal_endpoints ? false : true;
 			
-			addBadRequestEndpoints(endpointsPostman, endpointCopy, 'requiredParams', '', true, false,index);
-			addBadRequestEndpoints(endpointsPostman, endpointCopy, 'wrongParams', '.wrong', false, hasWrongParams,index);
-		} else if ((endpointCopy.aux.status >= 200 && endpointCopy.aux.status < 300) || ((endpointCopy.aux.status === 401 || endpointCopy.aux.status === 403) && endpointCopy.aux.authorization)) {
-			endpointCopy = require('./src/generator/body.js')(endpointCopy,false,false,index);
-			endpointCopy = require('./src/generator/queryParamsRequired.js')(endpointCopy);
-			endpointsPostman.push(endpointCopy);
+			addBadRequestEndpoints(endpointsPostman, endpoint, 'requiredParams', '', true, false,index);
+			addBadRequestEndpoints(endpointsPostman, endpoint, 'wrongParams', '.wrong', false, hasWrongParams,index);
+		} else if ((endpoint.aux.status >= 200 && endpoint.aux.status < 300) || ((endpoint.aux.status === 401 || endpoint.aux.status === 403) && endpoint.aux.authorization)) {
+			endpoint = require('./src/generator/body.js')(endpoint,false,false,index);
+			endpoint = require('./src/generator/queryParamsRequired.js')(endpoint);
+			endpointsPostman.push(endpoint);
 		}
 	}
 })
