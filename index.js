@@ -97,7 +97,6 @@ const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
 
 _.forEach(endpoints, function (endpoint, i) {
 	for (let index = 0; index < endpoint.count; index++) {
-		let endpointCopy = _.cloneDeep(endpoint);
 		endpoint = require('./src/generator/testStatus.js')(endpoint);
 		endpoint = require('./src/generator/testBody.js')(endpoint, configurationFile);
 		endpoint = require('./src/generator/contentType.js')(endpoint);
@@ -117,7 +116,7 @@ _.forEach(endpoints, function (endpoint, i) {
 			do{
 				endpointPostman = require('./src/generator/queryParamsRequired.js')(endpoint,true)
 				if (endpointPostman) {
-					endpointPostman = require('./src/generator/body.js')(endpointPostman,false, false, index)
+					endpointPostman = require('./src/generator/body.js')(endpointPostman,false,false,index)
 					if (endpointPostman.aux.hasOwnProperty('suffix') && endpointPostman.aux.suffix.includes('wrong')) {
 						endpointPostman.name += '.with.' + endpointPostman.aux.suffix;
 						endpointPostman = require('./src/generator/queryParamsRequired.js')(endpointPostman);
@@ -134,9 +133,7 @@ _.forEach(endpoints, function (endpoint, i) {
 			if (endpointWithoutQueryParamsRequired && endpoint) {
 				endpointsPostman.push(endpointWithoutQueryParamsRequired);
 			}
-
 			let hasWrongParams = global.configurationFile.minimal_endpoints ? false : true;
-			
 			addBadRequestEndpoints(endpointsPostman, endpoint, 'requiredParams', '', true, false,index);
 			addBadRequestEndpoints(endpointsPostman, endpoint, 'wrongParams', '.wrong', false, hasWrongParams,index);
 		} else if ((endpoint.aux.status >= 200 && endpoint.aux.status < 300) || ((endpoint.aux.status === 401 || endpoint.aux.status === 403) && endpoint.aux.authorization)) {
