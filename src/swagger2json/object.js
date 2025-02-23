@@ -14,14 +14,22 @@ module.exports = function() {
     if (parent && global.requiredParamsCatch && _.has(swagger, 'required')){
         if(!global.configurationFile.minimal_endpoints){
             _.forEach(swagger.required, function(property){
-                requiredProperties(property,parent,notInclude);
+                let key = parent+'.'+property;
+                if (_.indexOf(global.requiredParams, key) === -1 && global.requiredParamsCatch){
+                    notInclude = property;
+                    global.requiredParams.push(key);
+                    global.requiredParamsCatch = false;
+                }
             })
-
-        }else {
+        }else{
             if(swagger.required.length > 0){
                 let property = swagger.required[0];
-                requiredProperties(property,"",notInclude);
-                
+                let key = "";
+                if (_.indexOf(global.requiredParams, key) === -1 && global.requiredParamsCatch){
+                    notInclude = property;
+                    global.requiredParams.push(key);
+                    global.requiredParamsCatch = false;
+                }
             }
         }
     }
@@ -34,14 +42,5 @@ module.exports = function() {
     })
     return object;
   };
-
-  function requiredProperties(property,parent,notInclude){
-    let key = !global.configurationFile.minimal_endpoints ? parent+'.'+property : "";
-    if (_.indexOf(global.requiredParams, key) === -1 && global.requiredParamsCatch){
-        notInclude = property;
-        global.requiredParams.push(key);
-        global.requiredParamsCatch = false;
-    }
-  }
 
 }()
