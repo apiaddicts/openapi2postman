@@ -65,9 +65,11 @@ module.exports = function() {
           }
         }
 
-        // Duplicar los endpoints para cada queryParameter
-        if (item.aux.status >= 200 && item.aux.status < 400 && item.aux.queryParams.length > 0) {
-          addQueryParamEndpoint(item, items);
+        // Duplicar los endpoints para cada queryParameter dependiendo si el minimal endpoint está en true o false
+        if(!global.configurationFile.minimal_endpoints || global.configurationFile.minimal_endpoints === false){
+          if (item.aux.status >= 200 && item.aux.status < 400 && item.aux.queryParams.length > 0) {
+            addQueryParamEndpoint(item, items);
+          }
         }
       });
     });
