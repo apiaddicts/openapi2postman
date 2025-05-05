@@ -34,12 +34,12 @@ module.exports = function() {
     function deleteValidateSchema(execCode){
         let findEnd = false
         for (let i in execCode){
-            if (execCode[i] === "var schemaIsValid = tv4.validateMultiple(json, schema, checkRecursive,banUnknownProperties);"){
-                execCode[i] = "/*var schemaIsValid = tv4.validateMultiple(json, schema, checkRecursive,banUnknownProperties);"
+            if (execCode[i] === "var Ajv = require(\"ajv\");"){
+                execCode[i] = "/*var Ajv = require(\"ajv\");"
                 findEnd = true
             }
-            if (findEnd && execCode[i] === "pm.expect(schemaIsValid.valid, schemaIsValid.errors).to.be.true;"){
-                execCode[i] = "pm.expect(schemaIsValid.valid, schemaIsValid.errors).to.be.true;*/"
+            if (findEnd && execCode[i] === "});"){
+                execCode[i] = "});*/"
                 return
             }
         }
