@@ -36,7 +36,7 @@ module.exports = function() {
           microcks: endpoint.microcks || false,
           request: {
             method: endpoint.verb,
-            header: [],
+            header: endpoint.headers ? endpoint.headers : [],
             body: {
               mode: "raw",
               raw: ""
