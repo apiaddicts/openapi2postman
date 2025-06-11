@@ -42,7 +42,7 @@ module.exports = function() {
 			"var schema = "+schemaJSON+";",
 			"",
 			"var Ajv = require(\"ajv\");",
-			"var ajv = new Ajv({ allErrors: false });",
+			"var ajv = new Ajv({ logger: console, allErrors: false, unknownFormats: ['int32', 'int64', 'float', 'double', 'password'] });",
 			"var validate = ajv.compile(schema);",
 			"var valid = validate(json);",
 			"pm.test(\"Schema is valid according to AJV\", function () {",
