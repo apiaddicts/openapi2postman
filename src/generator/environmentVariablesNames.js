@@ -42,7 +42,7 @@ module.exports = function() {
 		if(request.header){
 			for (let i in request.header){
 				request.header[i].key = extractVariablesFromString(numerateItem,request.header[i].key,items,itemKeys,id);
-				request.header[i].value = extractVariablesFromString(numerateItem, request.header[i].value, items, itemKeys, id, request.header[i].key === 'Authorization');
+				request.header[i].value = typeof request.header[i].value == 'number' || typeof request.header[i].value == 'object' ? request.header[i].value : extractVariablesFromString(numerateItem, request.header[i].value, items, itemKeys, id, request.header[i].key === 'Authorization');
 			}
 		}
 		if (request.body && request.body.raw) {

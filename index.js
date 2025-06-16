@@ -86,6 +86,7 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 	endpointsParsed[i].bodyResponse = require('./src/parser/'+version+'/body.js')(endpointParsed.verb, endpointParsed.path, true)
 	endpointsParsed[i].authorization = require('./src/parser/authorization.js')(endpointParsed.verb, endpointParsed.path, authorizationTokens)
 	endpointsParsed[i].queryParams = require('./src/parser/'+version+'/queryParams.js')(endpointParsed.verb, endpointParsed.path)
+	endpointsParsed[i].headers = require('./src/parser/'+version+'/headers.js')(endpointParsed.verb, endpointParsed.path)
 	endpointsParsed[i].summary = require('./src/parser/summary.js')(endpointParsed.verb, endpointParsed.path)
 	endpointsParsed[i].microcks = require('./src/parser/openapi3/microcks.js')(endpointParsed.verb, endpointParsed.path)
 });
@@ -93,7 +94,6 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 //GENERATOR-------------------------------- */
 let endpointsPostman = [];
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
-// console.log(endpoints);
 
 _.forEach(endpoints, function (endpoint, i) {
 	for (let index = 0; index < endpoint.count; index++) {
