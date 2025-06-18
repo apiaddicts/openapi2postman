@@ -104,8 +104,10 @@ module.exports = function() {
               continue;
             } else if (k === 'description'){
               continue;
-            } else {
-              require('../../utils/error.js')('the property '+k+' of allOf is not implemented');
+            } else if (k === 'items') {
+              continue
+            }else {
+              console.warn('the property '+k+' of allOf is not implemented')
             }
           }
 
