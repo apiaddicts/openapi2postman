@@ -18,7 +18,7 @@ module.exports = function() {
     _.forEach(headers, function(header) {	
       result.push({ 
         key: header.name, 
-        type: header.schema.type, 
+        type: header.type, 
         required : header.required, 
         value: getExamples(header)
       });
