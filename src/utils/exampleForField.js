@@ -33,10 +33,14 @@ module.exports = function() {
   }
 
   function getExampleForString(example, isWrong, maxLength) {
+    const MAX_SAFE_LENGTH = 100000;
+    const base = String(example || 'badstring').slice(0, 10);
+    const parsedLength = Number(maxLength);
+    const isSafe = Number.isFinite(parsedLength) && parsedLength <= MAX_SAFE_LENGTH;
     if (isWrong) {
       // Crear caso de error con maxLength + 1
-      if (example && maxLength) {
-        return _.padEnd(example, maxLength + 1, 'z');
+      if (isSafe) {
+        return _.padEnd(base, parsedLength + 1, 'z');
       }
       return getValueFromConfigurationFile('wrong','string','badstring')
     }
