@@ -50,6 +50,7 @@ module.exports = function() {
   function getExampleForDate(example, isWrong) {
     if (isWrong) {
       // El mes con valor 50 para casos de error
+      if(typeof example == 'object') example = '2022-01-01'
       if (example) {
         let date = example.split('-');
         date[1] = '50';
