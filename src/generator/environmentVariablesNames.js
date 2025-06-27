@@ -62,79 +62,81 @@ module.exports = function() {
 	}
 	
 	function extractVariablesFromString(numerateItem, string, items, itemKeys, id, isUserToken, queryParams = []){
-		const re = /\{\{(.*?)\}\}/g
-		const newItems = string.match(re)
-		for (let i in newItems){
-			newItems[i] = newItems[i].substring(0,newItems[i].length - 2).substring(2);
-			if (_.includes(['host','port','basePath'], newItems[i])){
-				continue;
-			}
-			let key = isUserToken? newItems[i] : numerateItem + newItems[i];
-			if (!_.includes(itemKeys, key)) {
-				let value = typeof global.environmentVariables[id+newItems[i]] !== 'undefined' ? global.environmentVariables[id+newItems[i]] : '';
-				if (newItems[i].includes('_not_found')) {
-						value = require('../utils/exampleForField.js')( 
-						{ 
-							name: newItems[i], 
-							type: 'string', 
-							example: value 
-						}, 
-						true
-					);
+		if(string){
+			const re = /\{\{(.*?)\}\}/g
+			const newItems = string.match(re)
+			for (let i in newItems){
+				newItems[i] = newItems[i].substring(0,newItems[i].length - 2).substring(2);
+				if (_.includes(['host','port','basePath'], newItems[i])){
+					continue;
 				}
-				if (queryParams.length > 0 && queryParams.filter(s => s.example !== 'application/pdf')) {
-					if (!!queryParams.find(s => s.name === newItems[i])) {
-						const queryItem = queryParams.find(s => s.name === newItems[i]);
-						const exampleExist = !!queryItem;
-						value = require('../utils/exampleForField.js')( 
+				let key = isUserToken? newItems[i] : numerateItem + newItems[i];
+				if (!_.includes(itemKeys, key)) {
+					let value = typeof global.environmentVariables[id+newItems[i]] !== 'undefined' ? global.environmentVariables[id+newItems[i]] : '';
+					if (newItems[i].includes('_not_found')) {
+							value = require('../utils/exampleForField.js')( 
 							{ 
 								name: newItems[i], 
-								type: queryItem.type, 
-								example: validExample(queryItem),
-							}, 
-							!exampleExist
-						);
-					}
-					if (newItems[i].includes('_wrong')) {
-						const queryItem = queryParams.find(s => s.name === newItems[i].replace('_wrong', ''));
-						value = require('../utils/exampleForField.js')( 
-							{ 
-								name: newItems[i], 
-								type: queryItem.type, 
-								example: validExample(queryItem),
+								type: 'string', 
+								example: value 
 							}, 
 							true
 						);
 					}
-				}
-				// Cuando la variable is_inline del fichero de configuración no diga lo contrario,
-				// se guardarán las variables de entorno
-				if (!global.configurationFile.is_inline || isUserToken) {
-					items.push({
-						"description": {
-							"content": "",
-							"type": "text/plain"
-						},
-						"value": value,
-						"key": key,
-						"enabled": true
-					});
-					itemKeys.push(key);
-					string = string.replace('{{'+newItems[i]+'}}', '{{'+key+'}}');
-				} else {
-					// Se añade el valor del campo en el propio objeto de la petición
-					if (typeof value !== 'string') {
-						string = string.replace(`"{{${newItems[i]}}}"`, value);
+					if (queryParams.length > 0 && queryParams.filter(s => s.example !== 'application/pdf')) {
+						if (!!queryParams.find(s => s.name === newItems[i])) {
+							const queryItem = queryParams.find(s => s.name === newItems[i]);
+							const exampleExist = !!queryItem;
+							value = require('../utils/exampleForField.js')( 
+								{ 
+									name: newItems[i], 
+									type: queryItem.type, 
+									example: validExample(queryItem),
+								}, 
+								!exampleExist
+							);
+						}
+						if (newItems[i].includes('_wrong')) {
+							const queryItem = queryParams.find(s => s.name === newItems[i].replace('_wrong', ''));
+							value = require('../utils/exampleForField.js')( 
+								{ 
+									name: newItems[i], 
+									type: queryItem.type, 
+									example: validExample(queryItem),
+								}, 
+								true
+							);
+						}
 					}
-					string = string.replace(`{{${newItems[i]}}}`, value);
-				}
-			} else {
-				if (!global.configurationFile.is_inline || isUserToken) {
-					string = string.replace('{{'+newItems[i]+'}}', '{{'+key+'}}');
+					// Cuando la variable is_inline del fichero de configuración no diga lo contrario,
+					// se guardarán las variables de entorno
+					if (!global.configurationFile.is_inline || isUserToken) {
+						items.push({
+							"description": {
+								"content": "",
+								"type": "text/plain"
+							},
+							"value": value,
+							"key": key,
+							"enabled": true
+						});
+						itemKeys.push(key);
+						string = string.replace('{{'+newItems[i]+'}}', '{{'+key+'}}');
+					} else {
+						// Se añade el valor del campo en el propio objeto de la petición
+						if (typeof value !== 'string') {
+							string = string.replace(`"{{${newItems[i]}}}"`, value);
+						}
+						string = string.replace(`{{${newItems[i]}}}`, value);
+					}
+				} else {
+					if (!global.configurationFile.is_inline || isUserToken) {
+						string = string.replace('{{'+newItems[i]+'}}', '{{'+key+'}}');
+					}
 				}
 			}
+			return string;
 		}
-		return string;
 	}
 	function extractVariablesFromTest(aux, execCode, numerateItem, items){
 		if (global.configurationFile.schema_is_inline === false) {
