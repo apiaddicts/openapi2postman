@@ -15,12 +15,13 @@ module.exports = function() {
 		// parameters = replaceRefs(parameters);
 		let queryParams = _.filter(parameters, ['in', 'query'])
 		const result = []
-		_.forEach(queryParams, function(queryParam) {	
+		_.forEach(queryParams, function(queryParam) {
+			const param = queryParam.schema ? queryParam : getContentProperty(queryParam);
 			result.push({ 
 				name: queryParam.name, 
-				type: queryParam.schema.type, 
+				type: param.schema.type, 
 				required : queryParam.required, 
-				example: getExamples(queryParam)
+				example: getExamples(param)
 			});
 		});
 		return result
@@ -66,6 +67,13 @@ module.exports = function() {
 			}
 			return queryParam.example;
 		}	
+	}
+
+	function getContentProperty(query){
+		const queryContent = query.content;
+		for (const key in queryContent) {
+			return queryContent[key];
+		}
 	}
 
 }()
