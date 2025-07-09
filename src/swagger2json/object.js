@@ -7,9 +7,9 @@ const _ = require('lodash');
 module.exports = function() {
 
   return function get(swagger,parent){
-    if (!swagger.properties){
-    	require('../utils/error.js')(`There is an object without properties: ${swagger}`);
-    }
+    
+    validationProperties(swagger);
+    
     let notInclude = false;
     if (parent && global.requiredParamsCatch && _.has(swagger, 'required')){
         if(!global.configurationFile.minimal_endpoints){
@@ -42,5 +42,14 @@ module.exports = function() {
     })
     return object;
   };
+
+  function validationProperties(swagger){
+    if(!swagger.properties || Object.keys(swagger.properties).length === 0){
+        if(swagger.additionalProperties && swagger.additionalProperties !== false){
+            return {}
+        }
+        require('../utils/error.js')(`There is an object without properties: ${JSON.stringify(swagger)}`);
+    }
+  }
 
 }()
