@@ -35,6 +35,7 @@ module.exports = function() {
     }
     const object = {};
     _.forEach(swagger.properties,function(property,name){
+        if(!property.type) return object;
         if (notInclude === false || notInclude !== name){
             let newParent = parent ? parent+'.'+name : undefined;
             object[name] = require('./index.js')(property,name,newParent);
