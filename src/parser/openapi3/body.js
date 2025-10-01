@@ -7,7 +7,8 @@ const _ = require('lodash')
 module.exports = function() {
 
   const MAX_DEPTH_LEVEL = 20;
-
+  let seenSchemas = new WeakSet();
+  
   return function get(verb, path, bodyResponse) {
   	if (!_.isObject(global.definition.paths)) {
       require('../../utils/error.js')('paths is required')
@@ -110,6 +111,17 @@ module.exports = function() {
   }
 
   function replaceAllOfs(schema){
+    if (!_.isObject(schema)) return schema;
+
+   // Detectar ciclos por identidad
+    if (seenSchemas.has(schema)) {
+      return {
+        type: "string",
+        description: "Circular schema avoided"
+      };
+    }
+    seenSchemas.add(schema);
+
     let result = {}
     for (let i in schema) {
       if (i === 'allOf' && _.isArray(schema[i])){
