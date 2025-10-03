@@ -94,9 +94,11 @@ _.forEach(endpointsParsed, function (endpointParsed, i) {
 //GENERATOR-------------------------------- */
 let endpointsPostman = [];
 const endpoints = require('./src/generator/endpoints.js')(endpointsParsed);
+const cloneDeep = _.cloneDeep;
 
-_.forEach(endpoints, function (endpoint, i) {
-	for (let index = 0; index < endpoint.count; index++) {
+_.forEach(endpoints, function (originalEndpoint, i) {
+	for (let index = 0; index < originalEndpoint.count; index++) {
+		let endpoint = cloneDeep(originalEndpoint);
 		endpoint = require('./src/generator/testStatus.js')(endpoint);
 		endpoint = require('./src/generator/testBody.js')(endpoint, configurationFile);
 		endpoint = require('./src/generator/contentType.js')(endpoint);
@@ -167,6 +169,8 @@ _.forEach(environments, function (element) {
 		exclude.write = true
 	}
 	if (element.microcks_headers) {
+		console.log('entra acá', element);
+		
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
 		  const endpoint = endpointsStage[i];
