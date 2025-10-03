@@ -169,8 +169,6 @@ _.forEach(environments, function (element) {
 		exclude.write = true
 	}
 	if (element.microcks_headers) {
-		console.log('entra acá', element);
-		
 		let actualLength = endpointsStage.length;
 		for (let i = 0; i < actualLength; i++) {
 		  const endpoint = endpointsStage[i];
