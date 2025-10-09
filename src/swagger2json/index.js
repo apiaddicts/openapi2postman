@@ -7,13 +7,22 @@ const _ = require('lodash');
 module.exports = function() {
   
   return function get(swagger, name, parent,index){
+if (typeof swagger !== 'object' || swagger === null) {
+    swagger = { type: 'string' };
+  }
 
-    if (!swagger.type && swagger.properties){
-      swagger.type = 'object';
-    } else if (swagger.oneOf) {
-      swagger.type = 'oneOf';
-    } else if (swagger.anyOf) {
-      swagger.type = 'anyOf';
+    if (!swagger.type) {
+      if (swagger.properties) {
+        swagger.type = 'object';
+      } else if (swagger.items) {
+        swagger.type = 'array';
+      } else if (swagger.oneOf) {
+        swagger.type = 'oneOf';
+      } else if (swagger.anyOf) {
+        swagger.type = 'anyOf';
+      } else {
+        swagger.type = 'string';
+      }
     }
 
     let wrongParam = false;
