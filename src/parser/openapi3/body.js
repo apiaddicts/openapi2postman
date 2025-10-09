@@ -163,11 +163,11 @@ module.exports = function() {
         }
         result = _.merge(result, merged)
       } else if ( _.isArray(schema[i]) && i !== 'required') {
-        const arrayResult = []
-        for (let k in schema[i]) {
-          arrayResult.push(replaceAllOfs(schema[i][k]))
+        if (schema[i].every(v => !_.isObject(v))) {
+          result[i] = [...schema[i]];
+        } else {
+          result[i] = schema[i].map(item => replaceAllOfs(item));
         }
-        result[i] = arrayResult
       } else if ( _.isObject(schema[i]) && i !== 'required') {
         // result.type = 'object';
         result[i] = _.merge(result[i],replaceAllOfs(schema[i]))
