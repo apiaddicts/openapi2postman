@@ -5,6 +5,7 @@
 const _ = require('lodash');
 
 module.exports = function() {
+  let seenSchemas = new WeakSet();
 
 	return function get(verb,path){
 		if (!_.isObject(global.definition.paths)) {
@@ -23,6 +24,17 @@ module.exports = function() {
 	}
 
 	function replaceRefs(schema){
+		if (!_.isObject(schema)) return schema;
+		
+			 // Detectar ciclos por identidad
+				if (seenSchemas.has(schema)) {
+					return {
+						type: "string",
+						description: "Circular schema avoided"
+					};
+				}
+				seenSchemas.add(schema);
+				
 		let result = {};
 		for (let i in schema) {
 			if (i === '$ref'){
