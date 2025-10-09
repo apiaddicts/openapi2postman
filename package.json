@@ -1,6 +1,6 @@
 {
   "name": "openapi2postman",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "openapi2postman",
   "bin": {
     "o2p": "index.js"
