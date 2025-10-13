@@ -7,7 +7,8 @@ const _ = require('lodash')
 module.exports = function() {
 
   const MAX_DEPTH_LEVEL = 20;
-
+  let seenSchemas = new WeakSet();
+  
   return function get(verb, path, bodyResponse) {
   	if (!_.isObject(global.definition.paths)) {
       require('../../utils/error.js')('paths is required')
@@ -110,6 +111,17 @@ module.exports = function() {
   }
 
   function replaceAllOfs(schema){
+    if (!_.isObject(schema)) return schema;
+
+   // Detectar ciclos por identidad
+    if (seenSchemas.has(schema)) {
+      return {
+        type: "string",
+        description: "Circular schema avoided"
+      };
+    }
+    seenSchemas.add(schema);
+
     let result = {}
     for (let i in schema) {
       if (i === 'allOf' && _.isArray(schema[i])){
@@ -151,11 +163,11 @@ module.exports = function() {
         }
         result = _.merge(result, merged)
       } else if ( _.isArray(schema[i]) && i !== 'required') {
-        const arrayResult = []
-        for (let k in schema[i]) {
-          arrayResult.push(replaceAllOfs(schema[i][k]))
+        if (schema[i].every(v => !_.isObject(v))) {
+          result[i] = [...schema[i]];
+        } else {
+          result[i] = schema[i].map(item => replaceAllOfs(item));
         }
-        result[i] = arrayResult
       } else if ( _.isObject(schema[i]) && i !== 'required') {
         // result.type = 'object';
         result[i] = _.merge(result[i],replaceAllOfs(schema[i]))

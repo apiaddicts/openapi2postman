@@ -14,10 +14,11 @@ module.exports = function() {
 			
     }
    const data =  parseUrl(definition.flows)
-   return generateDefinition(data) 
+   const authKey = _.keys(global.definition.security[0])[0]
+   return generateDefinition(data,authKey) 
   }
 
-  function generateDefinition(data){
+  function generateDefinition(data,auth){
       const postmanCollection = {
         info: {
             _postman_id: "2e397e19-7819-4425-bbb8-e2b7283336a4",
@@ -37,9 +38,9 @@ module.exports = function() {
                 "    pm.response.to.have.status(200);",
                 "});",
                 "",
-                "var json = JSON.parse(responseBody);",
+                "var json = pm.response.json();",
                 "",
-                                "pm.environment.set(\"OAuth2\", \"Bearer \"+json.data.access_token);"
+                                `pm.environment.set(\"${auth}\", \"Bearer \"+json.data.access_token);`
                             ],
                             type: "text/javascript"
                         }

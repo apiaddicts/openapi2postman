@@ -10,8 +10,10 @@ module.exports = function() {
     if (!swagger.items){
     	require('../utils/error.js')('There is a array without items');
     }
+    if(swagger.items.oneOf) delete swagger.items.oneOf;
+    if(swagger.items.anyOf) delete swagger.items.anyOf;
     if (!swagger.items.properties){
-        swagger.items.properties = _.cloneDeep(swagger.items);
+      swagger.items.properties = _.cloneDeep(swagger.items);
     }
     if (!(swagger.items.properties.type && typeof swagger.items.properties.type === 'string')){
         let keys = _.keys(swagger.items.properties);
