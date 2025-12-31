@@ -3,7 +3,13 @@
 const assert = require('assert');
 
 describe('generator-body', () => {
-  
+
+  before(() => {
+    globalThis.configurationFile = {
+      minimal_endpoints: false
+    };
+  });
+
   it('good', () => {
 
     const endpoint = require('../seeds/generatorBodyInitial.json')

@@ -10,8 +10,18 @@ module.exports = function() {
     if (!swagger.items){
     	require('../utils/error.js')('There is a array without items');
     }
-    if(swagger.items.oneOf) delete swagger.items.oneOf;
-    if(swagger.items.anyOf) delete swagger.items.anyOf;
+
+    if ((swagger.items.oneOf || swagger.items.anyOf) && !swagger.items.type && !swagger.items.properties) {
+      const variants = swagger.items.oneOf || swagger.items.anyOf;
+
+      if (Array.isArray(variants) && variants.length > 0) {
+        Object.assign(swagger.items, structuredClone(variants[0]));
+      }
+
+      delete swagger.items.oneOf;
+      delete swagger.items.anyOf;
+    }
+
     if (!swagger.items.properties){
       swagger.items.properties = _.cloneDeep(swagger.items);
     }
