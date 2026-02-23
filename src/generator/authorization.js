@@ -5,7 +5,7 @@
 const _ = require('lodash');
 
 module.exports = function() {
-  
+
   return function get(postmanRequest, status){
   	if (!postmanRequest.aux.authorization){
   		return postmanRequest;
