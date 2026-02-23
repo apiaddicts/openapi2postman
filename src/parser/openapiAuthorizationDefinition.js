@@ -6,12 +6,11 @@ const _ = require('lodash');
 
 
 module.exports = function() {
-  
+
   return function get(oAuthDefinition){
     let definition
     for (const i in oAuthDefinition) {
 			definition = oAuthDefinition[i];
-			
     }
    const data =  parseUrl(definition.flows)
    const authKey = _.keys(global.definition.security[0])[0]
@@ -27,20 +26,20 @@ module.exports = function() {
         },
         item: [
             {
-                name: "Get OAuth2 Token",
+                name: `Get OAuth2 Token - ${auth}`,
                 event: [
                     {
                         listen: "test",
                         script: {
                             id: "7e78bc50-5882-47e1-9920-754befbbbfc5",
                             exec: [
-                                "pm.test(\"Status code is 200\", function () {",
-                "    pm.response.to.have.status(200);",
-                "});",
-                "",
-                "var json = pm.response.json();",
-                "",
-                                `pm.environment.set(\"${auth}\", \"Bearer \"+json.data.access_token);`
+                              "pm.test(\"Status code is 200\", function () {",
+                              "    pm.response.to.have.status(200);",
+                              "});",
+                              "",
+                              "var json = pm.response.json();",
+                              "var token = json.access_token || (json.data && json.data.access_token);",
+                              `pm.environment.set("${auth}", "Bearer "+token);`
                             ],
                             type: "text/javascript"
                         }
