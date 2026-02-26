@@ -10,7 +10,7 @@ module.exports = function() {
     const items = [];
     _.forEach(endpoints, function(endpoint) {
       let path = endpoint.path;
-      let pathParameterSaved = false
+      let pathParameterSaved = false;
       _.forEach(endpoint.pathParameters, function(pathParameter) {
         pathParameterSaved = pathParameter;
         path = _.replace(path, '{'+pathParameter.name+'}', '{{'+pathParameter.name+'}}')
@@ -28,8 +28,8 @@ module.exports = function() {
             authorization: endpoint.authorization ? endpoint.authorization : false,
             summary: endpoint.summary ? endpoint.summary : false,
             queryParams: endpoint.queryParams ? endpoint.queryParams : false,
-            pathParameter: pathParameterSaved.name,
-            pathParameterExample: pathParameterSaved.example || '',
+            pathParameter: pathParameterSaved?.name || null,
+            pathParameterExample: pathParameterSaved?.example || '',
           },
           count: countRequest(endpoint),
           response: [],
@@ -66,7 +66,7 @@ module.exports = function() {
         }
 
         // Duplicar los endpoints para cada queryParameter dependiendo si el minimal endpoint está en true o false
-        if(!global.configurationFile.minimal_endpoints || global.configurationFile.minimal_endpoints === false){
+        if(!global.configurationFile?.minimal_endpoints || global.configurationFile?.minimal_endpoints === false){
           if (item.aux.status >= 200 && item.aux.status < 400 && item.aux.queryParams.length > 0) {
             addQueryParamEndpoint(item, items);
           }
@@ -114,12 +114,14 @@ module.exports = function() {
   }
 
   function countRequest(endpoint){
-    if(!global.configurationFile.generate_oneOf_anyOf){
+    if (!global.configurationFile?.generate_oneOf_anyOf) {
       return 1;
     }
-    if (endpoint.body) {
-      const found = _.find(endpoint.body, (value, key) => key === 'oneOf' || key === 'anyOf');
-      if (found) {
+
+    if (endpoint?.body && typeof endpoint.body === 'object') {
+      const found = endpoint.body.oneOf || endpoint.body.anyOf;
+
+      if (Array.isArray(found)) {
         return found.length;
       }
     }

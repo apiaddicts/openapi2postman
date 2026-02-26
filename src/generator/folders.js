@@ -68,10 +68,10 @@ module.exports = function() {
     }  
     for (let i in collection){
       let countItem = 1
-      let numerateRoot = _.padStart(countRoot, 2, '0') + '.'
+      let numerateRoot = _.padStart(countRoot, 3, '0') + '.'
       collection[i].name = numerateRoot + collection[i].name
       for (let j in collection[i].item) {
-        let numerateItem = numerateRoot + _.padStart(countItem, 2, '0') + '.'
+        let numerateItem = numerateRoot + _.padStart(countItem, 3, '0') + '.'
         collection[i].item[j].name = numerateItem + collection[i].item[j].name
         if (!collection[i].item[j].aux){
           collection[i].item[j].aux = {}

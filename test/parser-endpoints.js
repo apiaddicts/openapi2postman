@@ -5,12 +5,16 @@ const sinon = require('sinon');
 
 describe('parser-endpoints', () => {
   
-  before(() => {
+before(() => {
     sinon.stub(process, 'exit');
+    sinon.stub(console, 'log');
+    sinon.stub(console, 'error');
   })
 
   after(() => {
     process.exit.restore();
+    console.log.restore();
+    console.error.restore();
   })
 
   it('bad swagger2', () => {

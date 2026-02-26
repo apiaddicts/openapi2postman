@@ -5,10 +5,9 @@
 const _ = require('lodash');
 
 module.exports = function() {
-  
+
   return function get(verb,path){
   	if (!_.isObject(global.definition.paths)) {
-			require('../../utils/error.js')('paths is required')
 		}
 
 		let parameters = global.definition.paths[path][_.toLower(verb)]['parameters'];
@@ -17,15 +16,24 @@ module.exports = function() {
 		const result = []
 		_.forEach(queryParams, function(queryParam) {
 			const param = queryParam.schema ? queryParam : getContentProperty(queryParam);
-			result.push({ 
+
+			const obj = {
 				name: queryParam.name, 
 				type: param.schema.type, 
 				required : queryParam.required, 
-				example: getExamples(param)
-			});
+			};
+
+			const example = getExamples(param);
+
+			if (example !== undefined && example !== null) {
+				obj.example = example;
+			}
+
+			result.push(obj);
 		});
+
 		return result
-  };
+	};
 
 	function replaceRefs(schema){
 		let result = {}
@@ -58,15 +66,22 @@ module.exports = function() {
 	}
 
 	function getExamples(queryParam) {
+		if (!queryParam || !queryParam.schema) return undefined;
+
 		if (queryParam.schema.type === 'array') {
-				return queryParam.example
-		} else {
-			if (queryParam.hasOwnProperty('examples')) {
-				const value = queryParam.examples[Object.keys(queryParam.examples)[0]];
-				return value[Object.keys(value)[0]];
+				return queryParam.example;
+		}
+
+		if (queryParam.hasOwnProperty('examples')) {
+			const firstKey = Object.keys(queryParam.examples)[0];
+			const value = queryParam.examples[firstKey];
+			if (value && value.hasOwnProperty('value')) {
+				return value.value;
 			}
-			return queryParam.example;
-		}	
+			return value;
+		}
+
+		return queryParam.example !== undefined ? queryParam.example : queryParam.schema.example;
 	}
 
 	function getContentProperty(query){

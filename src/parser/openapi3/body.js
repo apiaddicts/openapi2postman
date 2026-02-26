@@ -8,17 +8,20 @@ module.exports = function() {
 
   const MAX_DEPTH_LEVEL = 20;
   let seenSchemas = new WeakSet();
-  
+
   return function get(verb, path, bodyResponse) {
+    seenSchemas = new WeakSet();
+
   	if (!_.isObject(global.definition.paths)) {
       require('../../utils/error.js')('paths is required')
     }
     const endpoint = global.definition.paths[path][_.toLower(verb)]
+    if (!endpoint) return undefined;
+
     if (!bodyResponse){
       let body = endpoint['requestBody'];
-      if (!body){
-        return undefined;
-      }
+      if (!body) return undefined;
+
       if (body['$ref']) {
         let componentType = body['$ref'].split('/')[2]
         const ref = _.replace(body['$ref'], '#/components/'+componentType+'/', '')
@@ -82,11 +85,13 @@ module.exports = function() {
               description: 'Circular REF solved swagger2postman' 
             }
           }
+
           let entity = global.definition.components[componentType][ref]
           if (!entity) {
             require('../../utils/error.js')('ref '+ref+' is not defined')
           }
-          entity = replaceRefs(entity,global.definition, ++depthLevel)
+
+          entity = replaceRefs(entity, depthLevel + 1);
           result = _.merge(result, entity)
         } else if ( _.isArray(schema[i]) && i !== 'required') {
           const arrayResult = []
@@ -94,14 +99,11 @@ module.exports = function() {
             continue
           }
           for (const k in schema[i]) {
-            // arrayResult.push(replaceRefs(schema[i][k], global.definition, ++depthLevel))
-            arrayResult.push(schema[i][k])
+            arrayResult.push(replaceRefs(schema[i][k], depthLevel + 1))
           }
           result[i] = arrayResult
         } else if ( _.isObject(schema[i]) && i !== 'required') {
-          ++depthLevel;
-          result[i] = schema[i];
-          // result[i] = replaceRefs(schema[i],global.definition);
+          result[i] = replaceRefs(schema[i], depthLevel + 1);
         } else {
           result[i] = schema[i];
         }

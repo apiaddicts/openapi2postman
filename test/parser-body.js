@@ -3,7 +3,7 @@
 const assert = require('assert')
 
 describe('parser-body', () => {
-  
+
   it('void request swagger2', () => {
 
     global.definition = require('../seeds/parserInitialGood.json')

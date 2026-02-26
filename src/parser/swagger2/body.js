@@ -8,8 +8,8 @@ module.exports = function() {
 
   let seenSchemas = new WeakSet();
 
-  
   return function get(verb, path, bodyResponse) {
+    seenSchemas = new WeakSet();
   	if (!_.isObject(global.definition.paths)) {
       require('../../utils/error.js')('paths is required');
     }
@@ -106,6 +106,7 @@ module.exports = function() {
             } else if (k === 'required'){
               merged['required'] = _.concat(merged['required'],schema[i][t]['required']);
             } else if (k === 'properties'){
+              if (!merged['properties']) merged['properties'] = {};
               for (let z in schema[i][t]['properties']){
                 merged['properties'][z] = replaceAllOfs(schema[i][t]['properties'][z]);
               }

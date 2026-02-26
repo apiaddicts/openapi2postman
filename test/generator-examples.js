@@ -7,7 +7,7 @@ describe('generator-examples', () => {
     it('no examples', () => {
         global.definition = require('../seeds/generatorExamplesInitial.json')
         const examples = require('../src/generator/examples.js')('/user/{username}','get','400')
-        assert.strictEqual(examples, false);
+        assert.strictEqual(examples, null);
     })
     // Check if the function returns an example when there are examples
     it('with examples', () => {
