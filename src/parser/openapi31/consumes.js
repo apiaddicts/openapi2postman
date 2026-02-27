@@ -11,19 +11,15 @@ module.exports = function () {
     const hasWebhooks = _.isObject(global.definition.webhooks);
 
     if (!hasPaths) {
-      if (hasWebhooks) return [];
+      if (hasWebhooks) return 'application/json';
       require('../../utils/error.js')('paths is required');
     }
 
-    const responses = global.definition.paths[path][_.toLower(verb)]['responses']
-    const keys = _.keys(responses)
-    for (const index in keys) {
-      keys[index] = _.toInteger(keys[index])
-      if (keys[index] < 200) {
-        keys[index] = 500
-      }
+    const request = global.definition.paths[path][_.toLower(verb)]
+    if (request.requestBody && request.requestBody.content) {
+      return _.keys(request.requestBody.content)[0]
     }
-    return keys
-  }
+    return 'application/json';
+  };
 
 }()

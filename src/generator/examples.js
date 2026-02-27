@@ -4,7 +4,11 @@ const _ = require("lodash");
 
 module.exports = (function () {
   return function get(path, method, status) {
-    if (!_.isObject(global.definition.paths)) {
+    const hasPaths = _.isObject(global.definition.paths);
+    const hasWebhooks = _.isObject(global.definition.webhooks);
+
+    if (!hasPaths) {
+      if (hasWebhooks) return null;
       require('../utils/error.js')('paths is required');
     }
 
