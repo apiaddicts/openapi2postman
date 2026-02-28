@@ -40,7 +40,7 @@ before(() => {
       ])
   })
 
-  it('good openapi3', () => {
+  it('good openapi3.0', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.json');
 
@@ -52,5 +52,17 @@ before(() => {
       ])
   })
 
+
+  it('good openapi3.1', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApi3.1.json');
+
+    const endpoints = require('../src/parser/endpoints.js')();
+    assert.deepEqual(endpoints, [ 
+        { verb: 'GET', path: '/pets' },
+        { verb: 'POST', path: '/pets' },
+        { verb: 'GET', path: '/pets/{petId}' } 
+      ])
+  })
 
 })

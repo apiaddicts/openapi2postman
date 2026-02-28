@@ -12,7 +12,7 @@ describe('parser-body', () => {
     assert.deepStrictEqual(body, undefined)
   })
 
-  it('void request openapi3', () => {
+  it('void request openapi3.0', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.json')
 
@@ -20,11 +20,19 @@ describe('parser-body', () => {
     assert.deepStrictEqual(body, undefined)
   })
 
-  it('void request openapi3 2', () => {
+  it('void request openapi3.0 2', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.json')
 
     const body = require('../src/parser/openapi3/body.js')('POST','/pets')
+    assert.deepStrictEqual(body, undefined)
+  })
+
+  it('void request openapi3.1', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApi3.1.json')
+
+    const body = require('../src/parser/openapi31/body.js')('GET','/pets')
     assert.deepStrictEqual(body, undefined)
   })
 
@@ -36,11 +44,19 @@ describe('parser-body', () => {
     assert.deepStrictEqual(body, {"type":"object","required":["name"],"properties":{"name":{"type":"string"},"tag":{"type":"string"}}})
   })
 
-  it('fill request openapi3', () => {
+  it('fill request openapi3.0', () => {
 
-    global.definition = require('../seeds/parserInitialGoodOpenApi3Expanded.json')
+    global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.json')
 
     const body = require('../src/parser/openapi3/body.js')('POST','/pets')
+    assert.deepStrictEqual(body, {"type":"object","required":["name"],"properties":{"name":{"type":"string"},"tag":{"type":"string"}}})
+  })
+
+  it('fill request openapi3.1', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json')
+
+    const body = require('../src/parser/openapi31/body.js')('POST','/pets')
     assert.deepStrictEqual(body, {"type":"object","required":["name"],"properties":{"name":{"type":"string"},"tag":{"type":"string"}}})
   })
 
@@ -52,11 +68,19 @@ describe('parser-body', () => {
     assert.deepStrictEqual(body, {"200":{"type":"array","items":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
   })
 
-  it('items, ref and allof response openapi3', () => {
+  it('items, ref and allof response openapi3.0', () => {
 
-    global.definition = require('../seeds/parserInitialGoodOpenApi3Expanded.json')
+    global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.json')
 
     const body = require('../src/parser/openapi3/body.js')('GET','/pets',true)
+    assert.deepStrictEqual(body, {"200":{"type":"array","items":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
+  })
+
+  it('items, ref and allof response openapi3.1', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json')
+
+    const body = require('../src/parser/openapi31/body.js')('GET','/pets',true)
     assert.deepStrictEqual(body, {"200":{"type":"array","items":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
   })
 
@@ -69,12 +93,21 @@ describe('parser-body', () => {
     assert.deepStrictEqual(body, {"200":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
   })
 
-  it('ref and allof response openapi3', () => {
+  it('ref and allof response openapi3.0', () => {
 
-    global.definition = require('../seeds/parserInitialGoodOpenApi3Expanded.json')
+    global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.json')
     global.circularTail = []
 
     const body = require('../src/parser/openapi3/body.js')('POST','/pets',true)
+    assert.deepStrictEqual(body, {"200":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
+  })
+
+  it('ref and allof response openapi3.1', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json')
+    global.circularTail = []
+
+    const body = require('../src/parser/openapi31/body.js')('POST','/pets',true)
     assert.deepStrictEqual(body, {"200":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
   })
 

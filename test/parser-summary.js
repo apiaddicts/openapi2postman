@@ -12,9 +12,17 @@ describe('parser-summary', () => {
     assert.equal(summary, "Create a pet")
   })
 
-  it('good swagger2', () => {
+  it('good openapi3.0', () => {
 
     global.definition = require('../seeds/parserSummaryOpenApi3.json')
+
+    const summary = require('../src/parser/summary.js')('POST','/pets')
+    assert.equal(summary, "Create pet")
+  })
+
+  it('good openapi3.1', () => {
+
+    global.definition = require('../seeds/parserSummaryOpenApi3.1.json')
 
     const summary = require('../src/parser/summary.js')('POST','/pets')
     assert.equal(summary, "Create pet")

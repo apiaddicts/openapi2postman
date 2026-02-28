@@ -12,11 +12,19 @@ describe('parser-pathParameters', () => {
     assert.deepStrictEqual(pathParameters, [ { name: 'id', type: 'integer', example: undefined } ])
   })
 
-  it('good openapi3', () => {
+  it('good openapi3.0', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.json')
 
     const status = require('../src/parser/openapi3/pathParameters.js')('GET','/pets/{petId}')
+    assert.deepStrictEqual(status, [ { name: 'petId', type: 'string', example: 'asdf' } ])
+  })
+
+  it('good openapi3.1', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApi3.1.json')
+
+    const status = require('../src/parser/openapi31/pathParameters.js')('GET','/pets/{petId}')
     assert.deepStrictEqual(status, [ { name: 'petId', type: 'string', example: 'asdf' } ])
   })
 

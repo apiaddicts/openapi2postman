@@ -3,14 +3,6 @@
 const assert = require('assert')
 
 describe('parser-consumes', () => {
-  
-  it('specifies swagger2', () => {
-
-    global.definition = require('../seeds/parserConsumesInitial.json')
-
-    const consumes = require('../src/parser/swagger2/consumes.js')('POST','/pets')
-    assert.equal(consumes, 'application/xml')
-  })
 
   it('general swagger2', () => {
 
@@ -20,11 +12,27 @@ describe('parser-consumes', () => {
     assert.equal(consumes, 'application/json')
   })
 
-  it('specifies openapi3', () => {
+  it('specifies swagger2', () => {
 
-    global.definition = require('../seeds/parserInitialGoodOpenApi3Expanded.json');
+    global.definition = require('../seeds/parserConsumesInitial.json')
+
+    const consumes = require('../src/parser/swagger2/consumes.js')('POST','/pets')
+    assert.equal(consumes, 'application/xml')
+  })
+
+  it('specifies openapi3.0', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.json');
 
     const consumes = require('../src/parser/openapi3/consumes.js')('POST','/pets');
+    assert.equal(consumes, 'application/json');
+  })
+
+  it('specifies openapi3.1', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json');
+
+    const consumes = require('../src/parser/openapi31/consumes.js')('POST','/pets');
     assert.equal(consumes, 'application/json');
   })
 

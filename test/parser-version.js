@@ -12,7 +12,7 @@ describe('parser-version', () => {
     assert.equal(version, 'swagger2')
   });
 
-  it('openapi3', () => {
+  it('openapi3.0', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.json')
 
@@ -20,19 +20,43 @@ describe('parser-version', () => {
     assert.equal(version, 'openapi3')
   });
 
-  it('openapi versio 3.0.2' , () => {
-      
+  it('openapi version 3.0.2' , () => {
+
       global.definition = require('../seeds/parserInitialGoodOpenApi3.0.2.json')
-  
+
       const version = require('../src/parser/version.js')()
       assert.equal(version, 'openapi3')
   })
 
-  it('openapi versio 3.0.3' , () => {
-      
+  it('openapi version 3.0.3' , () => {
+
       global.definition = require('../seeds/parserInitialGoodOpenApi3.0.3.json')
-  
+
       const version = require('../src/parser/version.js')()
       assert.equal(version, 'openapi3')
+  })
+
+  it('openapi3.1', () => {
+
+    global.definition = require('../seeds/parserInitialGoodOpenApi3.1.json')
+
+    const version = require('../src/parser/version.js')()
+    assert.equal(version, 'openapi31')
+  });
+
+  it('openapi version 3.1.1' , () => {
+
+      global.definition = require('../seeds/parserInitialGoodOpenApi3.1.1.json')
+
+      const version = require('../src/parser/version.js')()
+      assert.equal(version, 'openapi31')
+  })
+
+  it('openapi version 3.1.2' , () => {
+
+      global.definition = require('../seeds/parserInitialGoodOpenApi3.1.2.json')
+
+      const version = require('../src/parser/version.js')()
+      assert.equal(version, 'openapi31')
   })
 });
