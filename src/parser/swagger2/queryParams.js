@@ -7,11 +7,11 @@ const _ = require('lodash');
 module.exports = function() {
 
   return function get(verb,path){
-  	if (!_.isObject(global.definition.paths)) {
+  	if (!_.isObject(globalThis.definition.paths)) {
 		require('../../utils/error.js')('paths is required')
 	}
 
-	let parameters = global.definition.paths[path][_.toLower(verb)]['parameters'];
+	let parameters = globalThis.definition.paths[path][_.toLower(verb)]['parameters'];
 	// parameters = replaceRefs(parameters);
 	const queryParams = _.filter(parameters, ['in', 'query'])
 	const result = []
@@ -38,11 +38,11 @@ module.exports = function() {
 		for (let i in schema) {
 			if (i === '$ref'){
 				const ref = _.replace(schema[i], '#/parameters/', '');
-				let entity = global.definition.parameters[ref];
+				let entity = globalThis.definition.parameters[ref];
 				if (!entity){
 					continue;
 				}
-				entity = replaceRefs(entity, global.definition);
+				entity = replaceRefs(entity, globalThis.definition);
 				result = _.merge(result, entity);
 			} else if (_.isArray(schema[i]) && i !== 'required'){
 				const arrayResult = [];
@@ -50,11 +50,11 @@ module.exports = function() {
 					continue;
 				}
 				for (let k in schema[i]) {
-					arrayResult.push(replaceRefs(schema[i][k],global.definition));
+					arrayResult.push(replaceRefs(schema[i][k],globalThis.definition));
 				}
 				result[i] = arrayResult;
 			} else if (_.isObject(schema[i]) && i !== 'required'){
-				result[i] = replaceRefs(schema[i],global.definition);
+				result[i] = replaceRefs(schema[i],globalThis.definition);
 			} else {
 				result[i] = schema[i];
 			}

@@ -16,7 +16,7 @@ module.exports = function () {
         return t
       })
 
-      const nonNullTypes = swagger.type.filter(t => t !== 'null');
+      const nonNullTypes = swagger.type.find(t => t !== 'null');
       swagger.type = nonNullTypes[0] || 'string';
     }
 
@@ -39,9 +39,9 @@ module.exports = function () {
     }
 
     let wrongParam = false;
-    if (parent && global.wrongParamsCatch && _.indexOf(global.wrongParams, parent) === -1 && parent !== 'with') {
-      global.wrongParams.push(parent);
-      global.wrongParamsCatch = false;
+    if (parent && globalThis.wrongParamsCatch && _.indexOf(globalThis.wrongParams, parent) === -1 && parent !== 'with') {
+      globalThis.wrongParams.push(parent);
+      globalThis.wrongParamsCatch = false;
       wrongParam = true;
     }
 
@@ -49,7 +49,7 @@ module.exports = function () {
       case 'object':
 
         if (wrongParam) {
-          global.environmentVariables[global.currentId + name + '_wrong'] = require('../utils/exampleForField.js')(swagger, true)
+          globalThis.environmentVariables[globalThis.currentId + name + '_wrong'] = require('../utils/exampleForField.js')(swagger, true)
           return '{{' + name + '_wrong}}'
         }
 
@@ -57,7 +57,7 @@ module.exports = function () {
       case 'array':
 
         if (wrongParam) {
-          global.environmentVariables[global.currentId + name + '_wrong'] = require('../utils/exampleForField.js')(swagger, true)
+          globalThis.environmentVariables[globalThis.currentId + name + '_wrong'] = require('../utils/exampleForField.js')(swagger, true)
           return '{{' + name + '_wrong}}'
         }
 
@@ -68,10 +68,10 @@ module.exports = function () {
       case 'boolean':
 
         if (wrongParam) {
-          global.environmentVariables[global.currentId + name + '_wrong'] = require('../utils/exampleForField.js')(swagger, true)
+          globalThis.environmentVariables[globalThis.currentId + name + '_wrong'] = require('../utils/exampleForField.js')(swagger, true)
           return '{{' + name + '_wrong}}'
         }
-        global.environmentVariables[global.currentId + name] = require('../utils/exampleForField.js')(swagger, false)
+        globalThis.environmentVariables[globalThis.currentId + name] = require('../utils/exampleForField.js')(swagger, false)
         return '{{' + name + '}}'
       case 'oneOf':
         let schemaOne = swagger.oneOf[index];
@@ -91,7 +91,7 @@ module.exports = function () {
       case 'array':
         return require('./array.js')(schema, name, parent);
       default:
-        global.environmentVariables[global.currentId + name] = require('../utils/exampleForField.js')(schema, false);
+        globalThis.environmentVariables[globalThis.currentId + name] = require('../utils/exampleForField.js')(schema, false);
         return '{{' + name + '}}';
     }
   }

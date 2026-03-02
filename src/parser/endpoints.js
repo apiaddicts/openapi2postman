@@ -7,8 +7,8 @@ const _ = require('lodash');
 module.exports = function () {
 
   return function get() {
-    const hasPaths = _.isObject(global.definition.paths);
-    const hasWebhooks = _.isObject(global.definition.webhooks);
+    const hasPaths = _.isObject(globalThis.definition.paths);
+    const hasWebhooks = _.isObject(globalThis.definition.webhooks);
 
     if (!hasPaths) {
       if (hasWebhooks) return [];
@@ -16,7 +16,7 @@ module.exports = function () {
     }
 
     const items = [];
-    _.forEach(global.definition.paths, function (pathInfo, path) {
+    _.forEach(globalThis.definition.paths, function (pathInfo, path) {
       _.forEach(pathInfo, function (verbInfo, verb) {
         items.push({
           'verb': _.toUpper(verb),

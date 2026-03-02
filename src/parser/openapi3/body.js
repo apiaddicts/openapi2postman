@@ -3,6 +3,7 @@
 'use strict'
 
 const _ = require('lodash')
+const checkCircularReferences = require('../../utils/circularRef.js');
 
 module.exports = function () {
 
@@ -12,14 +13,14 @@ module.exports = function () {
   return function get(verb, path, bodyResponse) {
     seenSchemas = new WeakSet();
 
-    const hasPaths = _.isObject(global.definition.paths);
-    const hasWebhooks = _.isObject(global.definition.webhooks);
+    const hasPaths = _.isObject(globalThis.definition.paths);
+    const hasWebhooks = _.isObject(globalThis.definition.webhooks);
 
     if (!hasPaths) {
       if (hasWebhooks) return bodyResponse ? {} : undefined;
       require('../../utils/error.js')('paths is required');
     }
-    const endpoint = global.definition.paths[path][_.toLower(verb)]
+    const endpoint = globalThis.definition.paths[path][_.toLower(verb)]
     if (!endpoint) return undefined;
 
     if (!bodyResponse) {
@@ -29,7 +30,7 @@ module.exports = function () {
       if (body['$ref']) {
         let componentType = body['$ref'].split('/')[2]
         const ref = _.replace(body['$ref'], '#/components/' + componentType + '/', '')
-        body = global.definition.components[componentType][ref]
+        body = globalThis.definition.components[componentType][ref]
       }
       if (!body.content['application/json']) {
         const contentsArray = Object.keys(body.content);
@@ -70,7 +71,7 @@ module.exports = function () {
           const firstContentType = contentsArray[0];
           const mediaType = body.content[firstContentType];
 
-          if (mediaType && mediaType.schema) {
+          if (mediaType?.schema) {
             const withoutRefs = replaceRefs(mediaType.schema, 1);
             return replaceAllOfs(withoutRefs);
           }
@@ -115,7 +116,7 @@ module.exports = function () {
             }
           }
 
-          let entity = global.definition.components[componentType][ref]
+          let entity = globalThis.definition.components[componentType][ref]
           if (!entity) {
             require('../../utils/error.js')('ref ' + ref + ' is not defined')
           }
@@ -238,43 +239,6 @@ module.exports = function () {
       result.contentMediaType = schema.contentMediaType;
     }
     return result
-  }
-
-  function checkCircularReferences(reference, depthLevel, patternNumber) {
-    if (!global.circularTail) {
-      global.circularTail = []
-    }
-    if (!global.circularTail[patternNumber]) {
-      global.circularTail[patternNumber] = [reference]
-      return false
-    }
-    if (global.circularTail[patternNumber].length < (depthLevel * patternNumber)) {
-      global.circularTail[patternNumber].push(reference)
-      return false
-    }
-
-    const groups = _.chunk(global.circularTail[patternNumber], patternNumber)
-    global.circularTail[patternNumber].shift()
-    global.circularTail[patternNumber].push(reference)
-
-    let areEquals = true
-    let lastArray = groups[0]
-    comparation:
-    for (let i = 1; i < groups.length; i++) {
-      for (let k in groups[i]) {
-        if (groups[i][k] !== groups[i - 1][k]) {
-          areEquals = false
-          break comparation
-        }
-      }
-    }
-
-    if (areEquals) {
-      global.circularTail = []
-    }
-
-    return areEquals
-
   }
 
 }()

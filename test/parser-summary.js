@@ -6,7 +6,7 @@ describe('parser-summary', () => {
   
   it('good swagger2', () => {
 
-    global.definition = require('../seeds/parserSummaryInitial.json')
+    globalThis.definition = require('../seeds/parserSummaryInitial.json')
 
     const summary = require('../src/parser/summary.js')('POST','/pets')
     assert.equal(summary, "Create a pet")
@@ -14,7 +14,7 @@ describe('parser-summary', () => {
 
   it('good openapi3.0', () => {
 
-    global.definition = require('../seeds/parserSummaryOpenApi3.json')
+    globalThis.definition = require('../seeds/parserSummaryOpenApi3.json')
 
     const summary = require('../src/parser/summary.js')('POST','/pets')
     assert.equal(summary, "Create pet")
@@ -22,7 +22,7 @@ describe('parser-summary', () => {
 
   it('good openapi3.1', () => {
 
-    global.definition = require('../seeds/parserSummaryOpenApi3.1.json')
+    globalThis.definition = require('../seeds/parserSummaryOpenApi3.1.json')
 
     const summary = require('../src/parser/summary.js')('POST','/pets')
     assert.equal(summary, "Create pet")

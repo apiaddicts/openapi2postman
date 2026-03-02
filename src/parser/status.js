@@ -7,15 +7,15 @@ const _ = require('lodash');
 module.exports = function () {
 
   return function get(verb, path) {
-    const hasPaths = _.isObject(global.definition.paths);
-    const hasWebhooks = _.isObject(global.definition.webhooks);
+    const hasPaths = _.isObject(globalThis.definition.paths);
+    const hasWebhooks = _.isObject(globalThis.definition.webhooks);
 
     if (!hasPaths) {
       if (hasWebhooks) return [];
       require('../../utils/error.js')('paths is required');
     }
 
-    const responses = global.definition.paths[path][_.toLower(verb)]['responses']
+    const responses = globalThis.definition.paths[path][_.toLower(verb)]['responses']
     const keys = _.keys(responses)
     for (const index in keys) {
       keys[index] = _.toInteger(keys[index])

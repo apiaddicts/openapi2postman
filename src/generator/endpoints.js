@@ -14,7 +14,7 @@ module.exports = function() {
       _.forEach(endpoint.pathParameters, function(pathParameter) {
         pathParameterSaved = pathParameter;
         path = _.replace(path, '{'+pathParameter.name+'}', '{{'+pathParameter.name+'}}')
-        global.environmentVariables[endpoint.verb+endpoint.path.slice(1)+pathParameter.name] =  require('../utils/exampleForField.js')(pathParameter,false)
+        globalThis.environmentVariables[endpoint.verb+endpoint.path.slice(1)+pathParameter.name] =  require('../utils/exampleForField.js')(pathParameter,false)
       });
       _.forEach(endpoint.status,function(response) {
         let item = {
@@ -66,7 +66,7 @@ module.exports = function() {
         }
 
         // Duplicar los endpoints para cada queryParameter dependiendo si el minimal endpoint está en true o false
-        if(!global.configurationFile?.minimal_endpoints || global.configurationFile?.minimal_endpoints === false){
+        if(!globalThis.configurationFile?.minimal_endpoints || globalThis.configurationFile?.minimal_endpoints === false){
           if (item.aux.status >= 200 && item.aux.status < 400 && item.aux.queryParams.length > 0) {
             addQueryParamEndpoint(item, items);
           }
@@ -114,7 +114,7 @@ module.exports = function() {
   }
 
   function countRequest(endpoint){
-    if (!global.configurationFile?.generate_oneOf_anyOf) {
+    if (!globalThis.configurationFile?.generate_oneOf_anyOf) {
       return 1;
     }
 

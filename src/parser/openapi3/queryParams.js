@@ -7,10 +7,10 @@ const _ = require('lodash');
 module.exports = function() {
 
   return function get(verb,path){
-  	if (!_.isObject(global.definition.paths)) {
+  	if (!_.isObject(globalThis.definition.paths)) {
 		}
 
-		let parameters = global.definition.paths[path][_.toLower(verb)]['parameters'];
+		let parameters = globalThis.definition.paths[path][_.toLower(verb)]['parameters'];
 		// parameters = replaceRefs(parameters);
 		let queryParams = _.filter(parameters, ['in', 'query'])
 		const result = []
@@ -41,11 +41,11 @@ module.exports = function() {
 			if (i === '$ref'){
 				const ref = _.replace(schema[i], '#/components/parameters/', '');
 				const schemaRef = _.replace(schema[i], '#/components/schemas/', '');
-				let entity = global.definition.components.parameters[ref] || global.definition.components.schemas[schemaRef];
+				let entity = globalThis.definition.components.parameters[ref] || globalThis.definition.components.schemas[schemaRef];
 				if (!entity){
 					require('../../utils/error.js')('ref '+ref+' is not defined')
 				}
-				entity = replaceRefs(entity,global.definition)
+				entity = replaceRefs(entity,globalThis.definition)
 				result = _.merge(result, entity)
 			} else if ( _.isArray(schema[i]) && i !== 'required'){
 				const arrayResult = []
@@ -53,11 +53,11 @@ module.exports = function() {
 					continue;
 				}
 				for (let k in schema[i]) {
-					arrayResult.push(replaceRefs(schema[i][k],global.definition))
+					arrayResult.push(replaceRefs(schema[i][k],globalThis.definition))
 				}
 				result[i] = arrayResult
 			} else if ( _.isObject(schema[i]) && i !== 'required'){
-				result[i] = replaceRefs(schema[i],global.definition)
+				result[i] = replaceRefs(schema[i],globalThis.definition)
 			} else {
 				result[i] = schema[i];
 			}
@@ -66,7 +66,7 @@ module.exports = function() {
 	}
 
 	function getExamples(queryParam) {
-		if (!queryParam || !queryParam.schema) return undefined;
+		if (!queryParam?.schema) return undefined;
 
 		if (queryParam.schema.type === 'array') {
 				return queryParam.example;
@@ -79,7 +79,7 @@ module.exports = function() {
 		if (queryParam.hasOwnProperty('examples')) {
 			const firstKey = Object.keys(queryParam.examples)[0];
 			const value = queryParam.examples[firstKey];
-			if (value && value.hasOwnProperty('value')) {
+			if (value?.hasOwnProperty('value')) {
 				return value.value;
 			}
 			return value;

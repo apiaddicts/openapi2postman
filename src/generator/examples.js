@@ -4,8 +4,8 @@ const _ = require("lodash");
 
 module.exports = (function () {
   return function get(path, method, status) {
-    const hasPaths = _.isObject(global.definition.paths);
-    const hasWebhooks = _.isObject(global.definition.webhooks);
+    const hasPaths = _.isObject(globalThis.definition.paths);
+    const hasWebhooks = _.isObject(globalThis.definition.webhooks);
 
     if (!hasPaths) {
       if (hasWebhooks) return null;
@@ -16,12 +16,12 @@ module.exports = (function () {
       path = '/' + path;
     }
 
-    if (!global.definition.paths[path]) {
+    if (!globalThis.definition.paths[path]) {
       return null;
     }
 
     const methodLower = _.toLower(method);
-    const endpoint = global.definition.paths[path][methodLower];
+    const endpoint = globalThis.definition.paths[path][methodLower];
 
     if (!endpoint) {
       return null;
