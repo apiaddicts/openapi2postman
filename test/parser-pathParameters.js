@@ -24,7 +24,7 @@ describe('parser-pathParameters', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.1.json')
 
-    const status = require('../src/parser/openapi31/pathParameters.js')('GET','/pets/{petId}')
+    const status = require('../src/parser/openapi3/pathParameters.js')('GET','/pets/{petId}')
     assert.deepStrictEqual(status, [ { name: 'petId', type: 'string', example: 'asdf' } ])
   })
 

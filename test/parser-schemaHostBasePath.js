@@ -24,7 +24,7 @@ describe('parser-schemaHostBasePath', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.1.json');
 
-    const schemaHostBasePath = require('../src/parser/openapi31/schemaHostBasePath.js')();
-    assert.deepStrictEqual(schemaHostBasePath, { host: 'http://petstore.swagger.io', basePath: '/v1' });
+    const schemaHostBasePath = require('../src/parser/openapi3/schemaHostBasePath.js')();
+    assert.deepStrictEqual(schemaHostBasePath, { host: 'https://petstore.swagger.io', basePath: '/v1' });
   })
 });

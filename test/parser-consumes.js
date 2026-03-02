@@ -32,7 +32,7 @@ describe('parser-consumes', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json');
 
-    const consumes = require('../src/parser/openapi31/consumes.js')('POST','/pets');
+    const consumes = require('../src/parser/openapi3/consumes.js')('POST','/pets');
     assert.equal(consumes, 'application/json');
   })
 

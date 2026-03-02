@@ -41,7 +41,7 @@ describe('parser-version', () => {
     global.definition = require('../seeds/parserInitialGoodOpenApi3.1.json')
 
     const version = require('../src/parser/version.js')()
-    assert.equal(version, 'openapi31')
+    assert.equal(version, 'openapi3')
   });
 
   it('openapi version 3.1.1' , () => {
@@ -49,7 +49,7 @@ describe('parser-version', () => {
       global.definition = require('../seeds/parserInitialGoodOpenApi3.1.1.json')
 
       const version = require('../src/parser/version.js')()
-      assert.equal(version, 'openapi31')
+      assert.equal(version, 'openapi3')
   })
 
   it('openapi version 3.1.2' , () => {
@@ -57,6 +57,6 @@ describe('parser-version', () => {
       global.definition = require('../seeds/parserInitialGoodOpenApi3.1.2.json')
 
       const version = require('../src/parser/version.js')()
-      assert.equal(version, 'openapi31')
+      assert.equal(version, 'openapi3')
   })
 });

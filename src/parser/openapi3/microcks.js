@@ -1,11 +1,15 @@
 const _ = require('lodash');
 
 module.exports = (function (verb, path) {
-    if (!_.isObject(global.definition.paths)) {
-        require('../../utils/error.js')('paths is required');
-    }
+  const hasPaths = _.isObject(global.definition.paths);
+  const hasWebhooks = _.isObject(global.definition.webhooks);
 
-    const endpoint = global.definition.paths[path][_.toLower(verb)]
-    
-    return !!endpoint["x-microcks-operation"] 
+  if (!hasPaths) {
+    if (hasWebhooks) return false;
+    require('../../utils/error.js')('paths is required');
+  }
+
+  const endpoint = global.definition.paths[path][_.toLower(verb)]
+
+  return !!endpoint["x-microcks-operation"]
 })

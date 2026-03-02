@@ -5,7 +5,7 @@
 const _ = require('lodash');
 
 module.exports = function() {
-  
+
   return function get(){
     if (!global.definition.servers || !_.isArray(global.definition.servers) || !global.definition.servers[0] || !global.definition.servers[0].url || !_.isString(global.definition.servers[0].url)) {
       require('../../utils/error.js')('servers is required')

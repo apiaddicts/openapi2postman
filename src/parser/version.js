@@ -13,12 +13,11 @@ module.exports = function() {
 
   if (versions.swagger.includes(global.definition.swagger)) {
     return 'swagger2'
-  } else if (versions.openapi3.includes(global.definition.openapi)) {
+  } else if (versions.openapi3.includes(global.definition.openapi) || versions.openapi31.includes(global.definition.openapi)) {
     return 'openapi3'
-  } else if (versions.openapi31.includes(global.definition.openapi)) {
-    return 'openapi31'
+  } else {
+    require('../utils/error.js')('Specification is not supported')
   }
-	require('../utils/error.js')('Specification is not supported')
   };
 
 }()

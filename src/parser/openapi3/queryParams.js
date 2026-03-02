@@ -72,6 +72,10 @@ module.exports = function() {
 				return queryParam.example;
 		}
 
+    if (queryParam.schema?.examples) {
+      return queryParam.schema.examples[0];
+    }
+
 		if (queryParam.hasOwnProperty('examples')) {
 			const firstKey = Object.keys(queryParam.examples)[0];
 			const value = queryParam.examples[firstKey];

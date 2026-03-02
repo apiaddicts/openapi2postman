@@ -34,7 +34,7 @@ describe('parser-microcks', () => {
     it('specifies openapi3.1', () => {
 
         global.definition = require('../seeds/parserMicroksinitialGood3.1.json');
-        const microcks = require('../src/parser/openapi31/microcks.js')('GET','/user/{username}');
+        const microcks = require('../src/parser/openapi3/microcks.js')('GET','/user/{username}');
         assert.equal(microcks, true);
     })
 

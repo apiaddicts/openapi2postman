@@ -4,18 +4,22 @@
 
 const _ = require('lodash');
 
-module.exports = function() {
-  
-  return function get(verb,path){
-  	if (!_.isObject(global.definition.paths)) {
-		require('../../utils/error.js')('paths is required');
-	}
+module.exports = function () {
 
-	const request = global.definition.paths[path][_.toLower(verb)]
-	if (request.requestBody && request.requestBody.content){
-		return _.keys(request.requestBody.content)[0]
-	}
-	return 'application/json';
+  return function get(verb, path) {
+    const hasPaths = _.isObject(global.definition.paths);
+    const hasWebhooks = _.isObject(global.definition.webhooks);
+
+    if (!hasPaths) {
+      if (hasWebhooks) return 'application/json';
+      require('../../utils/error.js')('paths is required');
+    }
+
+    const request = global.definition.paths[path][_.toLower(verb)]
+    if (request.requestBody && request.requestBody.content) {
+      return _.keys(request.requestBody.content)[0]
+    }
+    return 'application/json';
   };
 
 }()

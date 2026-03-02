@@ -17,7 +17,7 @@ before(() => {
     console.error.restore();
   })
 
-  it('bad swagger2', () => {
+  it('endpoints bad swagger2', () => {
 
     global.definition = require('../seeds/parserEndpointsInitialBad.json');
 
@@ -27,7 +27,7 @@ before(() => {
     sinon.assert.calledWith(process.exit, 1);
   })
 
-  it('good swagger2', () => {
+  it('endpoints good swagger2', () => {
 
     global.definition = require('../seeds/parserEndpointsInitialGood.json');
 
@@ -40,7 +40,7 @@ before(() => {
       ])
   })
 
-  it('good openapi3.0', () => {
+  it('endpoints good openapi3.0', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.json');
 
@@ -53,7 +53,7 @@ before(() => {
   })
 
 
-  it('good openapi3.1', () => {
+  it('endpoints good openapi3.1', () => {
 
     global.definition = require('../seeds/parserInitialGoodOpenApi3.1.json');
 
