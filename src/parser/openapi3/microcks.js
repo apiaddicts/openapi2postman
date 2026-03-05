@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-module.exports = (function (verb, path) {
+module.exports = (function hasMicrocksOperation(verb, path) {
   const hasPaths = _.isObject(globalThis.definition.paths);
   const hasWebhooks = _.isObject(globalThis.definition.webhooks);
 

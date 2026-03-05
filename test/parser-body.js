@@ -1,130 +1,52 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert')
+const assert = require('node:assert');
 
 describe('parser-body', () => {
+  const checkBody = (name, parser, seed, method, path, isResp, expectedFile) => {
+    it(name, () => {
+      globalThis.definition = require(`../seeds/${seed}`);
 
-  it('body void request swagger2', () => {
+      if (isResp) globalThis.circularTail = [];
 
-    globalThis.definition = require('../seeds/parserInitialGood.json')
+      const expected = expectedFile ? require(`../seeds/${expectedFile}`) : undefined;
+      const body = require(`../src/parser/${parser}/body.js`)(method, path, isResp);
 
-    const body = require('../src/parser/swagger2/body.js')('GET','/pets')
-    assert.deepStrictEqual(body, undefined)
-  })
+      assert.deepStrictEqual(body, expected);
+    });
+  };
 
-  it('body void request openapi3.0', () => {
+  checkBody('body void request swagger2','swagger2','parserInitialGood.json','GET','/pets',false,null);
 
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApi3.json')
+  checkBody('body void request openapi3.0','openapi3','parserInitialGoodOpenApi3.json','GET','/pets',false,null);
 
-    const body = require('../src/parser/openapi3/body.js')('GET','/pets')
-    assert.deepStrictEqual(body, undefined)
-  })
+  checkBody('body void request openapi3.0 2','openapi3','parserInitialGoodOpenApi3.json','POST','/pets',false,null);
 
-  it('body void request openapi3.0 2', () => {
+  checkBody('body void request openapi3.1','openapi3','parserInitialGoodOpenApi3.1.json','GET','/pets',false,null);
 
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApi3.json')
 
-    const body = require('../src/parser/openapi3/body.js')('POST','/pets')
-    assert.deepStrictEqual(body, undefined)
-  })
+  checkBody('body fill request swagger2','swagger2','parserInitialGood.json','POST','/pets',false,'parserInitialGoodResultPetRequest.json');
 
-  it('body void request openapi3.1', () => {
+  checkBody('body fill request openapi3.0','openapi3','parserInitialGoodOpenApiExpanded3.json','POST','/pets',false,'parserInitialGoodResultPetRequest.json');
 
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApi3.1.json')
+  checkBody('body fill request openapi3.1','openapi3','parserInitialGoodOpenApiExpanded3.1.json','POST','/pets',false,'parserInitialGoodResultPetRequest.json');
 
-    const body = require('../src/parser/openapi3/body.js')('GET','/pets')
-    assert.deepStrictEqual(body, undefined)
-  })
 
-  it('body fill request swagger2', () => {
+  checkBody('body items,ref and allof response swagger2','swagger2','parserInitialGood.json','GET','/pets',true,'parserInitialGoodResultRespArray.json');
 
-    globalThis.definition = require('../seeds/parserInitialGood.json')
+  checkBody('body items,ref and allof response openapi3.0','openapi3','parserInitialGoodOpenApiExpanded3.json','GET','/pets',true,'parserInitialGoodResultRespArray.json');
 
-    const body = require('../src/parser/swagger2/body.js')('POST','/pets')
-    assert.deepStrictEqual(body, {"type":"object","required":["name"],"properties":{"name":{"type":"string"},"tag":{"type":"string"}}})
-  })
+  checkBody('body items,ref and allof response openapi3.1','openapi3','parserInitialGoodOpenApiExpanded3.1.json','GET','/pets',true,'parserInitialGoodResultRespArray.json');
 
-  it('body fill request openapi3.0', () => {
 
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.json')
+  checkBody('body ref and allof response swagger2','swagger2','parserInitialGood.json','POST','/pets',true,'parserInitialGoodResultRespObject.json');
 
-    const body = require('../src/parser/openapi3/body.js')('POST','/pets')
-    assert.deepStrictEqual(body, {"type":"object","required":["name"],"properties":{"name":{"type":"string"},"tag":{"type":"string"}}})
-  })
+  checkBody('body ref and allof response openapi3.0','openapi3','parserInitialGoodOpenApiExpanded3.json','POST','/pets',true,'parserInitialGoodResultRespObject.json');
 
-  it('body fill request openapi3.1', () => {
+  checkBody('body ref and allof response openapi3.1','openapi3','parserInitialGoodOpenApiExpanded3.1.json','POST','/pets',true,'parserInitialGoodResultRespObject.json');
 
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json')
 
-    const body = require('../src/parser/openapi3/body.js')('POST','/pets')
-    assert.deepStrictEqual(body, {"type":"object","required":["name"],"properties":{"name":{"type":"string"},"tag":{"type":"string"}}})
-  })
+  checkBody('body allof loop swagger2','swagger2','parserBodyAllofLoopInitial.json','POST','/apple',false,'parserInitialGoodResultAllOfLoop.json');
 
-  it('body items, ref and allof response swagger2', () => {
-
-    globalThis.definition = require('../seeds/parserInitialGood.json')
-
-    const body = require('../src/parser/swagger2/body.js')('GET','/pets',true)
-    assert.deepStrictEqual(body, {"200":{"type":"array","items":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
-  })
-
-  it('body items, ref and allof response openapi3.0', () => {
-
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.json')
-
-    const body = require('../src/parser/openapi3/body.js')('GET','/pets',true)
-    assert.deepStrictEqual(body, {"200":{"type":"array","items":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
-  })
-
-  it('body items, ref and allof response openapi3.1', () => {
-
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json')
-
-    const body = require('../src/parser/openapi3/body.js')('GET','/pets',true)
-    assert.deepStrictEqual(body, {"200":{"type":"array","items":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
-  })
-
-  it('body ref and allof response swagger2', () => {
-
-    globalThis.definition = require('../seeds/parserInitialGood.json')
-    globalThis.circularTail = []
-
-    const body = require('../src/parser/swagger2/body.js')('POST','/pets',true)
-    assert.deepStrictEqual(body, {"200":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
-  })
-
-  it('body ref and allof response openapi3.0', () => {
-
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.json')
-    globalThis.circularTail = []
-
-    const body = require('../src/parser/openapi3/body.js')('POST','/pets',true)
-    assert.deepStrictEqual(body, {"200":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
-  })
-
-  it('body ref and allof response openapi3.1', () => {
-
-    globalThis.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json')
-    globalThis.circularTail = []
-
-    const body = require('../src/parser/openapi3/body.js')('POST','/pets',true)
-    assert.deepStrictEqual(body, {"200":{"type":"object","required":["name","id"],"properties":{"name":{"type":"string"},"tag":{"type":"string"},"id":{"type":"integer","format":"int64"}}},"500":{"type":"object","required":["code","message"],"properties":{"code":{"type":"integer","format":"int32"},"message":{"type":"string"}}}})
-  })
-
-  it('body allof loop swagger2', () => {
-
-    globalThis.definition = require('../seeds/parserBodyAllofLoopInitial.json')
-
-    const body = require('../src/parser/swagger2/body.js')('POST','/apple')
-    assert.deepStrictEqual(body, {"required":["red","orange"],"properties":{"red":{"type":"string","maxLength":50},"orange":{"type":"number","maxLength":9},"water":{"required":["paramAiden"],"properties":{"paramAiden":{"type":"string"},"paramBiden":{"type":"string"},"paramCiden":{"type":"string"}},"type":"object"}},"type":"object"})
-  })
-
-  it('body allof string swagger2', () => {
-
-    globalThis.definition = require('../seeds/parserBodyAllofString.json')
-
-    const body = require('../src/parser/swagger2/body.js')('POST','/apple')
-    assert.deepStrictEqual(body, {"type":"object","properties":{"red":{"type":"string","maxLength":50}}})
-  })
-
-})
+  checkBody('body allof string swagger2','swagger2','parserBodyAllofString.json','POST','/apple',false,'parserInitialGoodResultAllOfString.json');
+});

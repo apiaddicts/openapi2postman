@@ -12,7 +12,6 @@ module.exports = function() {
 	}
 
 	let parameters = globalThis.definition.paths[path][_.toLower(verb)]['parameters'];
-	// parameters = replaceRefs(parameters);
 	const queryParams = _.filter(parameters, ['in', 'query'])
 	const result = []
 	_.forEach(queryParams, function(queryParam) { 
@@ -32,35 +31,6 @@ module.exports = function() {
 
 	return result;
 	};
-
-	function replaceRefs(schema){
-		let result = {};
-		for (let i in schema) {
-			if (i === '$ref'){
-				const ref = _.replace(schema[i], '#/parameters/', '');
-				let entity = globalThis.definition.parameters[ref];
-				if (!entity){
-					continue;
-				}
-				entity = replaceRefs(entity, globalThis.definition);
-				result = _.merge(result, entity);
-			} else if (_.isArray(schema[i]) && i !== 'required'){
-				const arrayResult = [];
-				if (i === 'example'){
-					continue;
-				}
-				for (let k in schema[i]) {
-					arrayResult.push(replaceRefs(schema[i][k],globalThis.definition));
-				}
-				result[i] = arrayResult;
-			} else if (_.isObject(schema[i]) && i !== 'required'){
-				result[i] = replaceRefs(schema[i],globalThis.definition);
-			} else {
-				result[i] = schema[i];
-			}
-		}
-		return result;
-	}
 
 	function getExamples(queryParam) {
 		if (queryParam.hasOwnProperty('example')) {

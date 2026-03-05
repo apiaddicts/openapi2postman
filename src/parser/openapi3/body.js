@@ -34,7 +34,7 @@ module.exports = function () {
       }
       if (!body.content['application/json']) {
         const contentsArray = Object.keys(body.content);
-        let schema = undefined;
+        let schema;
         let properContent = false;
         let index = 0;
         while (!properContent && index < contentsArray.length) {
@@ -85,7 +85,7 @@ module.exports = function () {
     }
     const bodyResponses = {}
     _.forEach(endpoint['responses'], function (response, status) {
-      if (response && response.content && response.content['application/json'] && response.content['application/json'].schema) {
+      if (response?.content?.['application/json']?.schema) {
         const withOutRefs = replaceRefs(response.content['application/json'].schema, 1)
         bodyResponses[status] = replaceAllOfs(withOutRefs)
         if (bodyResponses[status].hasOwnProperty('required')) {

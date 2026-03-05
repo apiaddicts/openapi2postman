@@ -6,12 +6,9 @@ const _ = require('lodash');
 
 module.exports = function() {
 
-  return function get(verb,path){
-  	if (!_.isObject(globalThis.definition.paths)) {
-		}
+	return function get(verb,path){
 
 		let parameters = globalThis.definition.paths[path][_.toLower(verb)]['parameters'];
-		// parameters = replaceRefs(parameters);
 		let queryParams = _.filter(parameters, ['in', 'query'])
 		const result = []
 		_.forEach(queryParams, function(queryParam) {
@@ -35,36 +32,6 @@ module.exports = function() {
 		return result
 	};
 
-	function replaceRefs(schema){
-		let result = {}
-		for (let i in schema) {
-			if (i === '$ref'){
-				const ref = _.replace(schema[i], '#/components/parameters/', '');
-				const schemaRef = _.replace(schema[i], '#/components/schemas/', '');
-				let entity = globalThis.definition.components.parameters[ref] || globalThis.definition.components.schemas[schemaRef];
-				if (!entity){
-					require('../../utils/error.js')('ref '+ref+' is not defined')
-				}
-				entity = replaceRefs(entity,globalThis.definition)
-				result = _.merge(result, entity)
-			} else if ( _.isArray(schema[i]) && i !== 'required'){
-				const arrayResult = []
-				if (i === 'example'){
-					continue;
-				}
-				for (let k in schema[i]) {
-					arrayResult.push(replaceRefs(schema[i][k],globalThis.definition))
-				}
-				result[i] = arrayResult
-			} else if ( _.isObject(schema[i]) && i !== 'required'){
-				result[i] = replaceRefs(schema[i],globalThis.definition)
-			} else {
-				result[i] = schema[i];
-			}
-		}
-		return result;
-	}
-
 	function getExamples(queryParam) {
 		if (!queryParam?.schema) return undefined;
 
@@ -72,9 +39,9 @@ module.exports = function() {
 				return queryParam.example;
 		}
 
-    if (queryParam.schema?.examples) {
-      return queryParam.schema.examples[0];
-    }
+		if (queryParam.schema?.examples) {
+			return queryParam.schema.examples[0];
+		}
 
 		if (queryParam.hasOwnProperty('examples')) {
 			const firstKey = Object.keys(queryParam.examples)[0];
@@ -85,14 +52,16 @@ module.exports = function() {
 			return value;
 		}
 
-		return queryParam.example !== undefined ? queryParam.example : queryParam.schema.example;
+		if (queryParam.example === undefined) {
+			return queryParam.schema.example;
+		}
+
+		return queryParam.example;
 	}
 
 	function getContentProperty(query){
 		const queryContent = query.content;
-		for (const key in queryContent) {
-			return queryContent[key];
-		}
+		return queryContent ? Object.values(queryContent)[0] : undefined;
 	}
 
 }()

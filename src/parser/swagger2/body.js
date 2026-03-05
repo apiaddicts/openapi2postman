@@ -70,7 +70,7 @@ module.exports = function() {
           require('../../utils/error.js')('ref ' + ref + ' is not defined');
         }
 			}
-			entity = replaceRefs(entity, globalThis.definition);
+			entity = replaceRefs(entity);
 			result = _.merge(result, entity);
   		} else if ( _.isArray(schema[i]) && i !== 'required'){
   			const arrayResult = [];
@@ -78,11 +78,11 @@ module.exports = function() {
           continue;
         }
   			for (let k in schema[i]) {
-  				arrayResult.push(replaceRefs(schema[i][k],globalThis.definition));
+  				arrayResult.push(replaceRefs(schema[i][k]));
   			}
   			result[i] = arrayResult;
   		} else if ( _.isObject(schema[i]) && i !== 'required'){
-  			result[i] = replaceRefs(schema[i],globalThis.definition);
+  			result[i] = replaceRefs(schema[i]);
   		} else {
   			result[i] = schema[i];
   		}
@@ -100,7 +100,6 @@ module.exports = function() {
         if (schema[i][t]['type'] === 'string') {
           merged = schema[i][t];
         } else {
-          
           for (let k in schema[i][t]) {
             if (k === 'type'){
               merged['type'] = schema[i][t][k];

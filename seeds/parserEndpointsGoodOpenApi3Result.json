@@ -1,0 +1,5 @@
+[
+  { "verb": "GET", "path": "/pets" },
+  { "verb": "POST", "path": "/pets" },
+  { "verb": "GET", "path": "/pets/{petId}" }
+]

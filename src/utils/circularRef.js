@@ -6,27 +6,38 @@
 const _ = require('lodash');
 
 module.exports = function checkCircularReferences(reference, depthLevel, patternNumber) {
-  const tail = globalThis.circularTail = globalThis.circularTail || [];
-
-  if (!tail[patternNumber]) {
-    tail[patternNumber] = [reference];
-    return false;
+  if (!globalThis.circularTail) {
+    globalThis.circularTail = []
+  }
+  if (!globalThis.circularTail[patternNumber]) {
+    globalThis.circularTail[patternNumber] = [reference]
+    return false
+  }
+  if (globalThis.circularTail[patternNumber].length < (depthLevel * patternNumber)) {
+    globalThis.circularTail[patternNumber].push(reference)
+    return false
   }
 
-  const currentPattern = tail[patternNumber];
+  const groups = _.chunk(globalThis.circularTail[patternNumber], patternNumber)
+  globalThis.circularTail[patternNumber].shift()
+  globalThis.circularTail[patternNumber].push(reference)
 
-  if (currentPattern.length < (depthLevel * patternNumber)) {
-    currentPattern.push(reference);
-    return false;
+  let areEquals = true
+
+  for (let i = 1; i < groups.length; i++) {
+    for (let k in groups[i]) {
+      if (groups[i][k] !== groups[i - 1][k]) {
+        areEquals = false
+        break
+      }
+    }
+    if (!areEquals) break
   }
 
-  currentPattern.shift();
-  currentPattern.push(reference);
+  if (areEquals) {
+    globalThis.circularTail = []
+  }
 
-  const groups = _.chunk(currentPattern, patternNumber);
-  const areEquals = groups.length > 1 && groups.every(group => _.isEqual(group, groups[0]));
+  return areEquals
 
-  if (areEquals) globalThis.circularTail = [];
-
-  return areEquals;
-};
+}

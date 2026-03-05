@@ -7,7 +7,7 @@ const _ = require('lodash');
 module.exports = function() {
 
   return function get(){
-    if (!globalThis.definition.servers || !_.isArray(globalThis.definition.servers) || !globalThis.definition.servers[0] || !globalThis.definition.servers[0].url || !_.isString(globalThis.definition.servers[0].url)) {
+    if (!globalThis.definition.servers || !_.isArray(globalThis.definition.servers) || !globalThis.definition.servers[0]?.url || !_.isString(globalThis.definition.servers[0].url)) {
       require('../../utils/error.js')('servers is required')
     }
       const all = globalThis.definition.servers[0].url

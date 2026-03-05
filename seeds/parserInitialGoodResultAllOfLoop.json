@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required": ["red", "orange"],
+  "properties": {
+    "red": { "type": "string", "maxLength": 50 },
+    "orange": { "type": "number", "maxLength": 9 },
+    "water": {
+      "type": "object",
+      "required": ["paramAiden"],
+      "properties": {
+        "paramAiden": { "type": "string" },
+        "paramBiden": { "type": "string" },
+        "paramCiden": { "type": "string" }
+      }
+    }
+  }
+}

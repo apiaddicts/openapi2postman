@@ -16,7 +16,7 @@ module.exports = function () {
     }
 
     const request = globalThis.definition.paths[path][_.toLower(verb)]
-    if (request.requestBody && request.requestBody.content) {
+    if (request.requestBody?.content) {
       return _.keys(request.requestBody.content)[0]
     }
     return 'application/json';
