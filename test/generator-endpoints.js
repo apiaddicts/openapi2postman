@@ -3,7 +3,7 @@
 const assert = require('assert');
 
 describe('generator-endpoints', () => {
-  
+
   it('good', () => {
 
     const definitionInitial = require('../seeds/generatorEndpointsInitial.json');

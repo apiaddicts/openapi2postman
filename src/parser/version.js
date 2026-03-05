@@ -5,17 +5,19 @@
 module.exports = function() {
   
   return function get(){
-    const versions = {
-      swagger : ['2.0', '2.0.0'],
-      openapi : ['3.0', '3.0.0', '3.0.1','3.0.2' , '3.0.3']
-    }
+  const versions = {
+    swagger : ['2.0', '2.0.0'],
+    openapi3 : ['3.0', '3.0.0', '3.0.1','3.0.2', '3.0.3'],
+    openapi31 : ['3.1', '3.1.0', '3.1.1', '3.1.2']
+  }
 
-    if (versions.swagger.includes(global.definition.swagger)) {
-        return 'swagger2'
-    } else if (versions.openapi.includes(global.definition.openapi)){
-        return 'openapi3'
-    }
-	require('../utils/error.js')('Specification is not supported')
+  if (versions.swagger.includes(globalThis.definition.swagger)) {
+    return 'swagger2'
+  } else if (versions.openapi3.includes(globalThis.definition.openapi) || versions.openapi31.includes(globalThis.definition.openapi)) {
+    return 'openapi3'
+  } else {
+    require('../utils/error.js')('Specification is not supported')
+  }
   };
 
 }()

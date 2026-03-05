@@ -5,75 +5,63 @@
 const _ = require('lodash');
 
 module.exports = function() {
-  
-  return function get(verb,path){
-  	if (!_.isObject(global.definition.paths)) {
-			require('../../utils/error.js')('paths is required')
-		}
 
-		let parameters = global.definition.paths[path][_.toLower(verb)]['parameters'];
-		// parameters = replaceRefs(parameters);
+	return function get(verb,path){
+
+		let parameters = globalThis.definition.paths[path][_.toLower(verb)]['parameters'];
 		let queryParams = _.filter(parameters, ['in', 'query'])
 		const result = []
 		_.forEach(queryParams, function(queryParam) {
 			const param = queryParam.schema ? queryParam : getContentProperty(queryParam);
-			result.push({ 
+
+			const obj = {
 				name: queryParam.name, 
 				type: param.schema.type, 
 				required : queryParam.required, 
-				example: getExamples(param)
-			});
-		});
-		return result
-  };
+			};
 
-	function replaceRefs(schema){
-		let result = {}
-		for (let i in schema) {
-			if (i === '$ref'){
-				const ref = _.replace(schema[i], '#/components/parameters/', '');
-				const schemaRef = _.replace(schema[i], '#/components/schemas/', '');
-				let entity = global.definition.components.parameters[ref] || global.definition.components.schemas[schemaRef];
-				if (!entity){
-					require('../../utils/error.js')('ref '+ref+' is not defined')
-				}
-				entity = replaceRefs(entity,global.definition)
-				result = _.merge(result, entity)
-			} else if ( _.isArray(schema[i]) && i !== 'required'){
-				const arrayResult = []
-				if (i === 'example'){
-					continue;
-				}
-				for (let k in schema[i]) {
-					arrayResult.push(replaceRefs(schema[i][k],global.definition))
-				}
-				result[i] = arrayResult
-			} else if ( _.isObject(schema[i]) && i !== 'required'){
-				result[i] = replaceRefs(schema[i],global.definition)
-			} else {
-				result[i] = schema[i];
+			const example = getExamples(param);
+
+			if (example !== undefined && example !== null) {
+				obj.example = example;
 			}
-		}
-		return result;
-	}
+
+			result.push(obj);
+		});
+
+		return result
+	};
 
 	function getExamples(queryParam) {
+		if (!queryParam?.schema) return undefined;
+
 		if (queryParam.schema.type === 'array') {
-				return queryParam.example
-		} else {
-			if (queryParam.hasOwnProperty('examples')) {
-				const value = queryParam.examples[Object.keys(queryParam.examples)[0]];
-				return value[Object.keys(value)[0]];
+				return queryParam.example;
+		}
+
+		if (queryParam.schema?.examples) {
+			return queryParam.schema.examples[0];
+		}
+
+		if (queryParam.hasOwnProperty('examples')) {
+			const firstKey = Object.keys(queryParam.examples)[0];
+			const value = queryParam.examples[firstKey];
+			if (value?.hasOwnProperty('value')) {
+				return value.value;
 			}
-			return queryParam.example;
-		}	
+			return value;
+		}
+
+		if (queryParam.example === undefined) {
+			return queryParam.schema.example;
+		}
+
+		return queryParam.example;
 	}
 
 	function getContentProperty(query){
 		const queryContent = query.content;
-		for (const key in queryContent) {
-			return queryContent[key];
-		}
+		return queryContent ? Object.values(queryContent)[0] : undefined;
 	}
 
 }()

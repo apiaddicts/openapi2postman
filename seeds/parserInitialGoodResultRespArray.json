@@ -1,0 +1,22 @@
+{
+  "200": {
+    "type": "array",
+    "items": {
+      "type": "object",
+      "required": ["name", "id"],
+      "properties": {
+        "name": { "type": "string" },
+        "tag": { "type": "string" },
+        "id": { "type": "integer", "format": "int64" }
+      }
+    }
+  },
+  "500": {
+    "type": "object",
+    "required": ["code", "message"],
+    "properties": {
+      "code": { "type": "integer", "format": "int32" },
+      "message": { "type": "string" }
+    }
+  }
+}

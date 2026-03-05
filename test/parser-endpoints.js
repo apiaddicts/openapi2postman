@@ -1,52 +1,47 @@
-/** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
+/** Part of APIAddicts. See LICENSE file or full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert');
+const assert = require('node:assert');
 const sinon = require('sinon');
+const getEndpoints = require('../src/parser/endpoints.js');
 
 describe('parser-endpoints', () => {
-  
+
   before(() => {
     sinon.stub(process, 'exit');
-  })
+    sinon.stub(console, 'log');
+    sinon.stub(console, 'error');
+  });
+
+  afterEach(() => {
+    process.exit.resetHistory();
+  });
 
   after(() => {
     process.exit.restore();
-  })
+    console.log.restore();
+    console.error.restore();
+  });
 
-  it('bad swagger2', () => {
+  const checkEndpoints = (name, seed, expectedFile, shouldExit = false) => {
+    it(name, () => {
+      globalThis.definition = require(`../seeds/${seed}`);
+      const endpoints = getEndpoints();
 
-    global.definition = require('../seeds/parserEndpointsInitialBad.json');
+      if (shouldExit) {
+        sinon.assert.calledWith(process.exit, 1);
+      } else {
+        const expected = require(`../seeds/${expectedFile}`);
+        assert.deepStrictEqual(endpoints, expected);
+      }
+    });
+  };
 
-    require('../src/parser/endpoints.js')();
+  checkEndpoints('endpoints bad swagger2', 'parserEndpointsInitialBad.json', null, true);
 
-    sinon.assert.called(process.exit);
-    sinon.assert.calledWith(process.exit, 1);
-  })
+  checkEndpoints('endpoints good swagger2', 'parserEndpointsInitialGood.json', 'parserEndpointsGoodSwagger2Result.json');
 
-  it('good swagger2', () => {
+  checkEndpoints('endpoints good openapi3.0', 'parserInitialGoodOpenApi3.json', 'parserEndpointsGoodOpenApi3Result.json');
 
-    global.definition = require('../seeds/parserEndpointsInitialGood.json');
+  checkEndpoints('endpoints good openapi3.1', 'parserInitialGoodOpenApi3.1.json', 'parserEndpointsGoodOpenApi3Result.json');
 
-    const endpoints = require('../src/parser/endpoints.js')();
-    assert.deepEqual(endpoints, [ 
-        { verb: 'GET', path: '/pets' },
-        { verb: 'POST', path: '/pets' },
-        { verb: 'GET', path: '/pets/{id}' },
-        { verb: 'DELETE', path: '/pets/{id}' } 
-      ])
-  })
-
-  it('good openapi3', () => {
-
-    global.definition = require('../seeds/parserInitialGoodOpenApi3.json');
-
-    const endpoints = require('../src/parser/endpoints.js')();
-    assert.deepEqual(endpoints, [ 
-        { verb: 'GET', path: '/pets' },
-        { verb: 'POST', path: '/pets' },
-        { verb: 'GET', path: '/pets/{petId}' } 
-      ])
-  })
-
-
-})
+});

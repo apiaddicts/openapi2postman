@@ -1,42 +1,26 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert');
+const assert = require('node:assert');
+const getAuthorization = require('../src/parser/authorization.js');
 
 describe('parser-authorization', () => {
-  
-  it('good swagger2', () => {
 
-    global.definition = require('../seeds/parserAuthorizationInitial.json')
-    const authorization = require('../src/parser/authorization.js')('POST','/apple')
-    assert.deepStrictEqual(authorization, 'user_token')
-  })
+  const checkAuth = (name, seed, method, path, expected) => {
+    it(name, () => {
+      globalThis.definition = require(`../seeds/${seed}`);
+      const authorization = getAuthorization(method, path);
+      assert.deepStrictEqual(authorization, expected);
+    });
+  };
 
-  it('endpoint swagger2', () => {
+  checkAuth('auth good sw2', 'parserAuthorizationInitial.json', 'POST', '/apple', 'user_token');
+  checkAuth('auth endpoint sw2', 'parserAuthorizationInitialEndpoint.json', 'POST', '/apple', 'OAuth2');
+  checkAuth('auth general sw2', 'parserAuthorizationInitialGeneral.json', 'POST', '/apple', 'BasicAuth');
 
-    global.definition = require('../seeds/parserAuthorizationInitialEndpoint.json')
-    const authorization = require('../src/parser/authorization.js')('POST','/apple')
-    assert.deepStrictEqual(authorization, 'OAuth2')
-  })
+  checkAuth('auth general oa3.0','parserAuthorizationInitialOpenApi3.json', 'POST', '/pets', 'ApiKeyAuth');
+  checkAuth('auth endpoint oa3.0','parserAuthorizationInitialOpenApi3.json', 'GET', '/pets', 'OAuth2');
 
-  it('general swagger2', () => {
+  checkAuth('auth general oa3.1', 'parserAuthorizationInitialOpenApi3.1.json','POST', '/pets', 'ApiKeyAuth');
+  checkAuth('auth endpoint oa3.1', 'parserAuthorizationInitialOpenApi3.1.json','GET', '/pets', 'OAuth2');
 
-    global.definition = require('../seeds/parserAuthorizationInitialGeneral.json')
-    const authorization = require('../src/parser/authorization.js')('POST','/apple')
-    assert.deepStrictEqual(authorization, 'BasicAuth')
-  })
-
-  it('general openapi3', () => {
-
-    global.definition = require('../seeds/parserAuthorizationInitialOpenApi3.json')
-    const authorization = require('../src/parser/authorization.js')('POST','/pets')
-    assert.deepStrictEqual(authorization, 'ApiKeyAuth')
-  })
-
-  it('endpoint openapi3', () => {
-
-    global.definition = require('../seeds/parserAuthorizationInitialOpenApi3.json')
-    const authorization = require('../src/parser/authorization.js')('GET','/pets')
-    assert.deepStrictEqual(authorization, 'OAuth2')
-  })
-
-})
+});

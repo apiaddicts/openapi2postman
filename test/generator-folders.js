@@ -3,7 +3,7 @@
 const assert = require('assert');
 
 describe('generator-folders', () => {
-  
+
   it('good', () => {
 
     const input = require('../seeds/generatorFoldersInitial.json')

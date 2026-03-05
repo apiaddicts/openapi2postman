@@ -1,0 +1,6 @@
+{
+  "type": "object",
+  "properties": {
+    "red": { "type": "string", "maxLength": 50 }
+  }
+}
