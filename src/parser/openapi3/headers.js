@@ -4,22 +4,25 @@
 
 const _ = require('lodash');
 
-module.exports = function() {
-  
-  return function get(verb,path){
-    if (!_.isObject(global.definition.paths)) {
-      require('../../utils/error.js')('paths is required')
+module.exports = function () {
+
+  return function get(verb, path) {
+    const hasPaths = _.isObject(globalThis.definition.paths);
+    const hasWebhooks = _.isObject(globalThis.definition.webhooks);
+
+    if (!hasPaths) {
+      if (hasWebhooks) return [];
+      require('../../utils/error.js')('paths is required');
     }
 
-    let parameters = global.definition.paths[path][_.toLower(verb)]['parameters'];
-    // parameters = replaceRefs(parameters);
+    let parameters = globalThis.definition.paths[path][_.toLower(verb)]['parameters'];
     let headers = _.filter(parameters, ['in', 'header'])
     const result = []
-    _.forEach(headers, function(header) {	
-      result.push({ 
-        key: header.name, 
-        type: header.schema.type, 
-        required : header.required, 
+    _.forEach(headers, function (header) {
+      result.push({
+        key: header.name,
+        type: header.schema.type,
+        required: header.required,
         value: getExamples(header)
       });
     });
@@ -27,16 +30,18 @@ module.exports = function() {
   };
 
   function getExamples(header) {
-		if (header.example) {
-				return header.example
-		}
-     else {
-			if (header.hasOwnProperty('examples')) {
-				const value = header.examples[Object.keys(header.examples)[0]];
-				return value[Object.keys(value)[0]];
-			}
-			return header.example;
-		}	
-	}
+    if (header.example) return header.example;
+
+    if (header.schema?.examples) {
+      return header.schema.examples[0];
+    }
+
+    if (header.examples) {
+      const firstKey = Object.keys(header.examples)[0];
+      return header.examples[firstKey]?.value;
+    }
+
+    return undefined;
+  }
 
 }()

@@ -6,7 +6,7 @@
             "name":"001.001.uploads an image",
             "item":[
                {
-                  "name":"TC.001.001.200 uploads an image ",
+                  "name":"TC.001.001.200",
                   "aux":{
                      "status":"200",
                      "body":false,
@@ -97,7 +97,7 @@
             "name":"001.002.Update an existing pet",
             "item":[
                {
-                  "name":"TC.001.002.400 Update an existing pet without.name",
+                  "name":"TC.001.002.400   without.name",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -272,7 +272,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet without.photoUrls",
+                  "name":"TC.001.002.400   without.photoUrls",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -444,7 +444,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.id.wrong",
+                  "name":"TC.001.002.400   with.id.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -619,7 +619,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.category.wrong",
+                  "name":"TC.001.002.400   with.category.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -794,7 +794,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.category.id.wrong",
+                  "name":"TC.001.002.400   with.category.id.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -969,7 +969,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.category.name.wrong",
+                  "name":"TC.001.002.400   with.category.name.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -1144,7 +1144,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.name.wrong",
+                  "name":"TC.001.002.400   with.name.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -1319,7 +1319,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.photoUrls.wrong",
+                  "name":"TC.001.002.400   with.photoUrls.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -1491,7 +1491,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.tags.wrong",
+                  "name":"TC.001.002.400   with.tags.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -1656,7 +1656,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.tags.id.wrong",
+                  "name":"TC.001.002.400   with.tags.id.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -1831,7 +1831,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.tags.name.wrong",
+                  "name":"TC.001.002.400   with.tags.name.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -2006,7 +2006,7 @@
                   ]
                },
                {
-                  "name":"TC.001.002.400 Update an existing pet with.status.wrong",
+                  "name":"TC.001.002.400   with.status.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -2191,7 +2191,7 @@
             "name":"001.003.Finds Pets by status",
             "item":[
                {
-                  "name":"TC.001.003.200 Finds Pets by status ",
+                  "name":"TC.001.003.200",
                   "aux":{
                      "status":"200",
                      "body":false,
@@ -2365,7 +2365,7 @@
                   ]
                },
                {
-                  "name":"TC.001.003.400 Finds Pets by status .without.status",
+                  "name":"TC.001.003.400   .without.status",
                   "aux":{
                      "status":"400",
                      "body":false,
@@ -2542,7 +2542,7 @@
             "name":"001.004.Finds Pets by tags",
             "item":[
                {
-                  "name":"TC.001.004.200 Finds Pets by tags ",
+                  "name":"TC.001.004.200",
                   "aux":{
                      "status":"200",
                      "body":false,
@@ -2615,7 +2615,7 @@
                   ]
                },
                {
-                  "name":"TC.001.004.400 Finds Pets by tags .without.tags",
+                  "name":"TC.001.004.400   .without.tags",
                   "aux":{
                      "status":"400",
                      "body":false,
@@ -2691,7 +2691,7 @@
             "name":"001.005.Find pet by ID",
             "item":[
                {
-                  "name":"TC.001.005.200 Find pet by ID ",
+                  "name":"TC.001.005.200",
                   "aux":{
                      "status":"200",
                      "body":false,
@@ -2857,7 +2857,7 @@
                   ]
                },
                {
-                  "name":"TC.001.005.404 Find pet by ID ",
+                  "name":"TC.001.005.404",
                   "aux":{
                      "status":"404",
                      "body":false,
@@ -3030,7 +3030,7 @@
             "name":"002.001.Place an order for a pet",
             "item":[
                {
-                  "name":"TC.002.001.200 Place an order for a pet ",
+                  "name":"TC.002.001.200",
                   "aux":{
                      "status":"200",
                      "body":{
@@ -3223,7 +3223,7 @@
                   ]
                },
                {
-                  "name":"TC.002.001.400 Place an order for a pet with.id.wrong",
+                  "name":"TC.002.001.400   with.id.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -3409,7 +3409,7 @@
                   ]
                },
                {
-                  "name":"TC.002.001.400 Place an order for a pet with.petId.wrong",
+                  "name":"TC.002.001.400   with.petId.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -3595,7 +3595,7 @@
                   ]
                },
                {
-                  "name":"TC.002.001.400 Place an order for a pet with.quantity.wrong",
+                  "name":"TC.002.001.400   with.quantity.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -3781,7 +3781,7 @@
                   ]
                },
                {
-                  "name":"TC.002.001.400 Place an order for a pet with.shipDate.wrong",
+                  "name":"TC.002.001.400   with.shipDate.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -3967,7 +3967,7 @@
                   ]
                },
                {
-                  "name":"TC.002.001.400 Place an order for a pet with.status.wrong",
+                  "name":"TC.002.001.400   with.status.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -4153,7 +4153,7 @@
                   ]
                },
                {
-                  "name":"TC.002.001.400 Place an order for a pet with.complete.wrong",
+                  "name":"TC.002.001.400   with.complete.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -4349,7 +4349,7 @@
             "name":"002.002.Returns pet inventories by status",
             "item":[
                {
-                  "name":"TC.002.002.200 Returns pet inventories by status ",
+                  "name":"TC.002.002.200",
                   "aux":{
                      "status":"200",
                      "body":false,
@@ -4427,7 +4427,7 @@
             "name":"002.003.Find purchase order by ID",
             "item":[
                {
-                  "name":"TC.002.003.200 Find purchase order by ID ",
+                  "name":"TC.002.003.200",
                   "aux":{
                      "status":"200",
                      "body":false,
@@ -4553,7 +4553,7 @@
                   ]
                },
                {
-                  "name":"TC.002.003.404 Find purchase order by ID ",
+                  "name":"TC.002.003.404",
                   "aux":{
                      "status":"404",
                      "body":false,
@@ -4681,7 +4681,7 @@
             "name":"002.004.Delete purchase order by ID",
             "item":[
                {
-                  "name":"TC.002.004.404 Delete purchase order by ID ",
+                  "name":"TC.002.004.404",
                   "aux":{
                      "status":"404",
                      "body":false,
@@ -4750,7 +4750,7 @@
             "name":"003.001.Updated user",
             "item":[
                {
-                  "name":"TC.003.001.400 Updated user with.id.wrong",
+                  "name":"TC.003.001.400   with.id.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -4844,7 +4844,7 @@
                   ]
                },
                {
-                  "name":"TC.003.001.400 Updated user with.username.wrong",
+                  "name":"TC.003.001.400   with.username.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -4938,7 +4938,7 @@
                   ]
                },
                {
-                  "name":"TC.003.001.400 Updated user with.firstName.wrong",
+                  "name":"TC.003.001.400   with.firstName.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -5032,7 +5032,7 @@
                   ]
                },
                {
-                  "name":"TC.003.001.400 Updated user with.lastName.wrong",
+                  "name":"TC.003.001.400   with.lastName.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -5126,7 +5126,7 @@
                   ]
                },
                {
-                  "name":"TC.003.001.400 Updated user with.email.wrong",
+                  "name":"TC.003.001.400   with.email.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -5220,7 +5220,7 @@
                   ]
                },
                {
-                  "name":"TC.003.001.400 Updated user with.password.wrong",
+                  "name":"TC.003.001.400   with.password.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -5314,7 +5314,7 @@
                   ]
                },
                {
-                  "name":"TC.003.001.400 Updated user with.phone.wrong",
+                  "name":"TC.003.001.400   with.phone.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -5408,7 +5408,7 @@
                   ]
                },
                {
-                  "name":"TC.003.001.400 Updated user with.userStatus.wrong",
+                  "name":"TC.003.001.400   with.userStatus.wrong",
                   "aux":{
                      "status":"400",
                      "body":{
@@ -5502,7 +5502,7 @@
                   ]
                },
                {
-                  "name":"TC.003.001.404 Updated user ",
+                  "name":"TC.003.001.404",
                   "aux":{
                      "status":"404",
                      "body":{
@@ -5605,7 +5605,7 @@
             "name":"003.002.Logs user into the system",
             "item":[
                {
-                  "name":"TC.003.002.200 Logs user into the system ",
+                  "name":"TC.003.002.200",
                   "aux":{
                      "status":"200",
                      "body":false,
@@ -5680,7 +5680,7 @@
                   ]
                },
                {
-                  "name":"TC.003.002.400 Logs user into the system .without.username",
+                  "name":"TC.003.002.400   .without.username",
                   "aux":{
                      "status":"400",
                      "body":false,
@@ -5748,7 +5748,7 @@
                   ]
                },
                {
-                  "name":"TC.003.002.400 Logs user into the system .without.password",
+                  "name":"TC.003.002.400   .without.password",
                   "aux":{
                      "status":"400",
                      "body":false,
@@ -5826,7 +5826,7 @@
             "name":"003.003.Get user by user name",
             "item":[
                {
-                  "name":"TC.003.003.200 Get user by user name ",
+                  "name":"TC.003.003.200",
                   "aux":{
                      "status":"200",
                      "body":false,
@@ -5924,7 +5924,7 @@
                   ]
                },
                {
-                  "name":"TC.003.003.404 Get user by user name ",
+                  "name":"TC.003.003.404",
                   "aux":{
                      "status":"404",
                      "body":false,
@@ -6024,7 +6024,7 @@
             "name":"003.004.Delete user",
             "item":[
                {
-                  "name":"TC.003.004.404 Delete user ",
+                  "name":"TC.003.004.404",
                   "aux":{
                      "status":"404",
                      "body":false,

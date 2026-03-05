@@ -1,282 +1,282 @@
-[ 
-   { 
-      "name":"/pets-200",
-      "aux":{ 
-         "status":"200",
-         "body":false,
-         "consumes":false,
-         "bodyResponse":false,
-         "authorization":false,
-         "summary":false,
-         "queryParams":false,
-         "pathParameter":false
+[
+  {
+    "name": "/pets-200",
+    "path": "/pets",
+    "count": 1,
+    "microcks": false,
+    "aux": {
+      "status": "200",
+      "body": false,
+      "consumes": false,
+      "bodyResponse": false,
+      "authorization": false,
+      "summary": false,
+      "queryParams": false,
+      "pathParameter": null,
+      "pathParameterExample": ""
+    },
+    "response": [],
+    "request": {
+      "method": "GET",
+      "header": [],
+      "body": {
+        "mode": "raw",
+        "raw": ""
       },
-      "response":[ 
-
-      ],
-      "request":{ 
-         "method":"GET",
-         "header":[ 
-
-         ],
-         "body":{ 
-            "mode":"raw",
-            "raw":""
-         },
-         "url":{ 
-            "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[ 
-               "{{host}}{{port}}{{basePath}}"
-            ],
-            "path":[ 
-               "/pets"
-            ]
-         }
+      "url": {
+        "raw": "{{host}}{{port}}{{basePath}}/pets",
+        "host": [
+          "{{host}}{{port}}{{basePath}}"
+        ],
+        "path": [
+          "pets"
+        ]
       }
-   },
-   { 
-      "name":"/pets-500",
-      "aux":{ 
-         "status":"500",
-         "body":false,
-         "consumes":false,
-         "bodyResponse":false,
-         "authorization":false,
-         "summary":false,
-         "queryParams":false,
-         "pathParameter":false
+    }
+  },
+  {
+    "name": "/pets-500",
+    "path": "/pets",
+    "count": 1,
+    "microcks": false,
+    "aux": {
+      "status": "500",
+      "body": false,
+      "consumes": false,
+      "bodyResponse": false,
+      "authorization": false,
+      "summary": false,
+      "queryParams": false,
+      "pathParameter": null,
+      "pathParameterExample": ""
+    },
+    "response": [],
+    "request": {
+      "method": "GET",
+      "header": [],
+      "body": {
+        "mode": "raw",
+        "raw": ""
       },
-      "response":[ 
-
-      ],
-      "request":{ 
-         "method":"GET",
-         "header":[ 
-
-         ],
-         "body":{ 
-            "mode":"raw",
-            "raw":""
-         },
-         "url":{ 
-            "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[ 
-               "{{host}}{{port}}{{basePath}}"
-            ],
-            "path":[ 
-               "/pets"
-            ]
-         }
+      "url": {
+        "raw": "{{host}}{{port}}{{basePath}}/pets",
+        "host": [
+          "{{host}}{{port}}{{basePath}}"
+        ],
+        "path": [
+          "pets"
+        ]
       }
-   },
-   { 
-      "name":"/pets-200",
-      "aux":{ 
-         "status":"200",
-         "body":false,
-         "consumes":false,
-         "bodyResponse":false,
-         "authorization":false,
-         "summary":false,
-         "queryParams":false,
-         "pathParameter":false
+    }
+  },
+  {
+    "name": "/pets-200",
+    "path": "/pets",
+    "count": 1,
+    "microcks": false,
+    "aux": {
+      "status": "200",
+      "body": false,
+      "consumes": false,
+      "bodyResponse": false,
+      "authorization": false,
+      "summary": false,
+      "queryParams": false,
+      "pathParameter": null,
+      "pathParameterExample": ""
+    },
+    "response": [],
+    "request": {
+      "method": "POST",
+      "header": [],
+      "body": {
+        "mode": "raw",
+        "raw": ""
       },
-      "response":[ 
-
-      ],
-      "request":{ 
-         "method":"POST",
-         "header":[ 
-
-         ],
-         "body":{ 
-            "mode":"raw",
-            "raw":""
-         },
-         "url":{ 
-            "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[ 
-               "{{host}}{{port}}{{basePath}}"
-            ],
-            "path":[ 
-               "/pets"
-            ]
-         }
+      "url": {
+        "raw": "{{host}}{{port}}{{basePath}}/pets",
+        "host": [
+          "{{host}}{{port}}{{basePath}}"
+        ],
+        "path": [
+          "pets"
+        ]
       }
-   },
-   { 
-      "name":"/pets-500",
-      "aux":{ 
-         "status":"500",
-         "body":false,
-         "consumes":false,
-         "bodyResponse":false,
-         "authorization":false,
-         "summary":false,
-         "queryParams":false,
-         "pathParameter":false
+    }
+  },
+  {
+    "name": "/pets-500",
+    "path": "/pets",
+    "count": 1,
+    "microcks": false,
+    "aux": {
+      "status": "500",
+      "body": false,
+      "consumes": false,
+      "bodyResponse": false,
+      "authorization": false,
+      "summary": false,
+      "queryParams": false,
+      "pathParameter": null,
+      "pathParameterExample": ""
+    },
+    "response": [],
+    "request": {
+      "method": "POST",
+      "header": [],
+      "body": {
+        "mode": "raw",
+        "raw": ""
       },
-      "response":[ 
-
-      ],
-      "request":{ 
-         "method":"POST",
-         "header":[ 
-
-         ],
-         "body":{ 
-            "mode":"raw",
-            "raw":""
-         },
-         "url":{ 
-            "raw":"{{host}}{{port}}{{basePath}}/pets",
-            "host":[ 
-               "{{host}}{{port}}{{basePath}}"
-            ],
-            "path":[ 
-               "/pets"
-            ]
-         }
+      "url": {
+        "raw": "{{host}}{{port}}{{basePath}}/pets",
+        "host": [
+          "{{host}}{{port}}{{basePath}}"
+        ],
+        "path": [
+          "pets"
+        ]
       }
-   },
-   { 
-      "name":"/pets/{id}-200",
-      "aux":{ 
-         "status":"200",
-         "body":false,
-         "consumes":false,
-         "bodyResponse":false,
-         "authorization":false,
-         "summary":false,
-         "queryParams":false,
-         "pathParameter":false
+    }
+  },
+  {
+    "name": "/pets/{id}-200",
+    "path": "/pets/{id}",
+    "count": 1,
+    "microcks": false,
+    "aux": {
+      "status": "200",
+      "body": false,
+      "consumes": false,
+      "bodyResponse": false,
+      "authorization": false,
+      "summary": false,
+      "queryParams": false,
+      "pathParameter": null,
+      "pathParameterExample": ""
+    },
+    "response": [],
+    "request": {
+      "method": "GET",
+      "header": [],
+      "body": {
+        "mode": "raw",
+        "raw": ""
       },
-      "response":[ 
-
-      ],
-      "request":{ 
-         "method":"GET",
-         "header":[ 
-
-         ],
-         "body":{ 
-            "mode":"raw",
-            "raw":""
-         },
-         "url":{ 
-            "raw":"{{host}}{{port}}{{basePath}}/pets/{id}",
-            "host":[ 
-               "{{host}}{{port}}{{basePath}}"
-            ],
-            "path":[ 
-               "/pets/{id}"
-            ]
-         }
+      "url": {
+        "raw": "{{host}}{{port}}{{basePath}}/pets/{id}",
+        "host": [
+          "{{host}}{{port}}{{basePath}}"
+        ],
+        "path": [
+          "pets/{id}"
+        ]
       }
-   },
-   { 
-      "name":"/pets/{id}-500",
-      "aux":{ 
-         "status":"500",
-         "body":false,
-         "consumes":false,
-         "bodyResponse":false,
-         "authorization":false,
-         "summary":false,
-         "queryParams":false,
-         "pathParameter":false
+    }
+  },
+  {
+    "name": "/pets/{id}-500",
+    "path": "/pets/{id}",
+    "count": 1,
+    "microcks": false,
+    "aux": {
+      "status": "500",
+      "body": false,
+      "consumes": false,
+      "bodyResponse": false,
+      "authorization": false,
+      "summary": false,
+      "queryParams": false,
+      "pathParameter": null,
+      "pathParameterExample": ""
+    },
+    "response": [],
+    "request": {
+      "method": "GET",
+      "header": [],
+      "body": {
+        "mode": "raw",
+        "raw": ""
       },
-      "response":[ 
-
-      ],
-      "request":{ 
-         "method":"GET",
-         "header":[ 
-
-         ],
-         "body":{ 
-            "mode":"raw",
-            "raw":""
-         },
-         "url":{ 
-            "raw":"{{host}}{{port}}{{basePath}}/pets/{id}",
-            "host":[ 
-               "{{host}}{{port}}{{basePath}}"
-            ],
-            "path":[ 
-               "/pets/{id}"
-            ]
-         }
+      "url": {
+        "raw": "{{host}}{{port}}{{basePath}}/pets/{id}",
+        "host": [
+          "{{host}}{{port}}{{basePath}}"
+        ],
+        "path": [
+          "pets/{id}"
+        ]
       }
-   },
-   { 
-      "name":"/pets/{id}-204",
-      "aux":{ 
-         "status":"204",
-         "body":false,
-         "consumes":false,
-         "bodyResponse":false,
-         "authorization":false,
-         "summary":false,
-         "queryParams":false,
-         "pathParameter":false
+    }
+  },
+  {
+    "name": "/pets/{id}-204",
+    "path": "/pets/{id}",
+    "count": 1,
+    "microcks": false,
+    "aux": {
+      "status": "204",
+      "body": false,
+      "consumes": false,
+      "bodyResponse": false,
+      "authorization": false,
+      "summary": false,
+      "queryParams": false,
+      "pathParameter": null,
+      "pathParameterExample": ""
+    },
+    "response": [],
+    "request": {
+      "method": "DELETE",
+      "header": [],
+      "body": {
+        "mode": "raw",
+        "raw": ""
       },
-      "response":[ 
-
-      ],
-      "request":{ 
-         "method":"DELETE",
-         "header":[ 
-
-         ],
-         "body":{ 
-            "mode":"raw",
-            "raw":""
-         },
-         "url":{ 
-            "raw":"{{host}}{{port}}{{basePath}}/pets/{id}",
-            "host":[ 
-               "{{host}}{{port}}{{basePath}}"
-            ],
-            "path":[ 
-               "/pets/{id}"
-            ]
-         }
+      "url": {
+        "raw": "{{host}}{{port}}{{basePath}}/pets/{id}",
+        "host": [
+          "{{host}}{{port}}{{basePath}}"
+        ],
+        "path": [
+          "pets/{id}"
+        ]
       }
-   },
-   { 
-      "name":"/pets/{id}-500",
-      "aux":{ 
-         "status":"500",
-         "body":false,
-         "consumes":false,
-         "bodyResponse":false,
-         "authorization":false,
-         "summary":false,
-         "queryParams":false,
-         "pathParameter":false
+    }
+  },
+  {
+    "name": "/pets/{id}-500",
+    "path": "/pets/{id}",
+    "count": 1,
+    "microcks": false,
+    "aux": {
+      "status": "500",
+      "body": false,
+      "consumes": false,
+      "bodyResponse": false,
+      "authorization": false,
+      "summary": false,
+      "queryParams": false,
+      "pathParameter": null,
+      "pathParameterExample": ""
+    },
+    "response": [],
+    "request": {
+      "method": "DELETE",
+      "header": [],
+      "body": {
+        "mode": "raw",
+        "raw": ""
       },
-      "response":[ 
-
-      ],
-      "request":{ 
-         "method":"DELETE",
-         "header":[ 
-
-         ],
-         "body":{ 
-            "mode":"raw",
-            "raw":""
-         },
-         "url":{ 
-            "raw":"{{host}}{{port}}{{basePath}}/pets/{id}",
-            "host":[ 
-               "{{host}}{{port}}{{basePath}}"
-            ],
-            "path":[ 
-               "/pets/{id}"
-            ]
-         }
+      "url": {
+        "raw": "{{host}}{{port}}{{basePath}}/pets/{id}",
+        "host": [
+          "{{host}}{{port}}{{basePath}}"
+        ],
+        "path": [
+          "pets/{id}"
+        ]
       }
-   }
+    }
+  }
 ]

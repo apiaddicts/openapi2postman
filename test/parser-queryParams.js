@@ -3,55 +3,30 @@
 const assert = require('assert');
 
 describe('parser-queryParams', () => {
-  
-  it('fill swagger2', () => {
 
-    global.definition = require('../seeds/parserQueryParamsGood.json')
+  const testQuery = (name, parserPath, seed, method, path, expected) => {
+    it(name, () => {
+      globalThis.definition = require(`../seeds/${seed}`);
+      const queryParams = require(`../src/parser/${parserPath}/queryParams.js`)(method, path);
+      assert.deepStrictEqual(queryParams, expected);
+    });
+  };
 
-    const queryParams = require('../src/parser/swagger2/queryParams.js')('GET','/pets')
-    assert.deepStrictEqual(queryParams, [{
-            "name": "tags",
-            "required": false,
-            "type": "array"
-         },
-         {
-            "name": "limit",
-            "required": false,
-            "type": "integer"
-         } ])
-  })
+  const results = {
+    empty: [],
+    tagsLimit: (reqLimit) => [
+      { "name": "tags", "required": false, "type": "array" },
+      { "name": "limit", "required": reqLimit, "type": "integer" }
+    ]
+  };
 
-  it('void swagger2', () => {
+  testQuery('queryParams fill swagger2', 'swagger2', 'parserQueryParamsGood.json', 'GET', '/pets', results.tagsLimit(false));
+  testQuery('queryParams void swagger2', 'swagger2', 'parserQueryParamsGood.json', 'POST', '/pets', results.empty);
 
-    global.definition = require('../seeds/parserQueryParamsGood.json')
+  testQuery('queryParams fill openapi3.0', 'openapi3', 'parserInitialGoodOpenApiExpanded3.json', 'GET', '/pets', results.tagsLimit(true));
+  testQuery('queryParams void openapi3.0', 'openapi3', 'parserInitialGoodOpenApiExpanded3.json', 'POST', '/pets', results.empty);
 
-    const queryParams = require('../src/parser/swagger2/queryParams.js')('POST','/pets')
-    assert.deepStrictEqual(queryParams, [])
-  })
+  testQuery('queryParams fill openapi3.1', 'openapi3', 'parserInitialGoodOpenApiExpanded3.1.json', 'GET', '/pets', results.tagsLimit(true));
+  testQuery('queryParams void openapi3.1', 'openapi3', 'parserInitialGoodOpenApiExpanded3.1.json', 'POST', '/pets', results.empty);
 
-  it('fill openapi3', () => {
-
-    global.definition = require('../seeds/parserInitialGoodOpenApi3Expanded.json')
-
-    const queryParams = require('../src/parser/openapi3/queryParams.js')('GET','/pets')
-    assert.deepStrictEqual(queryParams, [{
-            "name": "tags",
-            "required": false,
-            "type": "array"
-         },
-         {
-            "name": "limit",
-            "required": true,
-            "type": "integer"
-         } ])
-  })
-
-  it('void openapi3', () => {
-
-    global.definition = require('../seeds/parserInitialGoodOpenApi3Expanded.json')
-
-    const queryParams = require('../src/parser/openapi3/queryParams.js')('POST','/pets')
-    assert.deepStrictEqual(queryParams, [])
-  })
-
-})
+});
