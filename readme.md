@@ -1,7 +1,7 @@
 # 🛠️ Openapi2Postman ![Release](https://img.shields.io/badge/release-2.0.x-purple) ![OpenApi](https://img.shields.io/badge/-openapi-%23Clojure?style=flat&logo=openapiinitiative&logoColor=white) ![Postman](https://img.shields.io/badge/postman-FF6C37?style=flat&logo=postman&logoColor=white) [![NPM](https://img.shields.io/badge/npm-%23CB3837.svg?style=flat&logo=npm&logoColor=white)](https://www.npmjs.com/package/openapi2postman) [![License: LGPL v3](https://img.shields.io/badge/license-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-**Openapi2Postman** creates automatic tests from Openapi 3.0 using postman format. Also, it creates environments files, depending of configuration.
-Those collections can be importend in postan application. The tests includes tests for 2xx, 4xx... and tests to validate output formats.
+**Openapi2Postman** creates automatic tests from OpenAPI 3.0, 3.1, and 3.2 specifications using postman format. Also, it creates environments files, depending of configuration.
+Those collections can be imported in postman application. The tests includes tests for 2xx, 4xx... and tests to validate output formats.
 
 <p align="center">
 	<a href="https://apiaddicts.org/">
