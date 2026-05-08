@@ -4,6 +4,7 @@
 
 const _ = require('lodash');
 
+const FLOW_PRIORITY = ['authorizationCode', 'clientCredentials', 'password', 'deviceAuthorization', 'implicit']
 
 module.exports = function() {
 
@@ -13,8 +14,9 @@ module.exports = function() {
 			definition = oAuthDefinition[i];
     }
    const data =  parseUrl(definition.flows)
-   const authKey = _.keys(global.definition.security[0])[0]
-   return generateDefinition(data,authKey) 
+   if (!data) return null
+   const authKey = _.keys(globalThis.definition.security[0])[0]
+   return generateDefinition(data,authKey)
   }
 
   function generateDefinition(data,auth){
@@ -88,19 +90,32 @@ module.exports = function() {
   }
 
   function parseUrl(flows) {
-		let getTokenUrl
-		for (const i in flows) {
-			getTokenUrl = flows[i];
+    let targetFlow = null
+    for (const flowName of FLOW_PRIORITY) {
+      if (flows[flowName]?.tokenUrl) {
+        targetFlow = flows[flowName]
+        break
+      }
     }
-    const urlObject = new URL(getTokenUrl.tokenUrl);
+    if (!targetFlow) {
+      for (const name in flows) {
+        if (flows[name]?.tokenUrl) {
+          targetFlow = flows[name]
+          break
+        }
+      }
+    }
+    if (!targetFlow?.tokenUrl) return null
+
+    const urlObject = new URL(targetFlow.tokenUrl);
     const host = `${urlObject.protocol}//${urlObject.host}`;
-    const path = urlObject.pathname.split('/').filter(segment => segment);
+    const path = urlObject.pathname.split('/').filter(Boolean);
 
     return {
-        raw: getTokenUrl.tokenUrl,
+        raw: targetFlow.tokenUrl,
         host: host,
         path: path
     };
-}
+  }
 
 }()

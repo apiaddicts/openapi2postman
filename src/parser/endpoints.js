@@ -18,10 +18,12 @@ module.exports = function () {
     const items = [];
     _.forEach(globalThis.definition.paths, function (pathInfo, path) {
       _.forEach(pathInfo, function (verbInfo, verb) {
-        items.push({
-          'verb': _.toUpper(verb),
-          'path': path
-        });
+        if (_.isObject(verbInfo) && verbInfo.responses) {
+          items.push({
+            'verb': _.toUpper(verb),
+            'path': path
+          });
+        }
       });
     });
     return items;
