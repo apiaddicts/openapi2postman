@@ -1,6 +1,6 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 describe('parser-schemaHostBasePath', () => {
 
@@ -23,6 +23,14 @@ describe('parser-schemaHostBasePath', () => {
   it('good openapi3.1', () => {
 
     globalThis.definition = require('../seeds/parserInitialGoodOpenApi3.1.json');
+
+    const schemaHostBasePath = require('../src/parser/openapi3/schemaHostBasePath.js')();
+    assert.deepStrictEqual(schemaHostBasePath, { host: 'https://petstore.swagger.io', basePath: '/v1' });
+  })
+
+  it('good openapi3.2', () => {
+
+    globalThis.definition = require('../seeds/parserInitialGoodOpenApi3.2.json');
 
     const schemaHostBasePath = require('../src/parser/openapi3/schemaHostBasePath.js')();
     assert.deepStrictEqual(schemaHostBasePath, { host: 'https://petstore.swagger.io', basePath: '/v1' });

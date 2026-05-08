@@ -1,0 +1,24 @@
+{
+  "openapi": "3.2.0",
+  "info": { "version": "1.0.0", "title": "Additional Operations API" },
+  "servers": [{ "url": "https://api.example.com/v1" }],
+  "paths": {
+    "/pets": {
+      "get": {
+        "operationId": "listPets",
+        "responses": {
+          "200": { "description": "A list of pets" }
+        }
+      },
+      "additionalOperations": {
+        "SEARCH": {
+          "operationId": "searchPets",
+          "responses": {
+            "200": { "description": "Search results" }
+          }
+        }
+      }
+    }
+  },
+  "components": { "schemas": {} }
+}

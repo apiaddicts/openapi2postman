@@ -1,0 +1,25 @@
+{
+  "openapi": "3.2.0",
+  "info": { "version": "1.0.0", "title": "Querystring Param API" },
+  "servers": [{ "url": "https://api.example.com/v1" }],
+  "paths": {
+    "/search": {
+      "get": {
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "querystring",
+            "description": "Full query string to pass as a single value",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Search results" }
+        }
+      }
+    }
+  },
+  "components": { "schemas": {} }
+}

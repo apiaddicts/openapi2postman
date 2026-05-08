@@ -1,6 +1,6 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert')
+const assert = require('node:assert')
 
 describe('parser-microcks', () => {
 
@@ -34,6 +34,13 @@ describe('parser-microcks', () => {
     it('specifies openapi3.1', () => {
 
         globalThis.definition = require('../seeds/parserMicroksinitialGood3.1.json');
+        const microcks = require('../src/parser/openapi3/microcks.js')('GET','/user/{username}');
+        assert.equal(microcks, true);
+    })
+
+    it('specifies openapi3.2', () => {
+
+        globalThis.definition = require('../seeds/parserMicroksinitialGood3.2.json');
         const microcks = require('../src/parser/openapi3/microcks.js')('GET','/user/{username}');
         assert.equal(microcks, true);
     })
