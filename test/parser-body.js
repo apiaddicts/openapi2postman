@@ -49,4 +49,14 @@ describe('parser-body', () => {
   checkBody('body allof loop swagger2','swagger2','parserBodyAllofLoopInitial.json','POST','/apple',false,'parserInitialGoodResultAllOfLoop.json');
 
   checkBody('body allof string swagger2','swagger2','parserBodyAllofString.json','POST','/apple',false,'parserInitialGoodResultAllOfString.json');
+
+  checkBody('body void request openapi3.2','openapi3','parserInitialGoodOpenApi3.2.json','GET','/pets',false,null);
+
+  checkBody('body fill request openapi3.2','openapi3','parserInitialGoodOpenApiExpanded3.2.json','POST','/pets',false,'parserInitialGoodResultPetRequest.json');
+
+  checkBody('body items,ref and allof response openapi3.2','openapi3','parserInitialGoodOpenApiExpanded3.2.json','GET','/pets',true,'parserInitialGoodResultRespArray.json');
+
+  checkBody('body ref and allof response openapi3.2','openapi3','parserInitialGoodOpenApiExpanded3.2.json','POST','/pets',true,'parserInitialGoodResultRespObject.json');
+
+  checkBody('body streaming itemSchema response openapi3.2','openapi3','parserBodyItemSchema3.2.json','GET','/events',true,'parserBodyItemSchemaResult3.2.json');
 });

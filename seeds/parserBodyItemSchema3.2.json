@@ -1,0 +1,30 @@
+{
+  "openapi": "3.2.0",
+  "info": { "version": "1.0.0", "title": "Streaming API" },
+  "servers": [{ "url": "https://api.example.com/v1" }],
+  "paths": {
+    "/events": {
+      "get": {
+        "operationId": "streamEvents",
+        "responses": {
+          "200": {
+            "description": "Server-sent event stream",
+            "content": {
+              "application/jsonl": {
+                "itemSchema": {
+                  "type": "object",
+                  "required": ["id", "type"],
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "type": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": { "schemas": {} }
+}

@@ -1,0 +1,4 @@
+[
+  { "verb": "GET", "path": "/pets" },
+  { "verb": "SEARCH", "path": "/pets" }
+]

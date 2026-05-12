@@ -1,6 +1,6 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 describe('parser-status', () => {
 
@@ -23,6 +23,14 @@ describe('parser-status', () => {
   it('good openapi3.1', () => {
 
     globalThis.definition = require('../seeds/parserInitialGoodOpenApi3.1.json')
+
+    const status = require('../src/parser/status.js')('POST','/pets')
+    assert.deepStrictEqual(status, [ 201, 500 ])
+  })
+
+  it('good openapi3.2', () => {
+
+    globalThis.definition = require('../seeds/parserInitialGoodOpenApi3.2.json')
 
     const status = require('../src/parser/status.js')('POST','/pets')
     assert.deepStrictEqual(status, [ 201, 500 ])

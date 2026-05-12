@@ -15,9 +15,9 @@ module.exports = function() {
 			const param = queryParam.schema ? queryParam : getContentProperty(queryParam);
 
 			const obj = {
-				name: queryParam.name, 
-				type: param.schema.type, 
-				required : queryParam.required, 
+				name: queryParam.name,
+				type: param.schema.type,
+				required : queryParam.required,
 			};
 
 			const example = getExamples(param);
@@ -28,6 +28,20 @@ module.exports = function() {
 
 			result.push(obj);
 		});
+
+		const queryStringParams = _.filter(parameters, ['in', 'querystring'])
+		_.forEach(queryStringParams, function(queryParam) {
+			const obj = {
+				name: queryParam.name,
+				type: queryParam.schema?.type || 'string',
+				required: queryParam.required,
+			}
+			const example = getExamples(queryParam)
+			if (example !== undefined && example !== null) {
+				obj.example = example
+			}
+			result.push(obj)
+		})
 
 		return result
 	};

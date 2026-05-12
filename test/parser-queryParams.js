@@ -1,6 +1,6 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 describe('parser-queryParams', () => {
 
@@ -28,5 +28,12 @@ describe('parser-queryParams', () => {
 
   testQuery('queryParams fill openapi3.1', 'openapi3', 'parserInitialGoodOpenApiExpanded3.1.json', 'GET', '/pets', results.tagsLimit(true));
   testQuery('queryParams void openapi3.1', 'openapi3', 'parserInitialGoodOpenApiExpanded3.1.json', 'POST', '/pets', results.empty);
+
+  testQuery('queryParams fill openapi3.2', 'openapi3', 'parserInitialGoodOpenApiExpanded3.2.json', 'GET', '/pets', results.tagsLimit(true));
+  testQuery('queryParams void openapi3.2', 'openapi3', 'parserInitialGoodOpenApiExpanded3.2.json', 'POST', '/pets', results.empty);
+
+  testQuery('queryParams querystring openapi3.2', 'openapi3', 'parserQueryParamsQuerystring3.2.json', 'GET', '/search', [
+    { name: 'q', type: 'string', required: false }
+  ]);
 
 });

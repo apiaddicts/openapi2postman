@@ -1,6 +1,6 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert')
+const assert = require('node:assert')
 
 describe('parser-consumes', () => {
 
@@ -31,6 +31,14 @@ describe('parser-consumes', () => {
   it('specifies openapi3.1', () => {
 
     globalThis.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.1.json');
+
+    const consumes = require('../src/parser/openapi3/consumes.js')('POST','/pets');
+    assert.equal(consumes, 'application/json');
+  })
+
+  it('specifies openapi3.2', () => {
+
+    globalThis.definition = require('../seeds/parserInitialGoodOpenApiExpanded3.2.json');
 
     const consumes = require('../src/parser/openapi3/consumes.js')('POST','/pets');
     assert.equal(consumes, 'application/json');
