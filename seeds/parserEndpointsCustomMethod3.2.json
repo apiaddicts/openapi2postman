@@ -1,0 +1,22 @@
+{
+  "openapi": "3.2.0",
+  "info": { "version": "1.0.0", "title": "Custom Methods API" },
+  "servers": [{ "url": "https://api.example.com/v1" }],
+  "paths": {
+    "/pets": {
+      "get": {
+        "operationId": "listPets",
+        "responses": {
+          "200": { "description": "A list of pets" }
+        }
+      },
+      "search": {
+        "operationId": "searchPets",
+        "responses": {
+          "200": { "description": "Search results" }
+        }
+      }
+    }
+  },
+  "components": { "schemas": {} }
+}

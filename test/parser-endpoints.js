@@ -44,4 +44,8 @@ describe('parser-endpoints', () => {
 
   checkEndpoints('endpoints good openapi3.1', 'parserInitialGoodOpenApi3.1.json', 'parserEndpointsGoodOpenApi3Result.json');
 
+  checkEndpoints('endpoints good openapi3.2', 'parserInitialGoodOpenApi3.2.json', 'parserEndpointsGoodOpenApi3Result.json');
+
+  checkEndpoints('endpoints openapi3.2 additionalOperations lifted to path level', 'parserEndpointsCustomMethod3.2.json', 'parserEndpointsCustomMethodResult3.2.json');
+
 });

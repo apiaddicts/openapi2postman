@@ -5,6 +5,14 @@
 const _ = require('lodash')
 const checkCircularReferences = require('../../utils/circularRef.js');
 
+const STREAMING_CONTENT_TYPES = [
+  'application/jsonl',
+  'application/ndjson',
+  'application/x-ndjson',
+  'text/event-stream',
+  'multipart/mixed',
+]
+
 module.exports = function () {
 
   const MAX_DEPTH_LEVEL = 20;
@@ -40,24 +48,27 @@ module.exports = function () {
         while (!properContent && index < contentsArray.length) {
           const mediaType = body.content[contentsArray[index]];
 
-          if (!mediaType.schema) {
+          const effectiveSchema = mediaType.schema || mediaType.itemSchema;
+
+          if (!effectiveSchema) {
             if (contentsArray[index] === 'application/octet-stream') {
               return {
                 type: 'string',
                 format: 'binary'
               };
             }
+            index++;
             continue;
           }
 
-          const withoutRefs = replaceRefs(mediaType.schema, 1);
+          const withoutRefs = replaceRefs(effectiveSchema, 1);
           switch (contentsArray[index]) {
             case 'application/x-www-form-urlencoded':
               schema = replaceAllOfs(withoutRefs);
               properContent = true;
               break;
             case 'multipart/form-data':
-              schema = replaceAllOfs(body.content[contentsArray[index]].schema);
+              schema = replaceAllOfs(body.content[contentsArray[index]].schema || body.content[contentsArray[index]].itemSchema);
               properContent = true;
               break;
             default:
@@ -70,9 +81,10 @@ module.exports = function () {
         if (!properContent && contentsArray.length > 0) {
           const firstContentType = contentsArray[0];
           const mediaType = body.content[firstContentType];
+          const effectiveSchema = mediaType?.schema || mediaType?.itemSchema;
 
-          if (mediaType?.schema) {
-            const withoutRefs = replaceRefs(mediaType.schema, 1);
+          if (effectiveSchema) {
+            const withoutRefs = replaceRefs(effectiveSchema, 1);
             return replaceAllOfs(withoutRefs);
           }
         }
@@ -85,8 +97,22 @@ module.exports = function () {
     }
     const bodyResponses = {}
     _.forEach(endpoint['responses'], function (response, status) {
+      let schema = null
+
       if (response?.content?.['application/json']?.schema) {
-        const withOutRefs = replaceRefs(response.content['application/json'].schema, 1)
+        schema = response.content['application/json'].schema
+      } else if (response?.content) {
+        for (const streamType of STREAMING_CONTENT_TYPES) {
+          const mt = response.content[streamType]
+          if (mt) {
+            schema = mt.schema || mt.itemSchema
+            if (schema) break
+          }
+        }
+      }
+
+      if (schema) {
+        const withOutRefs = replaceRefs(schema, 1)
         bodyResponses[status] = replaceAllOfs(withOutRefs)
         if (bodyResponses[status].hasOwnProperty('required')) {
           const requiredWtihoutDuplicates = bodyResponses[status].required.filter((value, index, arr) => {

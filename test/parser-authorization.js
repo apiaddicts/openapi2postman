@@ -23,4 +23,7 @@ describe('parser-authorization', () => {
   checkAuth('auth general oa3.1', 'parserAuthorizationInitialOpenApi3.1.json','POST', '/pets', 'ApiKeyAuth');
   checkAuth('auth endpoint oa3.1', 'parserAuthorizationInitialOpenApi3.1.json','GET', '/pets', 'OAuth2');
 
+  checkAuth('auth general oa3.2', 'parserAuthorizationInitialOpenApi3.2.json','POST', '/pets', 'ApiKeyAuth');
+  checkAuth('auth endpoint oa3.2', 'parserAuthorizationInitialOpenApi3.2.json','GET', '/pets', 'OAuth2');
+
 });

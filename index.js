@@ -78,7 +78,9 @@ const endpointsParsed = require('./src/parser/endpoints.js')()
 const authorizationTokens = []
 _.forEach(endpointsParsed, function (endpointParsed, i) {
 	endpointsParsed[i].status = require('./src/parser/status.js')(endpointParsed.verb, endpointParsed.path)
-	if (endpointParsed.verb === 'POST' || endpointParsed.verb === 'PUT' || endpointParsed.verb === 'PATCH') {
+	const standardWriteMethods = ['POST', 'PUT', 'PATCH'];
+	const hasRequestBody = globalThis.definition.paths?.[endpointParsed.path]?.[endpointParsed.verb.toLowerCase()]?.requestBody;
+	if (standardWriteMethods.includes(endpointParsed.verb) || hasRequestBody) {
 		endpointsParsed[i].body = require('./src/parser/'+version+'/body.js')(endpointParsed.verb, endpointParsed.path)
 		endpointsParsed[i].consumes = require('./src/parser/'+version+'/consumes.js')(endpointParsed.verb, endpointParsed.path)
 	}

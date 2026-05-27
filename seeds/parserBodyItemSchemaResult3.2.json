@@ -1,0 +1,10 @@
+{
+  "200": {
+    "type": "object",
+    "required": ["id", "type"],
+    "properties": {
+      "id": { "type": "integer" },
+      "type": { "type": "string" }
+    }
+  }
+}
