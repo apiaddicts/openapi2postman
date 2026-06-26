@@ -213,6 +213,7 @@ describe('parser-refs', () => {
 			await refs()
 			assert.fail('Expected process.exit to be called')
 		} catch (e) {
+			if (exitCode === undefined) throw e
 			assert.strictEqual(exitCode, 1)
 		} finally {
 			process.exit = originalExit
@@ -241,6 +242,7 @@ describe('parser-refs', () => {
 			await refs()
 			assert.fail('Expected process.exit to be called')
 		} catch (e) {
+			if (exitCode === undefined) throw e
 			assert.strictEqual(exitCode, 1)
 		} finally {
 			process.exit = originalExit
