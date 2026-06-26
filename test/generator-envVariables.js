@@ -1,6 +1,6 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert');
+const assert = require('node:assert');
 
 describe('generator-envVariables', () => {
 
@@ -8,18 +8,18 @@ describe('generator-envVariables', () => {
   let savedEnvVars;
 
   beforeEach(() => {
-    savedConfig = global.configurationFile;
-    savedEnvVars = global.environmentVariables;
-    global.environmentVariables = {};
+    savedConfig = globalThis.configurationFile;
+    savedEnvVars = globalThis.environmentVariables;
+    globalThis.environmentVariables = {};
   });
 
   afterEach(() => {
-    global.configurationFile = savedConfig;
-    global.environmentVariables = savedEnvVars;
+    globalThis.configurationFile = savedConfig;
+    globalThis.environmentVariables = savedEnvVars;
   });
 
   it('204 no body schema is inline false', () => {
-    global.configurationFile = { schema_is_inline: false, schema_pretty_print: false, is_inline: false };
+    globalThis.configurationFile = { schema_is_inline: false, schema_pretty_print: false, is_inline: false };
 
     const collection = [
       {
@@ -77,7 +77,7 @@ describe('generator-envVariables', () => {
     ];
 
     const items = require('../src/generator/environmentVariablesNames.js')(collection);
-    const schemaTestItem = items.find(item => item.key && item.key.includes('schemaTest'));
+    const schemaTestItem = items.find(item => item.key?.includes('schemaTest'));
     assert.strictEqual(schemaTestItem, undefined, 'No schemaTest env variable should be created for 204 No Content');
   });
 
