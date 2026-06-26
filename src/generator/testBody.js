@@ -9,7 +9,7 @@ module.exports = function() {
   
   return function get(postmanRequest, configurationFile) {
 		
-		if ((!postmanRequest.aux.bodyResponse || !postmanRequest.aux.bodyResponse[postmanRequest.aux.status]) && postmanRequest.aux.status === 200) {
+		if (!postmanRequest.aux.bodyResponse || !postmanRequest.aux.bodyResponse[postmanRequest.aux.status]) {
 			console.warn(
 				'\x1b[33m%s\x1b[0m',
 				`Test: ${postmanRequest.request.method} ${postmanRequest.name} (${postmanRequest.aux.suffix === undefined ? 'main test' : postmanRequest.aux.suffix.trim()}) without schema validation test because it has a different response than 'application/json'`
