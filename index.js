@@ -232,7 +232,7 @@ _.forEach(environments, function (element) {
 	if ( element.custom_authorizations_file ) {
 		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
 	} else if(global.definition.components.securitySchemes){
-		let securityDefinition = require('./src/parser/openapiAuthorizationDefinition.js')(global.definition.components.securitySchemes)
+		let securityDefinition = require('./src/parser/openapi3/authorizationDefinition.js')(global.definition.components.securitySchemes)
 		if(securityDefinition){
 			require('./src/parser/authorizationRequests.js')(endpointsStage,null,securityDefinition)
 		} 
