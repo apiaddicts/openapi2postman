@@ -16,6 +16,10 @@ function fetchUrl(url) {
 			if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
 				return fetchUrl(res.headers.location).then(resolve, reject)
 			}
+			if (res.statusCode < 200 || res.statusCode >= 300) {
+				res.resume()
+				return reject(new Error('Failed to fetch external ref ' + url + ': HTTP ' + res.statusCode))
+			}
 			let data = ''
 			res.on('data', chunk => data += chunk)
 			res.on('end', () => {

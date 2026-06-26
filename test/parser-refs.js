@@ -186,6 +186,41 @@ describe('parser-refs', () => {
 		assert.deepStrictEqual(schema, PET_WITH_ADDRESS)
 	})
 
+	it('emits clear error for HTTP error response on external $ref (openapi3)', async () => {
+		const server = http.createServer((req, res) => {
+			res.writeHead(404)
+			res.end('Not Found')
+		})
+		await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
+		const { port } = server.address()
+
+		globalThis.definition = {
+			paths: {
+				'/pets': {
+					get: { responses: { '200': { schema: { '$ref': `http://127.0.0.1:${port}/schema.yaml` } } } }
+				}
+			}
+		}
+
+		const originalExit = process.exit
+		const originalError = console.error
+		let exitCode
+		process.exit = (code) => { exitCode = code; throw new Error('process.exit:' + code) }
+		console.error = () => {}
+
+		const refs = require('../src/parser/openapi3/refs.js')
+		try {
+			await refs()
+			assert.fail('Expected process.exit to be called')
+		} catch (e) {
+			assert.strictEqual(exitCode, 1)
+		} finally {
+			process.exit = originalExit
+			console.error = originalError
+			server.close()
+		}
+	})
+
 	it('emits clear error for unreachable external $ref (openapi3)', async () => {
 		globalThis.definition = {
 			paths: {
