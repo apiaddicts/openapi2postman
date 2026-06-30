@@ -10,13 +10,18 @@ module.exports = function() {
 
   return function get(oAuthDefinition){
     let definition
+    let definitionKey
     for (const i in oAuthDefinition) {
-			definition = oAuthDefinition[i];
+      if (oAuthDefinition[i]?.type === 'oauth2') {
+        definition = oAuthDefinition[i]
+        definitionKey = i
+        break
+      }
     }
-   const data =  parseUrl(definition.flows)
-   if (!data) return null
-   const authKey = _.keys(globalThis.definition.security[0])[0]
-   return generateDefinition(data,authKey)
+    if (!definition) return null
+    const data = parseUrl(definition.flows)
+    if (!data) return null
+    return generateDefinition(data, definitionKey)
   }
 
   function generateDefinition(data,auth){
@@ -90,6 +95,7 @@ module.exports = function() {
   }
 
   function parseUrl(flows) {
+    if (!flows) return null
     let targetFlow = null
     for (const flowName of FLOW_PRIORITY) {
       if (flows[flowName]?.tokenUrl) {
