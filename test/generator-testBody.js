@@ -13,4 +13,13 @@ describe('generator-testBody', () => {
     assert.deepStrictEqual(definition, definitionResult);
   });
 
+  it('204 no body', () => {
+
+    const definitionInitial = require('../seeds/generatorTestBody204Initial.json');
+    const definitionResult  = require('../seeds/generatorTestBody204Result.json');
+
+    const definition = require('../src/generator/testBody.js')(definitionInitial, {schema_pretty_print: false});
+    assert.deepStrictEqual(definition, definitionResult);
+  });
+
 });
