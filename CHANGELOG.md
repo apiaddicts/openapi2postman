@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fix crash when `securitySchemes` contains `type: apiKey` or other non-OAuth2 schemes.
+- Fix schema validation crash on 204 No Content endpoints when `validate_schema: true`.
+- Resolve external `$ref` (HTTP/HTTPS URLs) instead of crashing with `TypeError`. External schemas are fetched, cached, and inlined at parse time using Node's built-in `http`/`https` modules.
 
 
 ## [2.4.0] - 2026-05-07
