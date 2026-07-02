@@ -22,7 +22,7 @@ module.exports = function() {
 		let schemaJSON;
 
 		if (configurationFile.schema_is_inline === false) {
-			schemaJSON = 'pm.environment.get("schemaTest")';
+			schemaJSON = 'JSON.parse(pm.environment.get("schemaTest"))';
 		} else {
 			schemaJSON = configurationFile.schema_pretty_print === true
 			? JSON.stringify(postmanRequest.aux.bodyResponse[postmanRequest.aux.status], null, 4) 
