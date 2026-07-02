@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.4.1-beta-2] - 2026-07-02
+
+### Fixed
+- Fix `index.js` requiring the removed `openapiAuthorizationDefinition.js` path.
+- Fix missing `JSON.parse` when reading the response schema from the environment variable.
+
 ## [2.4.1-beta-1] - 2026-06-26
 
 ### Fixed
