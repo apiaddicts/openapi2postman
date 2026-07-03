@@ -140,10 +140,11 @@ module.exports = function() {
 	}
 	function extractVariablesFromTest(aux, execCode, numerateItem, items){
 		if (global.configurationFile.schema_is_inline === false) {
+			if (!aux.bodyResponse?.[aux.status]) return;
 			const key = numerateItem + 'schemaTest';
 			for (let i in execCode){
-				if (execCode[i] === 'var schema = pm.environment.get("schemaTest");'){
-					execCode[i] = 'var schema = pm.environment.get("' + key + '");';
+				if (execCode[i] === 'var schema = JSON.parse(pm.environment.get("schemaTest"));'){
+					execCode[i] = 'var schema = JSON.parse(pm.environment.get("' + key + '"));';
 				}
 			}
 			let schemaJSON = configurationFile.schema_pretty_print === true

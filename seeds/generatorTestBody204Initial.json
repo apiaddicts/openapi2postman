@@ -1,0 +1,43 @@
+{
+  "name": "/pets/{id}-204",
+  "aux": {
+    "status": "204",
+    "body": false,
+    "consumes": false,
+    "bodyResponse": {
+      "500": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": { "type": "integer", "format": "int32" },
+          "message": { "type": "string" }
+        }
+      }
+    }
+  },
+  "response": [],
+  "request": {
+    "method": "DELETE",
+    "header": [],
+    "body": { "mode": "raw", "raw": "" },
+    "url": {
+      "raw": "{{host}}{{port}}{{basePath}}/pets/{{id}}",
+      "host": ["{{host}}{{port}}{{basePath}}"],
+      "path": ["/pets/{{id}}"]
+    }
+  },
+  "event": [
+    {
+      "listen": "test",
+      "script": {
+        "id": "test-204-uuid",
+        "type": "text/javascript",
+        "exec": [
+          "pm.test(\"Status code is 204\", function () {",
+          "    pm.response.to.have.status(204);",
+          "});"
+        ]
+      }
+    }
+  ]
+}

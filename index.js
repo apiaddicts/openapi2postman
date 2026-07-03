@@ -19,13 +19,15 @@ const argv = require('yargs')(process.argv.slice(2))
 	.argv
 const fs   = require('fs');
 const { Console } = require('console');
+const resolveSafePath = require('./src/utils/safePath.js');
 
 //PARSER-------------------------------- */
 let configurationFile
 
 try {
 	if (argv.configuration) {
-        configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
+        const configurationPath = resolveSafePath(argv.configuration)
+        configurationFile = JSON.parse(fs.readFileSync(configurationPath, "utf8"))
     } else {
 		try{
 			let filename = path.basename(argv.file, path.extname(argv.file));
@@ -66,12 +68,13 @@ try {
 	require('./src/utils/error.js')('use argv: -c/--configuration. configuration file path does not exist or is not correct: ' + argv.configuration);
 }
 
+;(async () => {
 global.definition = require('./src/parser/definition.js')()
 const version = require('./src/parser/version.js')()
 global.environmentVariables = {}
 global.testParams = {}
 global.configurationFile = configurationFile
-require('./src/parser/'+version+'/refs.js')()
+await require('./src/parser/'+version+'/refs.js')()
 
 const schemaHostBasePath = require('./src/parser/'+version+'/schemaHostBasePath.js')()
 const endpointsParsed = require('./src/parser/endpoints.js')()
@@ -231,8 +234,8 @@ _.forEach(environments, function (element) {
 	}
 	if ( element.custom_authorizations_file ) {
 		require('./src/parser/authorizationRequests.js')(endpointsStage,element.custom_authorizations_file)
-	} else if(global.definition.components.securitySchemes){
-		let securityDefinition = require('./src/parser/openapiAuthorizationDefinition.js')(global.definition.components.securitySchemes)
+	} else if(globalThis.definition.components?.securitySchemes){
+		let securityDefinition = require('./src/parser/openapi3/authorizationDefinition.js')(globalThis.definition.components.securitySchemes)
 		if(securityDefinition){
 			require('./src/parser/authorizationRequests.js')(endpointsStage,null,securityDefinition)
 		} 
@@ -299,10 +302,13 @@ function addLettersToName(collection) {
 				// Añade una letra al nombre de cada Test Case, justo despues del status code. Ej.: 200a OK
 				// Controla el exceso de Test Cases y añade dos letras en caso de ser necesario. Ej.: 200aa OK, 200ab OK
 				for (let k in array) {
-					array[k].name = _.replace(array[k].name, array[k].aux.status, 
+					array[k].name = _.replace(array[k].name, array[k].aux.status,
 						k < alphabet.length ? array[k].aux.status + alphabet[k] : array[k].aux.status + alphabet[Math.floor(k / alphabet.length) - 1] + alphabet[k % alphabet.length]);
 				}
 			}
 		}
 	}
 }
+})().catch(err => {
+	require('./src/utils/error.js')(err.message || String(err))
+})
