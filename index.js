@@ -19,13 +19,15 @@ const argv = require('yargs')(process.argv.slice(2))
 	.argv
 const fs   = require('fs');
 const { Console } = require('console');
+const resolveSafePath = require('./src/utils/safePath.js');
 
 //PARSER-------------------------------- */
 let configurationFile
 
 try {
 	if (argv.configuration) {
-        configurationFile = JSON.parse(fs.readFileSync(argv.configuration, "utf8"))
+        const configurationPath = resolveSafePath(argv.configuration)
+        configurationFile = JSON.parse(fs.readFileSync(configurationPath, "utf8"))
     } else {
 		try{
 			let filename = path.basename(argv.file, path.extname(argv.file));
