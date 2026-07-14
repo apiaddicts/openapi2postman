@@ -23,12 +23,13 @@ module.exports = function() {
   		"enabled": true
 		})
 
+		const normalizedPort = port === null || port === undefined ? '' : String(port).replace(/\s+/g, '').replace(/^:+/, '');
 		items.push({
   		"description": {
     		"content": "",
     		"type": "text/plain"
   		},
-  		"value": ":"+ port,
+  		"value": normalizedPort === '' ? '' : ':' + normalizedPort,
   		"key": 'port',
   		"enabled": true
 		})
