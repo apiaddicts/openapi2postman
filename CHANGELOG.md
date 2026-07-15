@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.4.2-beta-1] - 2026-07-15
+
+### Fixed
+- Fix `port` environment variable being generated with broken values. The value is now normalized to always resolve port.
+- Fix `authorizationDefinition.js` generating a request only for the first `oauth2`. A token request is now generated for every `oauth2` scheme present in `securitySchemes`.
+- Fix `validate_schema` being silently disabled whenever its value wasn't exactly A boolean. The value is now normalized, and a warning is logged when an unrecognized value is received.
+
 ## [2.4.1] - 2026-07-03
 
 ### Fixed
