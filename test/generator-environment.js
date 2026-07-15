@@ -1,9 +1,9 @@
 /** Part of APIAddicts. See LICENSE fileor full copyright and licensing details. Supported by Madrid Digital and CloudAPPi **/
 
-const assert = require('assert');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
+const assert = require('node:assert');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
 
 describe('generator-environment', () => {
 
@@ -37,7 +37,8 @@ describe('generator-environment', () => {
   });
 
   it('collapses duplicated leading colons instead of doubling them', () => {
-    assert.strictEqual(generatePort('::443').value, ':443');
+    const portWithExtraColon = ':' + ':443';
+    assert.strictEqual(generatePort(portWithExtraColon).value, ':443');
   });
 
   it('strips accidental whitespace around the port', () => {
