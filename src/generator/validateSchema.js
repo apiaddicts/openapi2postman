@@ -5,18 +5,19 @@
 const _ = require('lodash');
 
 module.exports = function() {
-  
+
     return function get(collection, validate_schema){
+        const shouldValidateSchema = normalizeValidateSchema(validate_schema)
         const items = []
         const itemKeys = []
         for (let i in collection){
             for (let j in collection[i].item) {//folders
                 if (collection[i].item[j].request) {
-                    
+
                 } else {
                     for (let k in collection[i].item[j].item){//request
-                        
-                        if (validate_schema === true) {
+
+                        if (shouldValidateSchema) {
                             const params = new URLSearchParams('?' + collection[i].item[j].item[k].request.url.path[0].split('?')[1]);
                             if (params.get('$select') || params.get('$exclude')) {
                                 deleteValidateSchema(collection[i].item[j].item[k].event[0].script.exec)
@@ -43,6 +44,28 @@ module.exports = function() {
                 return
             }
         }
+    }
+
+    function normalizeValidateSchema(validate_schema){
+        if (typeof validate_schema === 'boolean') {
+            return validate_schema
+        }
+        if (validate_schema === undefined || validate_schema === null) {
+            return false
+        }
+
+        if (typeof validate_schema === 'string') {
+            const normalized = validate_schema.trim().toLowerCase()
+            if (normalized === 'true') return true
+            if (normalized === 'false') return false
+        }
+
+        console.warn(
+            '\x1b[33m%s\x1b[0m',
+            `validate_schema: ${JSON.stringify(validate_schema)} (${typeof validate_schema}) not recognized, disabling schema validation (false)`
+        )
+
+        return false
     }
 
 }()
