@@ -9,89 +9,88 @@ const FLOW_PRIORITY = ['authorizationCode', 'clientCredentials', 'password', 'de
 module.exports = function() {
 
   return function get(oAuthDefinition){
-    let definition
-    let definitionKey
+    const items = []
     for (const i in oAuthDefinition) {
       if (oAuthDefinition[i]?.type === 'oauth2') {
-        definition = oAuthDefinition[i]
-        definitionKey = i
-        break
+        const data = parseUrl(oAuthDefinition[i].flows)
+        if (!data) continue
+        items.push(generateItem(data, i))
       }
     }
-    if (!definition) return null
-    const data = parseUrl(definition.flows)
-    if (!data) return null
-    return generateDefinition(data, definitionKey)
+    if (!items.length) return null
+    return generateDefinition(items)
   }
 
-  function generateDefinition(data,auth){
+  function generateDefinition(items){
       const postmanCollection = {
         info: {
             _postman_id: "2e397e19-7819-4425-bbb8-e2b7283336a4",
             name: "authorizations",
             schema: "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
         },
-        item: [
-            {
-                name: `Get OAuth2 Token - ${auth}`,
-                event: [
-                    {
-                        listen: "test",
-                        script: {
-                            id: "7e78bc50-5882-47e1-9920-754befbbbfc5",
-                            exec: [
-                              "pm.test(\"Status code is 200\", function () {",
-                              "    pm.response.to.have.status(200);",
-                              "});",
-                              "",
-                              "var json = pm.response.json();",
-                              "var token = json.access_token || (json.data && json.data.access_token);",
-                              `pm.environment.set("${auth}", "Bearer "+token);`
-                            ],
-                            type: "text/javascript"
-                        }
-                    }
-                ],
-                request: {
-                    method: "POST",
-                    header: [
-                        {
-                            key: "Content-Type",
-                            value: "application/x-www-form-urlencoded"
-                        }
-                    ],
-                    body: {
-                        mode: "urlencoded",
-                        urlencoded: [
-                          {
-                            "key": "username",
-                            "value": "cambiame",
-                            "type": "text"
-                          },
-                          {
-                            "key": "password",
-                            "value": "cambiame",
-                            "type": "text"
-                          },
-                          {
-                            "key": "grant_type",
-                            "value": "password",
-                            "type": "text"
-                          }
-                        ]
-                    },
-                    url: {
-                        raw: data.raw,
-                        host: [data.host],
-                        path: data.path
-                    }
-                },
-                response: []
-            }
-        ]
+        item: items
     };
 
     return postmanCollection;
+  }
+
+  function generateItem(data,auth){
+    return {
+        name: `Get OAuth2 Token - ${auth}`,
+        event: [
+            {
+                listen: "test",
+                script: {
+                    id: "7e78bc50-5882-47e1-9920-754befbbbfc5",
+                    exec: [
+                      "pm.test(\"Status code is 200\", function () {",
+                      "    pm.response.to.have.status(200);",
+                      "});",
+                      "",
+                      "var json = pm.response.json();",
+                      "var token = json.access_token || (json.data && json.data.access_token);",
+                      `pm.environment.set("${auth}", "Bearer "+token);`
+                    ],
+                    type: "text/javascript"
+                }
+            }
+        ],
+        request: {
+            method: "POST",
+            header: [
+                {
+                    key: "Content-Type",
+                    value: "application/x-www-form-urlencoded"
+                }
+            ],
+            body: {
+                mode: "urlencoded",
+                urlencoded: [
+                  {
+                    "key": "username",
+                    "value": "cambiame",
+                    "type": "text"
+                  },
+                  {
+                    "key": "password",
+                    "value": "cambiame",
+                    "type": "text"
+                  },
+                  {
+                    "key": "grant_type",
+                    "value": "password",
+                    "type": "text"
+                  }
+                ]
+            },
+            url: {
+                raw: data.raw,
+                host: [data.host],
+                path: data.path
+            }
+        },
+        response: []
+    };
   }
 
   function parseUrl(flows) {
