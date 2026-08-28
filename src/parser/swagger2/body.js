@@ -4,6 +4,7 @@
 
 const _ = require('lodash');
 const checkCircularReferences = require('../../utils/circularRef.js');
+const applyNullableTypes = require('../../utils/nullableSchema.js');
 
 module.exports = function() {
 
@@ -29,7 +30,7 @@ module.exports = function() {
     _.forEach(endpoint['responses'], function(response, status) {
       if (response.schema){
         const withOutRefs = replaceRefs(response.schema);
-        bodyResponses[status] = replaceAllOfs(withOutRefs);
+        bodyResponses[status] = applyNullableTypes(replaceAllOfs(withOutRefs));
         if (bodyResponses[status].hasOwnProperty('required')) {
           const requiredWtihoutDuplicates = bodyResponses[status].required.filter((value, index, arr) => {
             return arr.indexOf(value) === index;
@@ -91,6 +92,8 @@ module.exports = function() {
   }
 
   function replaceAllOfs(schema){
+    if (!_.isObject(schema)) return schema;
+
   	let result = {};
     for (let i in schema) {
   		if (i === 'allOf' && _.isArray(schema[i])){

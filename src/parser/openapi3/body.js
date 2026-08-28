@@ -4,6 +4,7 @@
 
 const _ = require('lodash')
 const checkCircularReferences = require('../../utils/circularRef.js');
+const applyNullableTypes = require('../../utils/nullableSchema.js');
 
 const STREAMING_CONTENT_TYPES = [
   'application/jsonl',
@@ -113,7 +114,7 @@ module.exports = function () {
 
       if (schema) {
         const withOutRefs = replaceRefs(schema, 1)
-        bodyResponses[status] = replaceAllOfs(withOutRefs)
+        bodyResponses[status] = applyNullableTypes(replaceAllOfs(withOutRefs, true))
         if (bodyResponses[status].hasOwnProperty('required')) {
           const requiredWtihoutDuplicates = bodyResponses[status].required.filter((value, index, arr) => {
             return arr.indexOf(value) === index;
@@ -169,7 +170,7 @@ module.exports = function () {
     return result
   }
 
-  function replaceAllOfs(schema) {
+  function replaceAllOfs(schema, keepTypeList) {
     if (!_.isObject(schema)) return schema;
 
     if (seenSchemas.has(schema)) {
@@ -183,8 +184,12 @@ module.exports = function () {
     let result = {}
 
     if (Array.isArray(schema.type)) {
-      const nonNullType = schema.type.find(t => t !== 'null');
-      result.type = nonNullType || schema.type[0];
+      if (keepTypeList) {
+        result.type = [...schema.type];
+      } else {
+        const nonNullType = schema.type.find(t => t !== 'null');
+        result.type = nonNullType || schema.type[0];
+      }
     }
 
     for (let i in schema) {
@@ -206,16 +211,18 @@ module.exports = function () {
                 merged['required'] = _.concat(merged['required'], schema[i][t]['required'])
               } else if (k === 'properties') {
                 for (let z in schema[i][t]['properties']) {
-                  merged['properties'][z] = replaceAllOfs(schema[i][t]['properties'][z])
+                  merged['properties'][z] = replaceAllOfs(schema[i][t]['properties'][z], keepTypeList)
                 }
               } else if (k === 'allOf') {
-                let downSchema = replaceAllOfs(schema[k])
+                let downSchema = replaceAllOfs(schema[k], keepTypeList)
                 if (downSchema['0']) {
                   downSchema = downSchema['0']
                 }
                 merged['required'] = _.concat(merged['required'], downSchema['required'])
                 merged['properties'] = _.merge(merged['properties'], downSchema['properties'])
                 continue
+              } else if (k === 'nullable') {
+                if (schema[i][t][k] === true) merged['nullable'] = true
               } else if (k === 'description') {
                 continue
               } else if (k === 'items') {
@@ -233,10 +240,10 @@ module.exports = function () {
         if (schema[i].every(v => !_.isObject(v))) {
           result[i] = [...schema[i]];
         } else {
-          result[i] = schema[i].map(item => replaceAllOfs(item));
+          result[i] = schema[i].map(item => replaceAllOfs(item, keepTypeList));
         }
       } else if (_.isObject(schema[i]) && i !== 'required') {
-        const value = replaceAllOfs(schema[i]);
+        const value = replaceAllOfs(schema[i], keepTypeList);
 
         if (_.isPlainObject(value) && _.isPlainObject(result[i])) {
           result[i] = _.merge({}, result[i], value);
