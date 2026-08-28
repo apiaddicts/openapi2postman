@@ -150,7 +150,7 @@ module.exports = function () {
 
           entity = replaceRefs(entity, depthLevel + 1);
           result = _.merge({}, result, entity)
-        } else if (_.isArray(schema[i]) && i !== 'required') {
+        } else if (Array.isArray(schema[i]) && i !== 'required') {
           const arrayResult = []
           if (i === 'example' || i === 'examples') {
             result[i] = schema[i];
@@ -182,96 +182,113 @@ module.exports = function () {
     seenSchemas.add(schema);
 
     let result = {}
-
-    if (Array.isArray(schema.type)) {
-      if (keepTypeList) {
-        result.type = [...schema.type];
-      } else {
-        const nonNullType = schema.type.find(t => t !== 'null');
-        result.type = nonNullType || schema.type[0];
-      }
-    }
+    resolveTypeKeyword(schema, result, keepTypeList)
 
     for (let i in schema) {
-      if (i === 'type' && Array.isArray(schema.type)) {
-        continue;
-      }
-      if (i === 'allOf' && _.isArray(schema[i])) {
-        let merged = { 'required': [], 'properties': {}, 'type': 'object' }
-        for (let t in schema[i]) {
-
-          if (schema[i][t]['type'] === 'string') {
-            merged = schema[i][t]
-          } else {
-
-            for (let k in schema[i][t]) {
-              if (k === 'type') {
-                merged['type'] = schema[i][t][k]
-              } else if (k === 'required') {
-                merged['required'] = _.concat(merged['required'], schema[i][t]['required'])
-              } else if (k === 'properties') {
-                for (let z in schema[i][t]['properties']) {
-                  merged['properties'][z] = replaceAllOfs(schema[i][t]['properties'][z], keepTypeList)
-                }
-              } else if (k === 'allOf') {
-                let downSchema = replaceAllOfs(schema[k], keepTypeList)
-                if (downSchema['0']) {
-                  downSchema = downSchema['0']
-                }
-                merged['required'] = _.concat(merged['required'], downSchema['required'])
-                merged['properties'] = _.merge(merged['properties'], downSchema['properties'])
-                continue
-              } else if (k === 'nullable') {
-                if (schema[i][t][k] === true) merged['nullable'] = true
-              } else if (k === 'description') {
-                continue
-              } else if (k === 'items') {
-                continue
-              } else {
-                console.warn('the property ' + k + ' of allOf is not implemented')
-              }
-            }
-
-          }
-
-        }
-        result = _.merge({}, result, merged)
-      } else if (_.isArray(schema[i]) && i !== 'required') {
-        if (schema[i].every(v => !_.isObject(v))) {
-          result[i] = [...schema[i]];
-        } else {
-          result[i] = schema[i].map(item => replaceAllOfs(item, keepTypeList));
-        }
-      } else if (_.isObject(schema[i]) && i !== 'required') {
-        const value = replaceAllOfs(schema[i], keepTypeList);
-
-        if (_.isPlainObject(value) && _.isPlainObject(result[i])) {
-          result[i] = _.merge({}, result[i], value);
-        } else {
-          result[i] = value;
-        }
-      } else {
-        result[i] = schema[i]
-      }
+      result = copyKeyword(schema, result, i, keepTypeList)
     }
+
     if (typeof result.exclusiveMinimum === 'number') {
       result.minimum = result.exclusiveMinimum;
       result.exclusiveMinimum = true;
     }
-
     if (typeof result.exclusiveMaximum === 'number') {
       result.maximum = result.exclusiveMaximum;
       result.exclusiveMaximum = true;
     }
-
     if (schema.contentEncoding) {
       result.contentEncoding = schema.contentEncoding;
     }
-
     if (schema.contentMediaType) {
       result.contentMediaType = schema.contentMediaType;
     }
     return result
+  }
+
+  function resolveTypeKeyword(schema, result, keepTypeList) {
+    if (!Array.isArray(schema.type)) return;
+
+    if (keepTypeList) {
+      result.type = [...schema.type];
+      return;
+    }
+    const nonNullType = schema.type.find(t => t !== 'null');
+    result.type = nonNullType || schema.type[0];
+  }
+
+  function copyKeyword(schema, result, key, keepTypeList) {
+    if (key === 'type' && Array.isArray(schema.type)) return result;
+
+    if (key === 'allOf' && Array.isArray(schema[key])) {
+      return _.merge({}, result, mergeAllOf(schema, keepTypeList))
+    }
+    if (Array.isArray(schema[key]) && key !== 'required') {
+      result[key] = copyArray(schema[key], keepTypeList)
+      return result;
+    }
+    if (_.isObject(schema[key]) && key !== 'required') {
+      const value = replaceAllOfs(schema[key], keepTypeList);
+      const fusionable = _.isPlainObject(value) && _.isPlainObject(result[key]);
+      result[key] = fusionable ? _.merge({}, result[key], value) : value;
+      return result;
+    }
+    result[key] = schema[key]
+    return result;
+  }
+
+  function copyArray(values, keepTypeList) {
+    if (values.every(v => !_.isObject(v))) return [...values];
+    return values.map(item => replaceAllOfs(item, keepTypeList));
+  }
+
+  function mergeAllOf(schema, keepTypeList) {
+    let merged = { 'required': [], 'properties': {}, 'type': 'object' }
+
+    for (let t in schema['allOf']) {
+      const member = schema['allOf'][t]
+
+      if (member['type'] === 'string') {
+        merged = member
+        continue
+      }
+      for (let k in member) {
+        mergeAllOfKeyword(merged, member, k, schema, keepTypeList)
+      }
+    }
+    return merged
+  }
+
+  function mergeAllOfKeyword(merged, member, key, schema, keepTypeList) {
+    switch (key) {
+      case 'type':
+        merged['type'] = member[key]
+        break
+      case 'required':
+        merged['required'] = [].concat(merged['required'], member['required'])
+        break
+      case 'properties':
+        for (let z in member['properties']) {
+          merged['properties'][z] = replaceAllOfs(member['properties'][z], keepTypeList)
+        }
+        break
+      case 'allOf': {
+        let downSchema = replaceAllOfs(schema['allOf'], keepTypeList)
+        if (downSchema['0']) {
+          downSchema = downSchema['0']
+        }
+        merged['required'] = [].concat(merged['required'], downSchema['required'])
+        merged['properties'] = _.merge(merged['properties'], downSchema['properties'])
+        break
+      }
+      case 'nullable':
+        if (member[key] === true) merged['nullable'] = true
+        break
+      case 'description':
+      case 'items':
+        break
+      default:
+        console.warn('the property ' + key + ' of allOf is not implemented')
+    }
   }
 
 }()
