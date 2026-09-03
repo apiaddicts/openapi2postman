@@ -59,4 +59,16 @@ describe('parser-body', () => {
   checkBody('body ref and allof response openapi3.2','openapi3','parserInitialGoodOpenApiExpanded3.2.json','POST','/pets',true,'parserInitialGoodResultRespObject.json');
 
   checkBody('body streaming itemSchema response openapi3.2','openapi3','parserBodyItemSchema3.2.json','GET','/events',true,'parserBodyItemSchemaResult3.2.json');
+
+
+  checkBody('nullable response properties accept null openapi3.0','openapi3','parserBodyNullableInitial3.json','GET','/professionals',true,'parserBodyNullableResult3.json');
+
+  checkBody('nullable response properties accept null openapi3.1','openapi3','parserBodyNullableInitial3.1.json','GET','/professionals',true,'parserBodyNullableResult3.1.json');
+
+  checkBody('nullable response properties accept null swagger2','swagger2','parserBodyNullableInitialSwagger2.json','GET','/professionals',true,'parserBodyNullableResultSwagger2.json');
+
+
+  checkBody('response schema keeps every declared type openapi3.1','openapi3','parserBodyTypeListInitial3.1.json','POST','/valores',true,'parserBodyTypeListResult3.1.json');
+
+  checkBody('request schema collapses the type list to a single type openapi3.1','openapi3','parserBodyTypeListInitial3.1.json','POST','/valores',false,'parserBodyTypeListRequestResult3.1.json');
 });

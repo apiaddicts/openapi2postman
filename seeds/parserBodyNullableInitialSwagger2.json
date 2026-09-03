@@ -1,0 +1,78 @@
+{
+   "swagger":"2.0",
+   "info":{
+      "version":"1.0.0",
+      "title":"Nullable properties"
+   },
+   "paths":{
+      "/professionals":{
+         "get":{
+            "description":"Returns the professionals adhered to the SAC",
+            "operationId":"findProfessionals",
+            "responses":{
+               "200":{
+                  "description":"professional response",
+                  "schema":{
+                     "$ref":"#/definitions/Professional"
+                  }
+               }
+            }
+         }
+      }
+   },
+   "definitions":{
+      "Professional":{
+         "type":"object",
+         "required":[
+            "nombre"
+         ],
+         "properties":{
+            "nombre":{
+               "type":"string"
+            },
+            "razon_social":{
+               "type":"string",
+               "x-nullable":true,
+               "maxLength":70,
+               "description":"Razon social"
+            },
+            "estado":{
+               "type":"string",
+               "enum":[
+                  "ALTA",
+                  "BAJA"
+               ]
+            },
+            "estado_nullable":{
+               "type":"string",
+               "x-nullable":true,
+               "enum":[
+                  "ALTA",
+                  "BAJA"
+               ]
+            },
+            "telefonos":{
+               "type":"array",
+               "x-nullable":true,
+               "items":{
+                  "type":"string"
+               }
+            },
+            "info_profesional":{
+               "type":"object",
+               "x-nullable":true,
+               "description":"Datos del profesional adherido al SAC.",
+               "required":[
+                  "codigo"
+               ],
+               "properties":{
+                  "codigo":{
+                     "type":"integer",
+                     "x-nullable":true
+                  }
+               }
+            }
+         }
+      }
+   }
+}
