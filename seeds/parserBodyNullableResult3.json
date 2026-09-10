@@ -1,0 +1,100 @@
+{
+   "200": {
+      "type": "object",
+      "required": [
+         "nombre"
+      ],
+      "properties": {
+         "nombre": {
+            "type": "string"
+         },
+         "razon_social": {
+            "type": [
+               "string",
+               "null"
+            ],
+            "nullable": true,
+            "maxLength": 70,
+            "description": "Razon social"
+         },
+         "estado": {
+            "type": [
+               "string",
+               "null"
+            ],
+            "nullable": true,
+            "enum": [
+               "ALTA",
+               "BAJA",
+               null
+            ]
+         },
+         "telefonos": {
+            "type": [
+               "array",
+               "null"
+            ],
+            "nullable": true,
+            "items": {
+               "type": "string"
+            }
+         },
+         "info_profesional": {
+            "type": [
+               "object",
+               "null"
+            ],
+            "nullable": true,
+            "description": "Datos del profesional adherido al SAC.",
+            "required": [
+               "codigo"
+            ],
+            "properties": {
+               "codigo": {
+                  "type": [
+                     "integer",
+                     "null"
+                  ],
+                  "nullable": true
+               }
+            }
+         },
+         "contacto": {
+            "nullable": true,
+            "oneOf": [
+               {
+                  "type": "string"
+               },
+               {
+                  "type": "integer"
+               },
+               {
+                  "type": "null"
+               }
+            ]
+         },
+         "compuesto": {
+            "type": [
+               "object",
+               "null"
+            ],
+            "nullable": true,
+            "required": [
+               "id"
+            ],
+            "properties": {
+               "id": {
+                  "type": "integer"
+               },
+               "extra": {
+                  "type": [
+                     "string",
+                     "null"
+                  ],
+                  "nullable": true
+               }
+            }
+         }
+      }
+   }
+}

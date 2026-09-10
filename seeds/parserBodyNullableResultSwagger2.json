@@ -1,0 +1,71 @@
+{
+   "200": {
+      "type": "object",
+      "required": [
+         "nombre"
+      ],
+      "properties": {
+         "nombre": {
+            "type": "string"
+         },
+         "razon_social": {
+            "type": [
+               "string",
+               "null"
+            ],
+            "x-nullable": true,
+            "maxLength": 70,
+            "description": "Razon social"
+         },
+         "estado": {
+            "type": "string",
+            "enum": [
+               "ALTA",
+               "BAJA"
+            ]
+         },
+         "estado_nullable": {
+            "type": [
+               "string",
+               "null"
+            ],
+            "x-nullable": true,
+            "enum": [
+               "ALTA",
+               "BAJA",
+               null
+            ]
+         },
+         "telefonos": {
+            "type": [
+               "array",
+               "null"
+            ],
+            "x-nullable": true,
+            "items": {
+               "type": "string"
+            }
+         },
+         "info_profesional": {
+            "type": [
+               "object",
+               "null"
+            ],
+            "x-nullable": true,
+            "description": "Datos del profesional adherido al SAC.",
+            "required": [
+               "codigo"
+            ],
+            "properties": {
+               "codigo": {
+                  "type": [
+                     "integer",
+                     "null"
+                  ],
+                  "x-nullable": true
+               }
+            }
+         }
+      }
+   }
+}
